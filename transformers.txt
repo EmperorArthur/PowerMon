@@ -1,0 +1,16 @@
+in the trafo library
+these are the potential packages
+one of them might be the transformer I'm looking for
+Or none of them might be
+
+EE20-2
+
+NOT	EI30-2
+NOT	EI38-2
+NOT EI42-2
+NOT EI48-2
+NOT EI54-2
+NOT VP32
+NOT VR12
+NOT VR32
+NOT VV12
