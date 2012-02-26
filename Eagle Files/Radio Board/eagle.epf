@@ -337,8 +337,8 @@ UsedLibrary="C:/Users/Arthur/Documents/CPE496/Eagle Files/group10.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="268 271 867 702"
-State=1
+Loc="221 88 820 625"
+State=2
 Number=0
 
 [Desktop]
