@@ -108,21 +108,7 @@
 <wire x1="0" y1="33.01" x2="0" y2="0" width="0" layer="20"/>
 <rectangle x1="12.827" y1="25.527" x2="13.843" y2="28.321" layer="1" rot="R90"/>
 <rectangle x1="13.462" y1="16.256" x2="16.764" y2="19.304" layer="1"/>
-<rectangle x1="5.461" y1="14.986" x2="7.239" y2="16.764" layer="1"/>
-<rectangle x1="8.89" y1="25.146" x2="10.287" y2="26.67" layer="1"/>
 <rectangle x1="16.383" y1="25.146" x2="17.907" y2="26.67" layer="1"/>
-<rectangle x1="20.828" y1="25.908" x2="22.352" y2="27.432" layer="1"/>
-<rectangle x1="29.337" y1="12.319" x2="30.861" y2="13.843" layer="1"/>
-<rectangle x1="9.652" y1="8.382" x2="10.795" y2="9.398" layer="1"/>
-<rectangle x1="12.192" y1="8.255" x2="13.208" y2="9.398" layer="1"/>
-<rectangle x1="14.605" y1="8.255" x2="15.875" y2="9.398" layer="1"/>
-<rectangle x1="17.272" y1="8.382" x2="18.288" y2="9.398" layer="1"/>
-<rectangle x1="19.812" y1="8.382" x2="20.828" y2="9.525" layer="1"/>
-<rectangle x1="19.812" y1="5.842" x2="20.955" y2="6.858" layer="1"/>
-<rectangle x1="17.272" y1="5.842" x2="18.415" y2="6.858" layer="1"/>
-<rectangle x1="14.605" y1="5.842" x2="15.875" y2="6.858" layer="1"/>
-<rectangle x1="12.192" y1="5.842" x2="13.208" y2="6.858" layer="1"/>
-<rectangle x1="9.652" y1="5.842" x2="10.668" y2="6.858" layer="1"/>
 <rectangle x1="20.828" y1="25.908" x2="22.352" y2="27.432" layer="16"/>
 <rectangle x1="9.652" y1="8.382" x2="10.795" y2="9.398" layer="16"/>
 <rectangle x1="12.192" y1="8.382" x2="13.208" y2="9.398" layer="16"/>
@@ -133,7 +119,6 @@
 <rectangle x1="14.732" y1="5.842" x2="15.875" y2="6.858" layer="16"/>
 <rectangle x1="12.065" y1="5.842" x2="13.335" y2="6.858" layer="16"/>
 <rectangle x1="9.652" y1="5.842" x2="10.668" y2="6.858" layer="16"/>
-<rectangle x1="29.464" y1="29.337" x2="30.988" y2="30.861" layer="1"/>
 </plain>
 <libraries>
 <library name="group10">
@@ -558,6 +543,8 @@ design rules under a new name.</description>
 <element name="C11" library="SparkFun" package="0603-CAP" value="22 pF" x="12.319" y="22.86" rot="R270"/>
 <element name="U$5" library="SparkFun" package="ANTENNA-CHIP2" value="ANTENNA2SMD" x="13.335" y="29.718" rot="R180"/>
 <element name="JP1" library="SparkFun" package="AVR_ICSP" value="M05X2PTH" x="15.24" y="7.62" rot="R90"/>
+<element name="R2" library="SparkFun" package="0603-RES" value="10K" x="25.4" y="6.35"/>
+<element name="R4" library="SparkFun" package="0603-RES" value="10K" x="25.4" y="3.81"/>
 </elements>
 <signals>
 <signal name="GND">
@@ -580,7 +567,7 @@ design rules under a new name.</description>
 <contactref element="U$3" pad="DVSS5"/>
 <contactref element="U$4" pad="GNDDC"/>
 <contactref element="U$4" pad="GND"/>
-<polygon width="0.254" layer="16" isolate="0.508" thermals="no">
+<polygon width="0.254" layer="16" isolate="0.508" orphans="yes" thermals="no">
 <vertex x="33.02" y="33.02"/>
 <vertex x="0" y="33.02"/>
 <vertex x="0" y="0"/>
@@ -682,6 +669,13 @@ design rules under a new name.</description>
 <wire x1="7.62" y1="9.63395" x2="7.62" y2="8.14605" width="0.508" layer="16"/>
 <wire x1="7.62" y1="8.14605" x2="9.41605" y2="6.35" width="0.508" layer="16"/>
 <wire x1="9.41605" y1="6.35" x2="10.16" y2="6.35" width="0.508" layer="16"/>
+<contactref element="R2" pad="2"/>
+<contactref element="R4" pad="2"/>
+<via x="26.67" y="11.43" extent="1-16" drill="1.27" shape="square"/>
+<wire x1="26.67" y1="11.43" x2="26.67" y2="6.77" width="0.508" layer="1"/>
+<wire x1="26.67" y1="6.77" x2="26.25" y2="6.35" width="0.508" layer="1"/>
+<wire x1="26.25" y1="6.35" x2="26.25" y2="3.81" width="0.508" layer="1"/>
+<wire x1="26.67" y1="11.43" x2="21.59" y2="16.51" width="0.508" layer="16"/>
 </signal>
 <signal name="SCK">
 <contactref element="U$3" pad="SCLK"/>
@@ -704,6 +698,14 @@ design rules under a new name.</description>
 <wire x1="16.37" y1="15.52" x2="16.37" y2="12.7" width="0.254" layer="1"/>
 <wire x1="16.37" y1="12.7" x2="17.78" y2="11.29" width="0.254" layer="1"/>
 <wire x1="17.78" y1="11.29" x2="17.78" y2="8.89" width="0.254" layer="1"/>
+<contactref element="R2" pad="1"/>
+<via x="24.13" y="8.89" extent="1-16" drill="1.27" shape="square"/>
+<wire x1="24.55" y1="6.35" x2="24.13" y2="6.35" width="0.254" layer="1"/>
+<wire x1="24.13" y1="6.35" x2="24.13" y2="8.89" width="0.254" layer="1"/>
+<wire x1="24.13" y1="8.89" x2="22.86" y2="10.16" width="0.254" layer="16"/>
+<wire x1="22.86" y1="10.16" x2="21.59" y2="11.43" width="0.254" layer="16"/>
+<wire x1="21.59" y1="11.43" x2="20.32" y2="11.43" width="0.254" layer="16"/>
+<wire x1="20.32" y1="11.43" x2="17.78" y2="8.89" width="0.254" layer="16"/>
 </signal>
 <signal name="RADIO-RST">
 <contactref element="U$3" pad="/RST"/>
@@ -715,6 +717,9 @@ design rules under a new name.</description>
 <wire x1="5.84905" y1="1.27" x2="14.94019375" y2="1.27" width="0.254" layer="1"/>
 <wire x1="14.94019375" y1="1.27" x2="17.78" y2="4.10980625" width="0.254" layer="1"/>
 <wire x1="17.78" y1="4.10980625" x2="17.78" y2="6.35" width="0.254" layer="1"/>
+<contactref element="R4" pad="1"/>
+<wire x1="24.55" y1="3.81" x2="17.78" y2="3.81" width="0.254" layer="1"/>
+<wire x1="17.78" y1="3.81" x2="17.78" y2="6.35" width="0.254" layer="1"/>
 </signal>
 <signal name="SLP_TR">
 <contactref element="U$3" pad="SLP_TR"/>
