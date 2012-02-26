@@ -546,11 +546,11 @@ It will probably be replaced by TQFP32-08</description>
 <smd name="AVSS3" x="0.73" y="2.23" dx="0.23" dy="0.4" layer="1"/>
 <smd name="XTAL1" x="1.2" y="2.23" dx="0.23" dy="0.4" layer="1"/>
 <smd name="XTAL2" x="1.67" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<wire x1="-2.2" y1="2.2" x2="2.3" y2="2.2" width="0.127" layer="1"/>
-<wire x1="2.3" y1="2.2" x2="2.3" y2="-2.5" width="0.127" layer="1"/>
-<wire x1="2.3" y1="-2.5" x2="-2.2" y2="-2.5" width="0.127" layer="1"/>
-<wire x1="-2.2" y1="-2.5" x2="-2.2" y2="2.2" width="0.127" layer="1"/>
-<text x="-0.2" y="1.4" size="0.254" layer="1">AT86RF231</text>
+<wire x1="-2.2" y1="2.2" x2="2.3" y2="2.2" width="0.127" layer="21"/>
+<wire x1="2.3" y1="2.2" x2="2.3" y2="-2.5" width="0.127" layer="21"/>
+<wire x1="2.3" y1="-2.5" x2="-2.2" y2="-2.5" width="0.127" layer="21"/>
+<wire x1="-2.2" y1="-2.5" x2="-2.2" y2="2.2" width="0.127" layer="21"/>
+<text x="-0.2" y="1.4" size="0.254" layer="25">AT86RF231</text>
 </package>
 <package name="WE-BAL">
 <wire x1="-0.625" y1="1" x2="0.625" y2="1" width="0.127" layer="21"/>
@@ -747,42 +747,42 @@ It will probably be replaced by TQFP32-08</description>
 <pin name="1" x="-2.54" y="0" visible="off" length="point" direction="pas" swaplevel="1"/>
 </symbol>
 <symbol name="AT86RF231(RADIO)">
-<wire x1="-24.13" y1="21.59" x2="-24.13" y2="-25.4" width="0.254" layer="94"/>
-<wire x1="-24.13" y1="-25.4" x2="24.13" y2="-25.4" width="0.254" layer="94"/>
-<wire x1="24.13" y1="-25.4" x2="24.13" y2="21.59" width="0.254" layer="94"/>
-<wire x1="24.13" y1="21.59" x2="-24.13" y2="21.59" width="0.254" layer="94"/>
-<pin name="DIG3" x="-29.21" y="15.24" length="middle"/>
-<pin name="DIG4" x="-29.21" y="11.43" length="middle"/>
-<pin name="AVSS" x="-29.21" y="7.62" length="middle"/>
-<pin name="RFP" x="-29.21" y="3.81" length="middle"/>
-<pin name="RFN" x="-29.21" y="-1.27" length="middle"/>
-<pin name="AVSS2" x="-29.21" y="-5.08" length="middle"/>
-<pin name="DVSS" x="-29.21" y="-8.89" length="middle"/>
-<pin name="/RST" x="-29.21" y="-13.97" length="middle"/>
-<pin name="DIG1" x="-19.05" y="-30.48" length="middle" rot="R90"/>
-<pin name="DIG2" x="-15.24" y="-30.48" length="middle" rot="R90"/>
-<pin name="SLP_TR" x="-11.43" y="-30.48" length="middle" rot="R90"/>
-<pin name="DVSS2" x="-7.508" y="-30.508" length="middle" rot="R90"/>
-<pin name="DVDD" x="-2.54" y="-30.48" length="middle" rot="R90"/>
-<pin name="DVDD2" x="2.54" y="-30.48" length="middle" rot="R90"/>
-<pin name="DEVDD" x="7.62" y="-30.48" length="middle" rot="R90"/>
-<pin name="DVSS3" x="12.7" y="-30.48" length="middle" rot="R90"/>
-<pin name="CLKM" x="29.21" y="-19.05" length="middle" rot="R180"/>
-<pin name="DVSS4" x="29.21" y="-13.97" length="middle" rot="R180"/>
-<pin name="SCLK" x="29.21" y="-8.89" length="middle" rot="R180"/>
-<pin name="MISO" x="29.21" y="-5.08" length="middle" rot="R180"/>
-<pin name="DVSS5" x="29.21" y="-1.27" length="middle" rot="R180"/>
-<pin name="MOSI" x="29.21" y="2.54" length="middle" rot="R180"/>
-<pin name="/SEL" x="29.21" y="7.62" length="middle" rot="R180"/>
-<pin name="IRQ" x="29.21" y="11.43" length="middle" rot="R180"/>
-<pin name="XTAL2" x="13.97" y="26.67" length="middle" rot="R270"/>
-<pin name="XTAL1" x="10.16" y="26.67" length="middle" rot="R270"/>
-<pin name="AVSS3" x="6.35" y="26.67" length="middle" rot="R270"/>
-<pin name="EVDD" x="2.54" y="26.67" length="middle" rot="R270"/>
-<pin name="AVDD" x="-1.27" y="26.67" length="middle" rot="R270"/>
-<pin name="AVSS4" x="-5.08" y="26.67" length="middle" rot="R270"/>
-<pin name="AVSS5" x="-8.89" y="26.67" length="middle" rot="R270"/>
-<pin name="AVSS6" x="-12.7" y="26.67" length="middle" rot="R270"/>
+<wire x1="-24" y1="22" x2="-24" y2="-25" width="0.254" layer="94"/>
+<wire x1="-24" y1="-25" x2="24" y2="-25" width="0.254" layer="94"/>
+<wire x1="24" y1="-25" x2="24" y2="22" width="0.254" layer="94"/>
+<wire x1="24" y1="22" x2="-24" y2="22" width="0.254" layer="94"/>
+<pin name="DIG3" x="-29" y="15" length="middle"/>
+<pin name="DIG4" x="-29" y="11" length="middle"/>
+<pin name="AVSS" x="-29" y="7" length="middle"/>
+<pin name="RFP" x="-29" y="3" length="middle"/>
+<pin name="RFN" x="-29" y="-1" length="middle"/>
+<pin name="AVSS2" x="-29" y="-5" length="middle"/>
+<pin name="DVSS" x="-29" y="-9" length="middle"/>
+<pin name="/RST" x="-29" y="-14" length="middle"/>
+<pin name="DIG1" x="-19" y="-30" length="middle" rot="R90"/>
+<pin name="DIG2" x="-15" y="-30" length="middle" rot="R90"/>
+<pin name="SLP_TR" x="-11" y="-30" length="middle" rot="R90"/>
+<pin name="DVSS2" x="-7" y="-30" length="middle" rot="R90"/>
+<pin name="DVDD" x="-2" y="-30" length="middle" rot="R90"/>
+<pin name="DVDD2" x="3" y="-30" length="middle" rot="R90"/>
+<pin name="DEVDD" x="8" y="-30" length="middle" rot="R90"/>
+<pin name="DVSS3" x="13" y="-30" length="middle" rot="R90"/>
+<pin name="CLKM" x="29" y="-19" length="middle" rot="R180"/>
+<pin name="DVSS4" x="29" y="-14" length="middle" rot="R180"/>
+<pin name="SCLK" x="29" y="-9" length="middle" rot="R180"/>
+<pin name="MISO" x="29" y="-5" length="middle" rot="R180"/>
+<pin name="DVSS5" x="29" y="-2" length="middle" rot="R180"/>
+<pin name="MOSI" x="29" y="3" length="middle" rot="R180"/>
+<pin name="/SEL" x="29" y="7" length="middle" rot="R180"/>
+<pin name="IRQ" x="29" y="12" length="middle" rot="R180"/>
+<pin name="XTAL2" x="15" y="27" length="middle" rot="R270"/>
+<pin name="XTAL1" x="11" y="27" length="middle" rot="R270"/>
+<pin name="AVSS3" x="7" y="27" length="middle" rot="R270"/>
+<pin name="EVDD" x="3" y="27" length="middle" rot="R270"/>
+<pin name="AVDD" x="-1" y="27" length="middle" rot="R270"/>
+<pin name="AVSS4" x="-5" y="27" length="middle" rot="R270"/>
+<pin name="AVSS5" x="-9" y="27" length="middle" rot="R270"/>
+<pin name="AVSS6" x="-13" y="27" length="middle" rot="R270"/>
 <text x="-31.496" y="23.114" size="1.778" layer="95">AT86RF231</text>
 </symbol>
 <symbol name="WE-BAL">
@@ -2928,37 +2928,37 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="U$3" gate="G$1" pin="DIG1"/>
 <pinref part="GND23" gate="1" pin="GND"/>
-<wire x1="161.29" y1="76.2" x2="161.29" y2="80.01" width="0.1524" layer="91"/>
+<wire x1="161.24" y1="75.72" x2="161.29" y2="80.01" width="0.1524" layer="91"/>
 <wire x1="161.29" y1="80.01" x2="161.29" y2="82.55" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="AVSS2"/>
 <pinref part="GND24" gate="1" pin="GND"/>
-<wire x1="171.45" y1="50.8" x2="175.26" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="50.72" x2="175.26" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="DVSS"/>
 <wire x1="175.26" y1="50.8" x2="176.53" y2="50.8" width="0.1524" layer="91"/>
-<wire x1="171.45" y1="54.61" x2="175.26" y2="54.61" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="54.72" x2="175.26" y2="54.61" width="0.1524" layer="91"/>
 <wire x1="175.26" y1="54.61" x2="175.26" y2="50.8" width="0.1524" layer="91"/>
 <junction x="175.26" y="50.8"/>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="AVSS"/>
-<wire x1="171.45" y1="38.1" x2="175.26" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="38.72" x2="175.26" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="GND29" gate="1" pin="GND"/>
 <wire x1="177.8" y1="38.1" x2="175.26" y2="38.1" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND25" gate="1" pin="GND"/>
 <pinref part="U$3" gate="G$1" pin="AVSS4"/>
-<wire x1="147.32" y1="19.05" x2="147.32" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="147.24" y1="18.72" x2="147.32" y2="12.7" width="0.1524" layer="91"/>
 <wire x1="147.32" y1="12.7" x2="151.13" y2="12.7" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="AVSS5"/>
 <wire x1="151.13" y1="12.7" x2="154.94" y2="12.7" width="0.1524" layer="91"/>
 <wire x1="154.94" y1="12.7" x2="175.26" y2="12.7" width="0.1524" layer="91"/>
-<wire x1="151.13" y1="19.05" x2="151.13" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="151.24" y1="18.72" x2="151.13" y2="12.7" width="0.1524" layer="91"/>
 <junction x="151.13" y="12.7"/>
 <pinref part="U$3" gate="G$1" pin="AVSS6"/>
-<wire x1="154.94" y1="19.05" x2="154.94" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="155.24" y1="18.72" x2="154.94" y2="12.7" width="0.1524" layer="91"/>
 <junction x="154.94" y="12.7"/>
 <pinref part="CB1" gate="G$1" pin="1"/>
 <wire x1="143.51" y1="3.81" x2="154.94" y2="3.81" width="0.1524" layer="91"/>
@@ -2978,24 +2978,24 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <wire x1="139.7" y1="-10.16" x2="139.7" y2="-15.24" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="-15.24" x2="132.08" y2="-15.24" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="AVSS3"/>
-<wire x1="135.89" y1="19.05" x2="135.89" y2="-1.27" width="0.1524" layer="91"/>
+<wire x1="135.24" y1="18.72" x2="135.89" y2="-1.27" width="0.1524" layer="91"/>
 <wire x1="135.89" y1="-1.27" x2="132.08" y2="-1.27" width="0.1524" layer="91"/>
 <junction x="132.08" y="-1.27"/>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="DVSS3"/>
 <pinref part="GND21" gate="1" pin="GND"/>
-<wire x1="129.54" y1="76.2" x2="129.54" y2="80.01" width="0.1524" layer="91"/>
+<wire x1="129.24" y1="75.72" x2="129.54" y2="80.01" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND28" gate="1" pin="GND"/>
 <pinref part="U$3" gate="G$1" pin="DVSS4"/>
-<wire x1="105.41" y1="59.69" x2="113.03" y2="59.69" width="0.1524" layer="91"/>
+<wire x1="105.41" y1="59.69" x2="113.24" y2="59.72" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND27" gate="1" pin="GND"/>
 <pinref part="U$3" gate="G$1" pin="DVSS5"/>
-<wire x1="105.41" y1="46.99" x2="113.03" y2="46.99" width="0.1524" layer="91"/>
+<wire x1="105.41" y1="46.99" x2="113.24" y2="47.72" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$4" gate="G$1" pin="GNDDC"/>
@@ -3026,7 +3026,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="MOSI"/>
-<wire x1="113.03" y1="43.18" x2="96.55" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="113.24" y1="42.72" x2="96.55" y2="43.18" width="0.1524" layer="91"/>
 <label x="107.28" y="42.42" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
@@ -3105,7 +3105,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="U$3" gate="G$1" pin="DEVDD"/>
 <pinref part="CB4" gate="G$1" pin="1"/>
-<wire x1="134.62" y1="76.2" x2="134.62" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="134.24" y1="75.72" x2="134.62" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="88.9" x2="134.62" y2="92.71" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="88.9" x2="125.73" y2="88.9" width="0.1524" layer="91"/>
 <junction x="134.62" y="88.9"/>
@@ -3114,7 +3114,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="U$3" gate="G$1" pin="EVDD"/>
 <pinref part="CB2" gate="G$1" pin="2"/>
-<wire x1="139.7" y1="19.05" x2="139.7" y2="0" width="0.1524" layer="91"/>
+<wire x1="139.24" y1="18.72" x2="139.7" y2="0" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="0" x2="139.7" y2="-2.54" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="0" x2="149.86" y2="0" width="0.1524" layer="91"/>
 <junction x="139.7" y="0"/>
@@ -3216,7 +3216,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="SCLK"/>
-<wire x1="113.03" y1="54.61" x2="96.52" y2="54.61" width="0.1524" layer="91"/>
+<wire x1="113.24" y1="54.72" x2="96.52" y2="54.61" width="0.1524" layer="91"/>
 <label x="107.95" y="57.15" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
@@ -3295,7 +3295,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="MISO"/>
-<wire x1="113.03" y1="50.8" x2="96.52" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="113.24" y1="50.72" x2="96.52" y2="50.8" width="0.1524" layer="91"/>
 <label x="107.95" y="53.34" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
@@ -3338,7 +3338,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="/SEL"/>
-<wire x1="113.03" y1="38.1" x2="96.79" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="113.24" y1="38.72" x2="96.79" y2="38.1" width="0.1524" layer="91"/>
 <label x="108.839" y="37.465" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
@@ -3391,7 +3391,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="/RST"/>
-<wire x1="171.45" y1="59.69" x2="185.42" y2="59.69" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="59.72" x2="185.42" y2="59.69" width="0.1524" layer="91"/>
 <label x="190.246" y="62.23" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
@@ -3403,14 +3403,14 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="SLP_TR"/>
-<wire x1="153.67" y1="76.2" x2="153.67" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="153.24" y1="75.72" x2="153.67" y2="96.52" width="0.1524" layer="91"/>
 <label x="158.75" y="99.06" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
 <net name="IRQ" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="IRQ"/>
-<wire x1="113.03" y1="34.29" x2="96.6" y2="34.29" width="0.1524" layer="91"/>
+<wire x1="113.24" y1="33.72" x2="96.6" y2="34.29" width="0.1524" layer="91"/>
 <label x="104.966" y="33.655" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
@@ -3427,7 +3427,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="DIG2"/>
-<wire x1="157.48" y1="76.2" x2="157.48" y2="90.17" width="0.1524" layer="91"/>
+<wire x1="157.24" y1="75.72" x2="157.48" y2="90.17" width="0.1524" layer="91"/>
 <label x="160.02" y="92.71" size="1.778" layer="95" rot="R180"/>
 </segment>
 </net>
@@ -3471,9 +3471,9 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <net name="N$9" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="DVDD"/>
-<wire x1="144.78" y1="76.2" x2="144.78" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="144.24" y1="75.72" x2="144.78" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="DVDD2"/>
-<wire x1="139.7" y1="76.2" x2="139.7" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="139.24" y1="75.72" x2="139.7" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="83.82" x2="144.78" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="CB3" gate="G$1" pin="1"/>
 <wire x1="144.78" y1="83.82" x2="144.78" y2="92.71" width="0.1524" layer="91"/>
@@ -3484,14 +3484,14 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="U$3" gate="G$1" pin="AVDD"/>
 <pinref part="CB1" gate="G$1" pin="2"/>
-<wire x1="143.51" y1="19.05" x2="143.51" y2="11.43" width="0.1524" layer="91"/>
+<wire x1="143.24" y1="18.72" x2="143.51" y2="11.43" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$11" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="XTAL1"/>
 <pinref part="CX1" gate="G$1" pin="2"/>
-<wire x1="132.08" y1="19.05" x2="132.08" y2="11.43" width="0.1524" layer="91"/>
+<wire x1="131.24" y1="18.72" x2="132.08" y2="11.43" width="0.1524" layer="91"/>
 <pinref part="Y2" gate="G$1" pin="1"/>
 <wire x1="132.08" y1="11.43" x2="132.08" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="127" y1="11.43" x2="132.08" y2="11.43" width="0.1524" layer="91"/>
@@ -3502,7 +3502,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="U$3" gate="G$1" pin="XTAL2"/>
 <pinref part="CX2" gate="G$1" pin="2"/>
-<wire x1="128.27" y1="19.05" x2="118.11" y2="19.05" width="0.1524" layer="91"/>
+<wire x1="127.24" y1="18.72" x2="118.11" y2="19.05" width="0.1524" layer="91"/>
 <wire x1="118.11" y1="19.05" x2="118.11" y2="11.43" width="0.1524" layer="91"/>
 <pinref part="Y2" gate="G$1" pin="2"/>
 <wire x1="118.11" y1="11.43" x2="118.11" y2="7.62" width="0.1524" layer="91"/>
@@ -3514,7 +3514,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="U$3" gate="G$1" pin="DIG4"/>
 <pinref part="TX" gate="G$1" pin="C"/>
-<wire x1="171.45" y1="34.29" x2="189.23" y2="34.29" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="34.72" x2="189.23" y2="34.29" width="0.1524" layer="91"/>
 <pinref part="RX" gate="G$1" pin="A"/>
 <wire x1="189.23" y1="34.29" x2="195.58" y2="34.29" width="0.1524" layer="91"/>
 <junction x="189.23" y="34.29"/>
@@ -3535,7 +3535,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <wire x1="173.99" y1="30.48" x2="173.99" y2="26.67" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="2"/>
 <pinref part="U$3" gate="G$1" pin="DIG3"/>
-<wire x1="171.45" y1="30.48" x2="173.99" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="30.72" x2="173.99" y2="30.48" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$16" class="0">
@@ -3555,7 +3555,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <net name="N$18" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="RFN"/>
-<wire x1="171.45" y1="46.99" x2="190.5" y2="46.99" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="46.72" x2="190.5" y2="46.99" width="0.1524" layer="91"/>
 <pinref part="C11" gate="G$1" pin="2"/>
 <wire x1="190.5" y1="46.99" x2="190.5" y2="57.15" width="0.1524" layer="91"/>
 <wire x1="190.5" y1="57.15" x2="203.2" y2="57.15" width="0.1524" layer="91"/>
@@ -3565,7 +3565,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="U$3" gate="G$1" pin="RFP"/>
 <pinref part="C10" gate="G$1" pin="2"/>
-<wire x1="171.45" y1="41.91" x2="203.2" y2="41.91" width="0.1524" layer="91"/>
+<wire x1="171.24" y1="42.72" x2="203.2" y2="41.91" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$20" class="0">
@@ -3578,7 +3578,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <net name="CLKM" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="CLKM"/>
-<wire x1="113.03" y1="64.77" x2="96.52" y2="64.77" width="0.1524" layer="91"/>
+<wire x1="113.24" y1="64.72" x2="96.52" y2="64.77" width="0.1524" layer="91"/>
 <label x="109.22" y="67.31" size="1.778" layer="95" rot="R180"/>
 </segment>
 <segment>
