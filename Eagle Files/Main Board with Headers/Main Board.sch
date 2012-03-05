@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -2746,7 +2746,7 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <instance part="STATUS" gate="G$1" x="-48.26" y="35.56" rot="R90"/>
 <instance part="R9" gate="G$1" x="-35.56" y="35.56"/>
 <instance part="GND13" gate="1" x="-25.4" y="35.56" rot="R90"/>
-<instance part="B1" gate="G$1" x="-22.86" y="-41.91"/>
+<instance part="B1" gate="G$1" x="-22.86" y="-41.91" rot="MR180"/>
 <instance part="GND14" gate="1" x="-34.29" y="-48.26"/>
 <instance part="R12" gate="G$1" x="24.13" y="-2.54"/>
 <instance part="R13" gate="G$1" x="40.64" y="-2.54"/>
@@ -2754,11 +2754,11 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <instance part="ACHOT" gate="1" x="-77.47" y="-2.54"/>
 <instance part="ACNEU" gate="1" x="-48.26" y="-24.13" rot="R180"/>
 <instance part="GND" gate="1" x="-120.65" y="10.16"/>
-<instance part="ACOUT" gate="1" x="-87.63" y="-30.48" rot="R180"/>
+<instance part="ACOUT" gate="1" x="-93.98" y="-22.86" rot="R180"/>
 <instance part="ISP_HEADER" gate="G$1" x="-119.38" y="66.04"/>
-<instance part="MT2201" gate="1" x="-48.26" y="-7.62"/>
+<instance part="MT2201" gate="1" x="-48.26" y="-10.16" rot="MR180"/>
 <instance part="R1" gate="G$1" x="12.7" y="111.76"/>
-<instance part="B2" gate="G$1" x="-2.54" y="-2.54"/>
+<instance part="B2" gate="G$1" x="-3.81" y="-2.54" rot="MR180"/>
 <instance part="C5" gate="G$1" x="21.59" y="-46.99" rot="R180"/>
 <instance part="C6" gate="G$1" x="33.02" y="-46.99" rot="R180"/>
 <instance part="GND1" gate="1" x="-11.43" y="-2.54" rot="R270"/>
@@ -2856,7 +2856,6 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <segment>
 <pinref part="B2" gate="G$1" pin="-"/>
 <pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="-7.62" y1="-2.54" x2="-8.89" y2="-2.54" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND2" gate="1" pin="GND"/>
@@ -3032,10 +3031,10 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </net>
 <net name="N$23" class="0">
 <segment>
-<pinref part="B1" gate="G$1" pin="AC1"/>
-<pinref part="MT2201" gate="1" pin="7"/>
-<wire x1="-40.64" y1="-10.16" x2="-22.86" y2="-10.16" width="0.1524" layer="91"/>
-<wire x1="-22.86" y1="-10.16" x2="-22.86" y2="-36.83" width="0.1524" layer="91"/>
+<pinref part="MT2201" gate="1" pin="6"/>
+<wire x1="-22.86" y1="-10.16" x2="-40.64" y2="-10.16" width="0.1524" layer="91"/>
+<pinref part="B1" gate="G$1" pin="AC2"/>
+<wire x1="-22.86" y1="-36.83" x2="-22.86" y2="-10.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PC1" class="0">
@@ -3163,19 +3162,12 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </net>
 <net name="N$2" class="0">
 <segment>
-<pinref part="MT2201" gate="1" pin="4"/>
 <pinref part="ACNEU" gate="1" pin="P"/>
-<wire x1="-53.34" y1="-15.24" x2="-53.34" y2="-24.13" width="0.1524" layer="91"/>
 <wire x1="-53.34" y1="-24.13" x2="-50.8" y2="-24.13" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="MT2201" gate="1" pin="8"/>
-<wire x1="-40.64" y1="-15.24" x2="-40.64" y2="-55.88" width="0.1524" layer="91"/>
-<pinref part="B1" gate="G$1" pin="AC2"/>
-<wire x1="-40.64" y1="-55.88" x2="-22.86" y2="-55.88" width="0.1524" layer="91"/>
-<wire x1="-22.86" y1="-55.88" x2="-22.86" y2="-46.99" width="0.1524" layer="91"/>
+<wire x1="-53.34" y1="-24.13" x2="-55.88" y2="-24.13" width="0.1524" layer="91"/>
+<wire x1="-55.88" y1="-24.13" x2="-55.88" y2="-15.24" width="0.1524" layer="91"/>
+<pinref part="MT2201" gate="1" pin="1"/>
+<wire x1="-53.34" y1="-15.24" x2="-55.88" y2="-15.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -3204,26 +3196,10 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <label x="53.34" y="30.48" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="B2" gate="G$1" pin="AC1"/>
-<wire x1="-2.54" y1="2.54" x2="-15.24" y2="2.54" width="0.1524" layer="91"/>
-<wire x1="-15.24" y1="2.54" x2="-15.24" y2="-2.54" width="0.1524" layer="91"/>
-<pinref part="MT2201" gate="1" pin="5"/>
-<wire x1="-15.24" y1="-2.54" x2="-40.64" y2="-2.54" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$5" class="0">
-<segment>
-<pinref part="MT2201" gate="1" pin="6"/>
-<pinref part="B2" gate="G$1" pin="AC2"/>
-<wire x1="-40.64" y1="-7.62" x2="-2.54" y2="-7.62" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$6" class="0">
 <segment>
 <pinref part="B2" gate="G$1" pin="+"/>
-<wire x1="2.54" y1="-2.54" x2="7.62" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="1.27" y1="-2.54" x2="7.62" y2="-2.54" width="0.1524" layer="91"/>
 <pinref part="R12" gate="G$1" pin="1"/>
 <pinref part="C8" gate="G$1" pin="2"/>
 <wire x1="7.62" y1="-2.54" x2="17.78" y2="-2.54" width="0.1524" layer="91"/>
@@ -3291,33 +3267,22 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <pinref part="PWR" gate="G$1" pin="C"/>
 </segment>
 </net>
-<net name="N$8" class="0">
+<net name="N$1" class="0">
 <segment>
+<wire x1="-68.58" y1="-22.86" x2="-68.58" y2="-2.54" width="0.1524" layer="91"/>
+<pinref part="ACHOT" gate="1" pin="P"/>
+<wire x1="-74.93" y1="-2.54" x2="-68.58" y2="-2.54" width="0.1524" layer="91"/>
+<pinref part="MT2201" gate="1" pin="4"/>
+<wire x1="-53.34" y1="-2.54" x2="-68.58" y2="-2.54" width="0.1524" layer="91"/>
+<junction x="-68.58" y="-2.54"/>
 <pinref part="CURRENT_SENSOR" gate="G$1" pin="IP+@1"/>
 <wire x1="-101.6" y1="-30.48" x2="-106.68" y2="-30.48" width="0.1524" layer="91"/>
 <pinref part="CURRENT_SENSOR" gate="G$1" pin="IP+@2"/>
 <wire x1="-106.68" y1="-27.94" x2="-101.6" y2="-27.94" width="0.1524" layer="91"/>
 <wire x1="-101.6" y1="-27.94" x2="-101.6" y2="-30.48" width="0.1524" layer="91"/>
-<pinref part="ACOUT" gate="1" pin="P"/>
-<wire x1="-90.17" y1="-30.48" x2="-101.6" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="-68.58" y1="-22.86" x2="-68.58" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="-68.58" y1="-30.48" x2="-101.6" y2="-30.48" width="0.1524" layer="91"/>
 <junction x="-101.6" y="-30.48"/>
-</segment>
-</net>
-<net name="N$1" class="0">
-<segment>
-<wire x1="-106.68" y1="-25.4" x2="-104.14" y2="-25.4" width="0.1524" layer="91"/>
-<wire x1="-104.14" y1="-25.4" x2="-104.14" y2="-22.86" width="0.1524" layer="91"/>
-<wire x1="-104.14" y1="-22.86" x2="-106.68" y2="-22.86" width="0.1524" layer="91"/>
-<pinref part="CURRENT_SENSOR" gate="G$1" pin="IP-@3"/>
-<pinref part="CURRENT_SENSOR" gate="G$1" pin="IP-@4"/>
-<pinref part="MT2201" gate="1" pin="1"/>
-<wire x1="-68.58" y1="-22.86" x2="-68.58" y2="-2.54" width="0.1524" layer="91"/>
-<wire x1="-53.34" y1="-2.54" x2="-68.58" y2="-2.54" width="0.1524" layer="91"/>
-<pinref part="ACHOT" gate="1" pin="P"/>
-<wire x1="-74.93" y1="-2.54" x2="-68.58" y2="-2.54" width="0.1524" layer="91"/>
-<junction x="-68.58" y="-2.54"/>
-<wire x1="-104.14" y1="-22.86" x2="-68.58" y2="-22.86" width="0.1524" layer="91"/>
-<junction x="-104.14" y="-22.86"/>
 </segment>
 </net>
 <net name="CLKM" class="0">
@@ -3332,6 +3297,43 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <pinref part="U$2" gate="G$1" pin="PD4"/>
 <wire x1="-25.4" y1="86.36" x2="-40.64" y2="86.36" width="0.1524" layer="91"/>
 <label x="-38.227" y="86.741" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$9" class="0">
+<segment>
+<pinref part="CURRENT_SENSOR" gate="G$1" pin="IP-@4"/>
+<pinref part="CURRENT_SENSOR" gate="G$1" pin="IP-@3"/>
+<wire x1="-106.68" y1="-25.4" x2="-104.14" y2="-25.4" width="0.1524" layer="91"/>
+<wire x1="-104.14" y1="-25.4" x2="-104.14" y2="-22.86" width="0.1524" layer="91"/>
+<wire x1="-104.14" y1="-22.86" x2="-106.68" y2="-22.86" width="0.1524" layer="91"/>
+<pinref part="ACOUT" gate="1" pin="P"/>
+<wire x1="-96.52" y1="-22.86" x2="-104.14" y2="-22.86" width="0.1524" layer="91"/>
+<junction x="-104.14" y="-22.86"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="B2" gate="G$1" pin="AC1"/>
+<pinref part="MT2201" gate="1" pin="7"/>
+<wire x1="-3.81" y1="-7.62" x2="-40.64" y2="-7.62" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<pinref part="MT2201" gate="1" pin="8"/>
+<wire x1="-40.64" y1="-2.54" x2="-19.05" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="-19.05" y1="-2.54" x2="-19.05" y2="2.54" width="0.1524" layer="91"/>
+<pinref part="B2" gate="G$1" pin="AC2"/>
+<wire x1="-19.05" y1="2.54" x2="-3.81" y2="2.54" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="B1" gate="G$1" pin="AC1"/>
+<wire x1="-22.86" y1="-46.99" x2="-22.86" y2="-53.34" width="0.1524" layer="91"/>
+<wire x1="-22.86" y1="-53.34" x2="-40.64" y2="-53.34" width="0.1524" layer="91"/>
+<pinref part="MT2201" gate="1" pin="5"/>
+<wire x1="-40.64" y1="-53.34" x2="-40.64" y2="-15.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
