@@ -26,14 +26,15 @@
 //We need a nop function
 #define _NOP() __asm__ __volatile__("nop")
 //Uncomment this to enable serial output (WARNING, serial output currently does not work with SD card, not enough RAM)
-#define TESTSERIALOUT 1;
+//#define TESTSERIALOUT 1;
 // The pin my status indicator LED is on
-#define LEDPIN 7
+//#define LEDPIN 7
+#define LEDPIN 5
 
 #include <SD.h>
 
 
-const int chipSelect = 10;
+const int chipSelect = 1;
 int flipflop=LOW;  //This is used to let me switch my LED on and off easily.
 
 //Set up my A/D Converter
@@ -73,6 +74,7 @@ void SD_setup(){
     #ifdef TESTSERIALOUT
       Serial.println("Card failed, or not present");
     #endif
+    BlinkLED(100,30);
     // don't do anything more:
     //return;
   }
@@ -96,10 +98,13 @@ void SizeSafetyCheck(File fileToCheck){
   }
 }
 
-void BlinkLED(unsigned long milliseconds){
-  digitalWrite(LEDPIN,HIGH);
-  delay(milliseconds);
-  digitalWrite(LEDPIN,LOW);
+void BlinkLED(unsigned long milliseconds,int number){
+  for(int i=0;i<number;i++){
+    digitalWrite(LEDPIN,HIGH);
+    delay(milliseconds);
+    digitalWrite(LEDPIN,LOW);
+    delay(milliseconds);
+  }
 }
 
 struct VoltageStruct{
@@ -205,14 +210,15 @@ struct AmperageStruct{
 
 void setup()
 {
-  pinMode(10, OUTPUT);
+  pinMode(10, OUTPUT);        //Needed for SD Library
   pinMode(LEDPIN, OUTPUT);
-  BlinkLED(100);
+  pinMode(chipSelect,OUTPUT);
+  BlinkLED(1000,3);
   #ifdef TESTSERIALOUT
     Serial.begin(9600);
   #endif
   SD_setup();
-  BlinkLED(100);
+  BlinkLED(1000,3);
 }
 
 void loop()
@@ -222,13 +228,14 @@ void loop()
   File dataFile;
   dataFile = SD.open("datalog.txt", FILE_WRITE);
   
+  BlinkLED(500,3);
   //File Size check, sanity keeper
-  SizeSafetyCheck(dataFile);
+  //SizeSafetyCheck(dataFile);
   
 
   // if the file is available, write to it:
   if (dataFile) {
-
+  /*
     //   A/D conversion
     ADC_setup();
     
@@ -280,11 +287,21 @@ void loop()
     }
       digitalWrite(LEDPIN, flipflop);   // set the LED
     //delay(10000);
+    */
+    dataFile.write("test");
+    dataFile.flush();
+    dataFile.close();
   }  
   // if the file isn't open, pop up an error:
   else {
     #ifdef TESTSERIALOUT
       Serial.println("error opening datalog.txt");
     #endif
+    while(1){
+      BlinkLED(100,100);
+    }
   } 
+  while(1){
+    BlinkLED(3000,100);
+  }
 }
