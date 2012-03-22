@@ -1,5 +1,5 @@
 #For the AVR Dragon
-avrdude -c dragon_isp -p m328p -P usb -B 3 -F
+avrdude -c dragon_isp -p m328p -P usb -B 3 -F -U flash:w:Datalogger1.cpp.hex
 
 #Using the Arduino as a programmer
-avrdude -c arduino -b 19200 -p m328p -P com4 -F
+avrdude -c arduino -b 19200 -p m328p -P com4 -F -U flash:w:Datalogger1.cpp.hex
