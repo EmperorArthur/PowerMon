@@ -40,7 +40,7 @@
 
 //Global Variables
 int flipflop=LOW;			//This is used to let me switch my LED on and off easily.
-uint16_t ADCResult = 0;		//This is the result from my ADC
+volatile uint16_t ADCResult = 0;		//This is the result from my ADC
 
 
 //Set up my A/D Converter
@@ -193,15 +193,15 @@ void loop()
   
 	//read from the temperature sensor (This is a good way to check if our ADC is working)
 	ADMUX  = _BV(REFS0) | _BV(REFS1);		//Set our reference Voltage to internal 1.1V for the temperature sensor to work right
-	int temperature = ADC_read(8);
-	/*
+	//int temperature = ADC_read(8);
+
 	ADC_start(8);
 	while(ADCResult == 0){
 		_NOP();
 	}
 	int temperature = ADCResult;
 	ADCResult = 0;
-	/*
+
 	dataFile.print("Temperature is:  ");
 	dataFile.print(temperature);
 
