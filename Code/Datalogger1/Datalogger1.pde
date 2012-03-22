@@ -3,10 +3,6 @@
  
   HEAVILY MODIFIED BY GROUP 10
   WARNING: analogRead and string functions and classes DO NOT WORK.
- 
- This example shows how to log data from three analog sensors 
- to an SD card using the SD library.
- 
  	
  The circuit:
  * analog sensors on analog ins 0, 1, and 2
@@ -40,10 +36,11 @@
 
 //The chip select pin for the SD card
 #define CHIPSELECT 1  	//Use this one for the prototype board
-#define CHIPSELECT 10;  //Use this one for the arduino
+//#define CHIPSELECT 10  //Use this one for the arduino
 
 //Global Variables
-int flipflop=LOW;  //This is used to let me switch my LED on and off easily.
+int flipflop=LOW;			//This is used to let me switch my LED on and off easily.
+uint16_t ADCResult = 0;		//This is the result from my ADC
 
 
 //Set up my A/D Converter
@@ -66,7 +63,6 @@ void ADC_setup(){
 
 //Read from the specified ADC pin
 uint16_t ADC_read(unsigned char pin){
-
   //Select which pin I'm going to be reading
   //See table 24-4 on P.265 for the extra things the ADC can read.
   ADMUX = (ADMUX & 0xf0) | (pin & 0x0f);
@@ -79,8 +75,36 @@ uint16_t ADC_read(unsigned char pin){
     _NOP();
   }
   
-  //Return the value
-  return (ADCH << 8)  | ADCL;
+  //I need to do it this way because the ATMega does register locking.
+  //This means that these two instructions are atomic if done in this order
+  //Also, ADCL is undefined if ADCH is read first.
+  return ADCL|(ADCH << 8);
+}
+
+//Start an ADC Read from the specified ADC pin (Interupt is triggered when read is done)
+//NOTE:  Global interupts must be enabled for this to work
+void ADC_start(unsigned char pin){
+  //Select which pin I'm going to be reading
+  //See table 24-4 on P.265 for the extra things the ADC can read.
+  ADMUX = (ADMUX & 0xf0) | (pin & 0x0f);
+  
+  ADCSRA |= _BV(ADIE);			//Enable the ADC Interupt vector
+  ADCSRA |= _BV(ADSC);			//Start the ADC
+
+}
+
+//This ADC interupt vector
+//This is executed after the ADC is done
+//NOTE:  To get the LED to blink I've allowed interupts inside this interupt
+//ISR(ADC_vect) {
+ISR(ADC_vect, ISR_NOBLOCK) {
+
+	
+	//I need to do it this way because the ATMega does register locking.
+	//This means that these two instructions are atomic if done in this order
+	//Also, ADCL is undefined if ADCH is read first.
+	ADCResult = ADCL | (ADCH << 8);
+
 }
 
 void SD_setup(){
@@ -104,22 +128,18 @@ void SD_setup(){
 }
 
 
-//If the File is near/over 3GB stop, close the file and blink the LED slowly
+//If the File is near/over 3GB stop, close the file and blink the LED quickly
 void SizeSafetyCheck(File fileToCheck){
   if(fileToCheck.size() > 24000000000.0){
 	fileToCheck.close();
     while(1){
-      if(flipflop==HIGH){
-        flipflop = LOW;
-      }else{
-        flipflop = HIGH;
-      }
-      digitalWrite(LEDPIN, flipflop);   // set the LED
-    delay(10000);
+		BlinkLED(100,30);
     }
   }
 }
 
+//Blink the LED
+//NOTE:  total delay ~= 2 * milliseconds * number
 void BlinkLED(unsigned long milliseconds,int number){
   for(int i=0;i<number;i++){
     digitalWrite(LEDPIN,HIGH);
@@ -129,106 +149,8 @@ void BlinkLED(unsigned long milliseconds,int number){
   }
 }
 
-struct VoltageStruct{
-  double Voltage;        //This will be my final value
-  uint32_t megaVoltage;  //I'm constantly adding lastADCValue squared to this so I can use it to find RMS values
-  uint16_t numSamples;   //Number of samples measured
-  unsigned long time;    //The time it took me to do all of this
-  //Measure the voltage assuming that it's a half rectified signal.
-  //Measure the voltage on the selected pin
-  void DoIt(unsigned char  pin){
-    //Initalize variables
-    Voltage = 0;
-    megaVoltage = 0;
-    numSamples = 0;
-    
-    uint16_t lastADCValue = 1023; //This needs to be max for my first while loop. 
-    uint16_t threashhold = 35;  //Below this value we assume we are only seeing noise.
-
-    //If we start in the middle of a wave, wait untill the next wave before continuing
-    while(lastADCValue > threashhold){
-      lastADCValue = ADC_read(0);
-    }
-    while(lastADCValue < threashhold){
-      lastADCValue = ADC_read(0);
-    }
-
-    //Work and Sample at the same time 
-    unsigned long startTime = micros();
-    while(lastADCValue > threashhold){
-      //Select which pin I'm going to be reading
-      unsigned char temp = (ADMUX & 0xf0) | (pin & 0x0f);
-      ADMUX = temp;
-      //Start the conversion
-      ADCSRA |= _BV(ADSC);
-      
-      //Do Work While waiting for conversion to finish
-      megaVoltage += lastADCValue * lastADCValue;
-      
-      //Keep checking and waiting until the conversion is complete
-      while(!(ADCSRA&_BV(ADIF))){
-        _NOP();
-      }
-      //Convert the Conversion into one number
-      unsigned char low = ADCL;
-      unsigned char high = ADCH;
-      lastADCValue = (high << 8)  | low;
-      
-      //Increment my number of samples
-      numSamples++;
-    }
-    unsigned long endTime = micros();
-
-
-    //Sanity check, in case noise set it off
-    if(numSamples < 60){
-      Voltage = 0;
-      return;
-    }
-    
-    //Find RMS using megaVoltage
-    Voltage = megaVoltage/numSamples;
-    Voltage = sqrt(Voltage);
-    
-    //Convert to real values
-    //Should be Voltage = (ADCValue * (5V reference/1024 divisions) + 0.7V to compensate for our diode) * 31 for our voltage divider
-    //But our diode is acting up, and is instead causing a massive voltage drop (2.8 V instead of 0.7V)
-    Voltage = (Voltage * 5/1024.0 + 2.8) * 31;
-    
-    //Calculate total time
-    time = endTime-startTime;
-  }
-};
-
-struct AmperageStruct{
-  double Amperage;        //This will be my final value
-  uint32_t megaAmperage;  //Highest Value Seen from my Hall Effect Sensor
-  uint16_t numSamples;   //Number of samples measured
-  unsigned long time;    //The time it took me to do all of this
-  //Measure the Amperage on the selected pin (using the output from an ACS712 20A Current sensor)
-  void DoIt(unsigned char  pin){
-    //Initalize variables
-    Amperage = 0;
-    megaAmperage = 0;
-    numSamples = 0;
-    
-    uint16_t lastADCValue = 0; //The Last value of the ADC
-
-    unsigned long startTime = millis();
-	//Sample for 30 milliseconds & output highest vlue seen
-    while((millis()-startTime)<30){
-      lastADCValue = ADC_read(1);
-      if(lastADCValue > megaAmperage)
-        megaAmperage = lastADCValue;
-      numSamples++;
-    }
-    unsigned long endTime = millis();
-    time = endTime-startTime;
-    
-    //8 Amps/Volt from my current sensor, with an offset of 2.5V
-    Amperage = (megaAmperage * 5/1024.0 - 2.5) * 8;
-  }
-};
+//This is me cheating
+//#include <power-measurement.c>
 
 void setup()
 {
@@ -238,7 +160,7 @@ void setup()
   pinMode(CHIPSELECT,OUTPUT);
   
   //Enable interupts
-  ///sei();
+  sei();
   
   BlinkLED(1000,3);
   
@@ -262,7 +184,6 @@ void loop()
   File dataFile;
   dataFile = SD.open("datalog.txt", FILE_WRITE);
   
-  BlinkLED(500,3);
   //File Size check, sanity keeper
   SizeSafetyCheck(dataFile);
   
@@ -270,13 +191,28 @@ void loop()
   // if the file is available, write to it:
   if (dataFile) {
   
+	//read from the temperature sensor (This is a good way to check if our ADC is working)
+	ADMUX  = _BV(REFS0) | _BV(REFS1);		//Set our reference Voltage to internal 1.1V for the temperature sensor to work right
+	int temperature = ADC_read(8);
+	/*
+	ADC_start(8);
+	while(ADCResult == 0){
+		_NOP();
+	}
+	int temperature = ADCResult;
+	ADCResult = 0;
+	/*
+	dataFile.print("Temperature is:  ");
+	dataFile.print(temperature);
+
+/*
     //Measure Voltage
     VoltageStruct measureVoltage;
-    measureVoltage.DoIt(0);
+    //measureVoltage.DoIt(0);
     
     //Measure Amperage
     AmperageStruct measureAmperage;
-    measureAmperage.DoIt(1);
+    //measureAmperage.DoIt(1);
     
       //Output our data/results
       dataFile.print(measureVoltage.Voltage);
@@ -293,6 +229,7 @@ void loop()
 //      dataFile.print(" microseconds for V");
 //      dataFile.print(measureAmperage.time);
 //      dataFile.print(" milliseconds for A");
+*/
       dataFile.write('\n');
       dataFile.flush();
       dataFile.close();
@@ -311,13 +248,7 @@ void loop()
     
     
     //Blink the LED to let us know that we're done with a cycle
-    if(flipflop==HIGH){
-      flipflop = LOW;
-    }else{
-      flipflop = HIGH;
-    }
-      digitalWrite(LEDPIN, flipflop);   // set the LED
-    //delay(10000);
+    BlinkLED(1000,1);
   }  
   // if the file isn't open, pop up an error:
   else {
