@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -562,6 +562,34 @@ It will probably be replaced by TQFP32-08</description>
 <wire x1="19.125128125" y1="21" x2="-16.5" y2="21" width="0.254" layer="21"/>
 <wire x1="-16.5" y1="21" x2="-16.55" y2="21.05" width="0.127" layer="21" curve="-90"/>
 </package>
+<package name="MICRO-SD-SOCKET-PP">
+<wire x1="-14" y1="0" x2="-14" y2="13.2" width="0.2032" layer="21"/>
+<wire x1="0" y1="12.1" x2="0" y2="0" width="0.2032" layer="21"/>
+<wire x1="-11.7" y1="15.3" x2="-12.5" y2="15.3" width="0.2032" layer="21"/>
+<wire x1="-11" y1="16" x2="0" y2="16" width="0.2032" layer="51"/>
+<wire x1="-10" y1="13.6" x2="-1.6" y2="13.6" width="0.2032" layer="21"/>
+<wire x1="-14" y1="0" x2="-9.1" y2="0" width="0.2032" layer="21"/>
+<wire x1="-3.4" y1="0" x2="-6.4" y2="0" width="0.2032" layer="21"/>
+<wire x1="0" y1="0" x2="-0.7" y2="0" width="0.2032" layer="21"/>
+<wire x1="0" y1="17.6" x2="-11" y2="17.6" width="0.2032" layer="51"/>
+<wire x1="0" y1="20.7" x2="-11" y2="20.7" width="0.2032" layer="51"/>
+<wire x1="-11.7" y1="15.3" x2="-11" y2="14.6" width="0.2032" layer="21" curve="-98.797411"/>
+<wire x1="-11" y1="14.6" x2="-10" y2="13.6" width="0.2032" layer="21" curve="87.205638"/>
+<smd name="CD2" x="-7.75" y="0.4" dx="1.8" dy="1.4" layer="1"/>
+<smd name="CD1" x="-2.05" y="0.4" dx="1.8" dy="1.4" layer="1"/>
+<smd name="GND3" x="-0.45" y="13.55" dx="1.4" dy="1.9" layer="1"/>
+<smd name="GND1" x="-13.6" y="14.55" dx="1.4" dy="1.9" layer="1"/>
+<smd name="1" x="-8.94" y="10.7" dx="0.8" dy="1.5" layer="1"/>
+<smd name="2" x="-7.84" y="10.3" dx="0.8" dy="1.5" layer="1"/>
+<smd name="3" x="-6.74" y="10.7" dx="0.8" dy="1.5" layer="1"/>
+<smd name="4" x="-5.64" y="10.9" dx="0.8" dy="1.5" layer="1"/>
+<smd name="5" x="-4.54" y="10.7" dx="0.8" dy="1.5" layer="1"/>
+<smd name="6" x="-3.44" y="10.9" dx="0.8" dy="1.5" layer="1"/>
+<smd name="7" x="-2.34" y="10.7" dx="0.8" dy="1.5" layer="1"/>
+<smd name="8" x="-1.24" y="10.7" dx="0.8" dy="1.5" layer="1"/>
+<text x="-8.89" y="6.35" size="0.8128" layer="25">&gt;Name</text>
+<text x="-8.89" y="5.08" size="0.8128" layer="27">&gt;Value</text>
+</package>
 </packages>
 <symbols>
 <symbol name="ATMEGA328">
@@ -668,6 +696,22 @@ It will probably be replaced by TQFP32-08</description>
 <pin name="7" x="7.62" y="-2.54" visible="pad" length="middle" direction="pas" rot="R180"/>
 <pin name="6" x="7.62" y="0" visible="pad" length="middle" direction="pas" rot="R180"/>
 <pin name="5" x="7.62" y="5.08" visible="pad" length="middle" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="MICROSD">
+<wire x1="-12.7" y1="15.24" x2="-10.16" y2="15.24" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="15.24" x2="-7.62" y2="12.7" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="12.7" x2="12.7" y2="12.7" width="0.254" layer="94"/>
+<wire x1="12.7" y1="12.7" x2="12.7" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-7.62" x2="-12.7" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="-7.62" x2="-12.7" y2="15.24" width="0.254" layer="94"/>
+<pin name="NC" x="-7.62" y="7.62" length="middle" rot="R270"/>
+<pin name="/CS" x="-5.08" y="7.62" length="middle" rot="R270"/>
+<pin name="MOSI" x="-2.54" y="7.62" length="middle" rot="R270"/>
+<pin name="VDD" x="0" y="7.62" length="middle" rot="R270"/>
+<pin name="CLK" x="2.54" y="7.62" length="middle" rot="R270"/>
+<pin name="GND" x="5.08" y="7.62" length="middle" rot="R270"/>
+<pin name="MISO" x="7.62" y="7.62" length="middle" rot="R270"/>
+<pin name="RSV" x="10.16" y="7.62" length="middle" rot="R270"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -903,6 +947,28 @@ ERA</description>
 <connect gate="1" pin="6" pad="6"/>
 <connect gate="1" pin="7" pad="7"/>
 <connect gate="1" pin="8" pad="8"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MICROSD">
+<gates>
+<gate name="G$1" symbol="MICROSD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="MICRO-SD-SOCKET-PP">
+<connects>
+<connect gate="G$1" pin="/CS" pad="2"/>
+<connect gate="G$1" pin="CLK" pad="5"/>
+<connect gate="G$1" pin="GND" pad="6"/>
+<connect gate="G$1" pin="MISO" pad="7"/>
+<connect gate="G$1" pin="MOSI" pad="3"/>
+<connect gate="G$1" pin="NC" pad="1"/>
+<connect gate="G$1" pin="RSV" pad="8"/>
+<connect gate="G$1" pin="VDD" pad="4"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -2665,8 +2731,6 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <classes>
 <class number="0" name="default" width="0" drill="0">
 </class>
-<class number="1" name="Mini" width="0.25" drill="0">
-</class>
 </classes>
 <parts>
 <part name="U$2" library="group10" deviceset="ATMEGA328" device="32A"/>
@@ -2681,7 +2745,6 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
 <part name="C3" library="SparkFun" deviceset="CAP" device="0603-CAP" value="22p"/>
 <part name="C4" library="SparkFun" deviceset="CAP" device="0603-CAP" value="22p"/>
-<part name="GND11" library="supply1" deviceset="GND" device=""/>
 <part name="C1" library="SparkFun" deviceset="CAP" device="0603-CAP" value="0.1u"/>
 <part name="GND12" library="supply1" deviceset="GND" device=""/>
 <part name="C2" library="SparkFun" deviceset="CAP" device="0603-CAP" value="1n"/>
@@ -2695,7 +2758,6 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <part name="GND16" library="supply1" deviceset="GND" device=""/>
 <part name="ACHOT" library="wirepad" deviceset="3,81/1,4" device=""/>
 <part name="ACNEU" library="wirepad" deviceset="3,81/1,4" device=""/>
-<part name="GND" library="wirepad" deviceset="3,81/1,4" device=""/>
 <part name="ACOUT" library="wirepad" deviceset="3,81/1,4" device=""/>
 <part name="ISP_HEADER" library="SparkFun" deviceset="AVR_SPI_PRG_6" device="PTH"/>
 <part name="MT2201" library="group10" deviceset="EI38-2" device=""/>
@@ -2720,7 +2782,8 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <part name="JP3" library="SparkFun" deviceset="STAND-OFF" device=""/>
 <part name="JP4" library="SparkFun" deviceset="STAND-OFF" device=""/>
 <part name="RADIO-HEADER" library="SparkFun" deviceset="M05X2" device="PTH"/>
-<part name="SD_CARD-HEADER" library="SparkFun" deviceset="AVR_SPI_PRG_6" device="PTH"/>
+<part name="U$1" library="group10" deviceset="MICROSD" device=""/>
+<part name="R3" library="SparkFun" deviceset="RESISTOR" device="0603-RES" value="10K"/>
 </parts>
 <sheets>
 <sheet>
@@ -2739,7 +2802,6 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <instance part="GND10" gate="1" x="-81.28" y="58.42" rot="R270"/>
 <instance part="C3" gate="G$1" x="-66.04" y="76.2" rot="R90"/>
 <instance part="C4" gate="G$1" x="-66.04" y="58.42" rot="R90"/>
-<instance part="GND11" gate="1" x="-111.76" y="6.35"/>
 <instance part="C1" gate="G$1" x="-139.7" y="-38.1" rot="R180"/>
 <instance part="GND12" gate="1" x="-139.7" y="-48.26"/>
 <instance part="C2" gate="G$1" x="-149.86" y="-25.4" rot="R270"/>
@@ -2753,7 +2815,6 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <instance part="GND16" gate="1" x="49.53" y="-7.62"/>
 <instance part="ACHOT" gate="1" x="-77.47" y="-2.54"/>
 <instance part="ACNEU" gate="1" x="-48.26" y="-24.13" rot="R180"/>
-<instance part="GND" gate="1" x="-120.65" y="10.16"/>
 <instance part="ACOUT" gate="1" x="-93.98" y="-22.86" rot="R180"/>
 <instance part="ISP_HEADER" gate="G$1" x="-119.38" y="66.04"/>
 <instance part="MT2201" gate="1" x="-48.26" y="-10.16" rot="MR180"/>
@@ -2768,8 +2829,8 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <instance part="C8" gate="G$1" x="17.78" y="-15.24" rot="R180"/>
 <instance part="GND4" gate="1" x="17.78" y="-25.4"/>
 <instance part="GND15" gate="1" x="7.62" y="-25.4"/>
-<instance part="C9" gate="G$1" x="-43.18" y="106.68"/>
-<instance part="GND17" gate="1" x="-43.18" y="96.52"/>
+<instance part="C9" gate="G$1" x="-33.02" y="109.22"/>
+<instance part="GND17" gate="1" x="-33.02" y="99.06"/>
 <instance part="PWR" gate="G$1" x="-48.26" y="22.86" rot="R90"/>
 <instance part="R5" gate="G$1" x="-35.56" y="22.86"/>
 <instance part="GND18" gate="1" x="-25.4" y="22.86" rot="R90"/>
@@ -2778,7 +2839,8 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <instance part="JP3" gate="G$1" x="-116.84" y="-50.8"/>
 <instance part="JP4" gate="G$1" x="-113.03" y="-50.8"/>
 <instance part="RADIO-HEADER" gate="G$1" x="43.18" y="33.02"/>
-<instance part="SD_CARD-HEADER" gate="G$1" x="-119.38" y="93.98"/>
+<instance part="U$1" gate="G$1" x="66.04" y="76.2" rot="R270"/>
+<instance part="R3" gate="G$1" x="83.82" y="93.98"/>
 </instances>
 <busses>
 </busses>
@@ -2876,15 +2938,9 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <wire x1="17.78" y1="-20.32" x2="17.78" y2="-22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="GND" gate="1" pin="P"/>
-<wire x1="-111.76" y1="10.16" x2="-118.11" y2="10.16" width="0.1524" layer="91"/>
-<pinref part="GND11" gate="1" pin="GND"/>
-<wire x1="-111.76" y1="8.89" x2="-111.76" y2="10.16" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="GND17" gate="1" pin="GND"/>
 <pinref part="C9" gate="G$1" pin="2"/>
-<wire x1="-43.18" y1="99.06" x2="-43.18" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="-33.02" y1="101.6" x2="-33.02" y2="106.68" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="-27.94" y1="22.86" x2="-30.48" y2="22.86" width="0.1524" layer="91"/>
@@ -2897,9 +2953,9 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <label x="27.94" y="27.94" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SD_CARD-HEADER" gate="G$1" pin="6"/>
-<wire x1="-109.22" y1="91.44" x2="-101.6" y2="91.44" width="0.1524" layer="91"/>
-<label x="-106.426" y="91.694" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="GND"/>
+<wire x1="73.66" y1="71.12" x2="104.14" y2="71.12" width="0.1524" layer="91"/>
+<label x="81.28" y="71.12" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MOSI" class="0">
@@ -2919,9 +2975,9 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <label x="55.88" y="33.02" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SD_CARD-HEADER" gate="G$1" pin="4"/>
-<wire x1="-109.22" y1="93.98" x2="-96.52" y2="93.98" width="0.1524" layer="91"/>
-<label x="-103.632" y="94.234" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="MOSI"/>
+<wire x1="73.66" y1="78.74" x2="104.14" y2="78.74" width="0.1524" layer="91"/>
+<label x="81.28" y="78.74" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="3.3V" class="0">
@@ -2966,8 +3022,8 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </segment>
 <segment>
 <pinref part="C9" gate="G$1" pin="1"/>
-<wire x1="-43.18" y1="111.76" x2="-43.18" y2="115.57" width="0.1524" layer="91"/>
-<label x="-44.45" y="109.22" size="1.778" layer="95" rot="R90"/>
+<wire x1="-33.02" y1="114.3" x2="-33.02" y2="118.11" width="0.1524" layer="91"/>
+<label x="-34.29" y="111.76" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
 <wire x1="-50.8" y1="22.86" x2="-66.04" y2="22.86" width="0.1524" layer="91"/>
@@ -2982,9 +3038,14 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <label x="26.67" y="38.1" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SD_CARD-HEADER" gate="G$1" pin="2"/>
-<wire x1="-109.22" y1="96.52" x2="-101.6" y2="96.52" width="0.1524" layer="91"/>
-<label x="-105.918" y="97.282" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="VDD"/>
+<wire x1="73.66" y1="76.2" x2="104.14" y2="76.2" width="0.1524" layer="91"/>
+<label x="81.28" y="76.2" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="88.9" y1="93.98" x2="99.06" y2="93.98" width="0.1524" layer="91"/>
+<label x="91.694" y="94.742" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PC0" class="0">
@@ -3081,21 +3142,26 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <label x="55.88" y="38.1" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SD_CARD-HEADER" gate="G$1" pin="3"/>
-<wire x1="-127" y1="93.98" x2="-139.7" y2="93.98" width="0.1524" layer="91"/>
-<label x="-137.414" y="94.234" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="CLK"/>
+<wire x1="73.66" y1="73.66" x2="104.14" y2="73.66" width="0.1524" layer="91"/>
+<label x="81.28" y="73.66" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CS-SD_CARD" class="0">
 <segment>
-<pinref part="U$2" gate="G$1" pin="PD1"/>
-<wire x1="-7.62" y1="101.6" x2="-7.62" y2="116.84" width="0.1524" layer="91"/>
-<label x="-8.128" y="106.299" size="1.778" layer="95" rot="R90"/>
+<pinref part="U$1" gate="G$1" pin="/CS"/>
+<wire x1="73.66" y1="81.28" x2="104.14" y2="81.28" width="0.1524" layer="91"/>
+<label x="81.28" y="81.28" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SD_CARD-HEADER" gate="G$1" pin="5"/>
-<wire x1="-127" y1="91.44" x2="-139.7" y2="91.44" width="0.1524" layer="91"/>
-<label x="-137.414" y="91.694" size="1.778" layer="95"/>
+<pinref part="R3" gate="G$1" pin="1"/>
+<wire x1="78.74" y1="93.98" x2="60.96" y2="93.98" width="0.1524" layer="91"/>
+<label x="61.468" y="94.996" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="PD3"/>
+<wire x1="-25.4" y1="88.9" x2="-43.18" y2="88.9" width="0.1524" layer="91"/>
+<label x="-41.91" y="89.916" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LED-OUT" class="0">
@@ -3155,9 +3221,9 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <label x="55.88" y="35.56" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SD_CARD-HEADER" gate="G$1" pin="1"/>
-<wire x1="-127" y1="96.52" x2="-139.7" y2="96.52" width="0.1524" layer="91"/>
-<label x="-137.668" y="97.028" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="MISO"/>
+<wire x1="73.66" y1="68.58" x2="104.14" y2="68.58" width="0.1524" layer="91"/>
+<label x="81.28" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -3213,26 +3279,26 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </net>
 <net name="RADIO-RST" class="0">
 <segment>
-<pinref part="U$2" gate="G$1" pin="PD0"/>
-<wire x1="-5.08" y1="101.6" x2="-5.08" y2="116.84" width="0.1524" layer="91"/>
-<label x="-5.334" y="104.648" size="1.778" layer="95" rot="R90"/>
-</segment>
-<segment>
 <pinref part="RADIO-HEADER" gate="G$1" pin="7"/>
 <wire x1="35.56" y1="30.48" x2="22.86" y2="30.48" width="0.1524" layer="91"/>
 <label x="21.59" y="30.48" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="PD6"/>
+<wire x1="-7.62" y1="58.42" x2="-7.62" y2="40.64" width="0.1524" layer="91"/>
+<label x="-8.128" y="41.402" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="SLP_TR" class="0">
-<segment>
-<pinref part="U$2" gate="G$1" pin="PD2"/>
-<wire x1="-10.16" y1="101.6" x2="-10.16" y2="111.76" width="0.1524" layer="91"/>
-<label x="-10.922" y="105.791" size="1.778" layer="95" rot="R90"/>
-</segment>
 <segment>
 <pinref part="RADIO-HEADER" gate="G$1" pin="3"/>
 <wire x1="35.56" y1="35.56" x2="22.86" y2="35.56" width="0.1524" layer="91"/>
 <label x="26.67" y="35.56" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="PB0"/>
+<wire x1="-2.54" y1="58.42" x2="-2.54" y2="43.18" width="0.1524" layer="91"/>
+<label x="-3.048" y="43.18" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="IRQ" class="0">
@@ -3249,14 +3315,14 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 </net>
 <net name="DIG2" class="0">
 <segment>
-<pinref part="U$2" gate="G$1" pin="PD3"/>
-<wire x1="-25.4" y1="88.9" x2="-39.37" y2="88.9" width="0.1524" layer="91"/>
-<label x="-36.195" y="89.662" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="RADIO-HEADER" gate="G$1" pin="5"/>
 <wire x1="35.56" y1="33.02" x2="22.86" y2="33.02" width="0.1524" layer="91"/>
 <label x="26.67" y="33.02" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="PD7"/>
+<wire x1="-5.08" y1="58.42" x2="-5.08" y2="40.64" width="0.1524" layer="91"/>
+<label x="-5.588" y="41.656" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="N$7" class="0">
@@ -3283,20 +3349,6 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <wire x1="-68.58" y1="-22.86" x2="-68.58" y2="-30.48" width="0.1524" layer="91"/>
 <wire x1="-68.58" y1="-30.48" x2="-101.6" y2="-30.48" width="0.1524" layer="91"/>
 <junction x="-101.6" y="-30.48"/>
-</segment>
-</net>
-<net name="CLKM" class="0">
-<segment>
-<pinref part="U$2" gate="G$1" pin="PD6"/>
-<wire x1="-7.62" y1="58.42" x2="-7.62" y2="40.64" width="0.1524" layer="91"/>
-<label x="-5.08" y="43.18" size="1.778" layer="95" rot="R90"/>
-</segment>
-</net>
-<net name="N/C" class="0">
-<segment>
-<pinref part="U$2" gate="G$1" pin="PD4"/>
-<wire x1="-25.4" y1="86.36" x2="-40.64" y2="86.36" width="0.1524" layer="91"/>
-<label x="-38.227" y="86.741" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$9" class="0">
@@ -3344,9 +3396,8 @@ Source: http://www.fairchildsemi.com/ds/MB/MB6S.pdf</description>
 <approved hash="108,1,-43.18,22.86,N$7,,,,,"/>
 <approved hash="115,1,-74.8207,-1.36737,ACHOT,,,,,"/>
 <approved hash="115,1,-50.9093,-25.3026,ACNEU,,,,,"/>
-<approved hash="115,1,-118.389,11.3326,GND,,,,,"/>
-<approved hash="115,1,-90.2793,-31.6526,ACOUT,,,,,"/>
-<approved hash="115,1,-38.6525,-7.50147,MT2201-NEEDSCHMATIC,,,,,"/>
+<approved hash="115,1,-96.6293,-24.0326,ACOUT,,,,,"/>
+<approved hash="115,1,-46.99,-10.2785,MT2201,,,,,"/>
 <approved hash="115,1,31.3405,-48.26,C6,,,,,"/>
 <approved hash="115,1,5.94051,-16.51,C7,,,,,"/>
 <approved hash="115,1,16.1005,-16.51,C8,,,,,"/>
