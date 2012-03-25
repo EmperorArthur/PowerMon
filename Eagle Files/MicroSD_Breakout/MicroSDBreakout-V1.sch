@@ -760,12 +760,12 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0.508" drill="0">
+<class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
 <parts>
 <part name="U$1" library="group10" deviceset="MICROSD" device=""/>
-<part name="ISP_HEADER" library="SparkFun" deviceset="AVR_SPI_PRG_6" device="PTH"/>
+<part name="SPI" library="SparkFun" deviceset="AVR_SPI_PRG_6" device="PTH" value=""/>
 <part name="R3" library="SparkFun" deviceset="RESISTOR" device="0603-RES" value="10K"/>
 </parts>
 <sheets>
@@ -774,7 +774,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </plain>
 <instances>
 <instance part="U$1" gate="G$1" x="63.5" y="53.34" rot="R270"/>
-<instance part="ISP_HEADER" gate="G$1" x="86.36" y="27.94"/>
+<instance part="SPI" gate="G$1" x="86.36" y="27.94"/>
 <instance part="R3" gate="G$1" x="91.44" y="7.62"/>
 </instances>
 <busses>
@@ -782,7 +782,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <nets>
 <net name="GND" class="0">
 <segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="6"/>
+<pinref part="SPI" gate="G$1" pin="6"/>
 <wire x1="96.52" y1="25.4" x2="104.14" y2="25.4" width="0.1524" layer="91"/>
 <label x="99.314" y="25.654" size="1.778" layer="95"/>
 </segment>
@@ -794,7 +794,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </net>
 <net name="MOSI" class="0">
 <segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="4"/>
+<pinref part="SPI" gate="G$1" pin="4"/>
 <wire x1="96.52" y1="27.94" x2="109.22" y2="27.94" width="0.1524" layer="91"/>
 <label x="102.108" y="28.194" size="1.778" layer="95"/>
 </segment>
@@ -806,7 +806,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </net>
 <net name="3.3V" class="0">
 <segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="2"/>
+<pinref part="SPI" gate="G$1" pin="2"/>
 <wire x1="96.52" y1="30.48" x2="104.14" y2="30.48" width="0.1524" layer="91"/>
 <label x="99.822" y="31.242" size="1.778" layer="95"/>
 </segment>
@@ -823,7 +823,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </net>
 <net name="SCK" class="0">
 <segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="3"/>
+<pinref part="SPI" gate="G$1" pin="3"/>
 <wire x1="78.74" y1="27.94" x2="66.04" y2="27.94" width="0.1524" layer="91"/>
 <label x="68.326" y="28.194" size="1.778" layer="95"/>
 </segment>
@@ -835,7 +835,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </net>
 <net name="MISO" class="0">
 <segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="1"/>
+<pinref part="SPI" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="30.48" x2="66.04" y2="30.48" width="0.1524" layer="91"/>
 <label x="68.072" y="30.988" size="1.778" layer="95"/>
 </segment>
@@ -847,7 +847,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </net>
 <net name="CS" class="0">
 <segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="5"/>
+<pinref part="SPI" gate="G$1" pin="5"/>
 <wire x1="78.74" y1="25.4" x2="66.04" y2="25.4" width="0.1524" layer="91"/>
 <label x="68.326" y="25.654" size="1.778" layer="95"/>
 </segment>
@@ -865,9 +865,6 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 </nets>
 </sheet>
 </sheets>
-<errors>
-<approved hash="115,1,104.817,50.6053,JP1,,,,,"/>
-</errors>
 </schematic>
 </drawing>
 </eagle>

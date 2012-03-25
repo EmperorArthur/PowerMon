@@ -2493,13 +2493,6 @@ Standard 10-pin dual row 0.1" header. Commonly used with AVR-ISP. Use with Spark
 <wire x1="97.79" y1="8.89" x2="114.3" y2="8.89" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="CLKM" class="0">
-<segment>
-<pinref part="U$3" gate="G$1" pin="CLKM"/>
-<wire x1="-29" y1="19" x2="-45.72" y2="19.05" width="0.1524" layer="91"/>
-<label x="-33.02" y="21.59" size="1.778" layer="95" rot="R180"/>
-</segment>
-</net>
 </nets>
 </sheet>
 </sheets>
