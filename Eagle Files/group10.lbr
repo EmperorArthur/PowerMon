@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
+<grid distance="0.05" unitdist="inch" unit="mil" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -565,44 +565,45 @@ chip, wave soldering</description>
 <rectangle x1="-1.2" y1="0.85" x2="-0.7" y2="1.5" layer="51"/>
 </package>
 <package name="32QN2(RADIO)">
-<smd name="DIG3" x="-2.29" y="1.59" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="DIG4" x="-2.29" y="1.12" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="AVSS" x="-2.29" y="0.65" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="RFP" x="-2.29" y="0.18" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="RFN" x="-2.29" y="-0.29" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="AVSS2" x="-2.29" y="-0.76" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="DVSS" x="-2.29" y="-1.23" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="/RST" x="-2.29" y="-1.7" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="DIG1" x="-1.62" y="-2.44" dx="0.23" dy="0.4" layer="1" rot="R180"/>
-<smd name="DIG2" x="-1.15" y="-2.44" dx="0.23" dy="0.4" layer="1" rot="R180"/>
-<smd name="SLP_TR" x="-0.68" y="-2.44" dx="0.23" dy="0.4" layer="1"/>
-<smd name="DVSS2" x="-0.21" y="-2.44" dx="0.23" dy="0.4" layer="1"/>
-<smd name="DVDD" x="0.26" y="-2.44" dx="0.23" dy="0.4" layer="1" rot="R180"/>
-<smd name="DVDD2" x="0.73" y="-2.44" dx="0.23" dy="0.4" layer="1" rot="R180"/>
-<smd name="DEVDD" x="1.2" y="-2.44" dx="0.23" dy="0.4" layer="1" rot="R180"/>
-<smd name="DVSS3" x="1.67" y="-2.44" dx="0.23" dy="0.4" layer="1" rot="R180"/>
-<smd name="IRQ" x="2.26" y="1.6" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="/SEL" x="2.26" y="1.13" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="MOSI" x="2.26" y="0.66" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="DVSS5" x="2.26" y="0.19" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="MISO" x="2.26" y="-0.28" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="SCLK" x="2.26" y="-0.75" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="DVSS4" x="2.26" y="-1.22" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="CLKM" x="2.26" y="-1.69" dx="0.23" dy="0.4" layer="1" rot="R90"/>
-<smd name="AVSS6" x="-1.62" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<smd name="AVSS5" x="-1.15" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<smd name="AVSS4" x="-0.68" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<smd name="AVDD" x="-0.21" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<smd name="EVDD" x="0.26" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<smd name="AVSS3" x="0.73" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<smd name="XTAL1" x="1.2" y="2.23" dx="0.23" dy="0.4" layer="1"/>
-<smd name="XTAL2" x="1.67" y="2.23" dx="0.23" dy="0.4" layer="1"/>
+<smd name="DIG3" x="-2.4" y="1.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="DIG4" x="-2.4" y="1.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="AVSS" x="-2.4" y="0.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="RFP" x="-2.4" y="0.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="RFN" x="-2.4" y="-0.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="AVSS2" x="-2.4" y="-0.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="DVSS" x="-2.4" y="-1.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="/RST" x="-2.4" y="-1.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="DIG1" x="-1.75" y="-2.4" dx="0.25" dy="0.7" layer="1" rot="R180"/>
+<smd name="DIG2" x="-1.25" y="-2.4" dx="0.25" dy="0.7" layer="1" rot="R180"/>
+<smd name="SLP_TR" x="-0.75" y="-2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="DVSS2" x="-0.25" y="-2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="DVDD" x="0.25" y="-2.4" dx="0.25" dy="0.7" layer="1" rot="R180"/>
+<smd name="DVDD2" x="0.75" y="-2.4" dx="0.25" dy="0.7" layer="1" rot="R180"/>
+<smd name="DEVDD" x="1.25" y="-2.4" dx="0.25" dy="0.7" layer="1" rot="R180"/>
+<smd name="DVSS3" x="1.75" y="-2.4" dx="0.25" dy="0.7" layer="1" rot="R180"/>
+<smd name="IRQ" x="2.4" y="1.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="/SEL" x="2.4" y="1.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="MOSI" x="2.4" y="0.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="DVSS5" x="2.4" y="0.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="MISO" x="2.4" y="-0.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="SCLK" x="2.4" y="-0.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="DVSS4" x="2.4" y="-1.25" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="CLKM" x="2.4" y="-1.75" dx="0.25" dy="0.7" layer="1" rot="R90"/>
+<smd name="AVSS6" x="-1.75" y="2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="AVSS5" x="-1.25" y="2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="AVSS4" x="-0.75" y="2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="AVDD" x="-0.25" y="2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="EVDD" x="0.25" y="2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="AVSS3" x="0.75" y="2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="XTAL1" x="1.25" y="2.4" dx="0.25" dy="0.7" layer="1"/>
+<smd name="XTAL2" x="1.75" y="2.4" dx="0.25" dy="0.7" layer="1"/>
 <wire x1="-2.5" y1="2.5" x2="2.5" y2="2.5" width="0.127" layer="21"/>
 <wire x1="2.5" y1="2.5" x2="2.5" y2="-2.5" width="0.127" layer="21"/>
 <wire x1="2.5" y1="-2.5" x2="-2.5" y2="-2.5" width="0.127" layer="21"/>
 <wire x1="-2.5" y1="-2.5" x2="-2.5" y2="2.5" width="0.127" layer="21"/>
 <text x="2.18" y="2.28" size="0.254" layer="25">AT86RF231</text>
-<smd name="GND" x="0" y="-0.1" dx="3.3" dy="3.3" layer="1"/>
+<smd name="GND" x="0" y="0" dx="3.45" dy="3.45" layer="1"/>
+<circle x="-2.2" y="2.2" radius="0.14141875" width="0.127" layer="21"/>
 </package>
 <package name="WE-BAL">
 <wire x1="-0.625" y1="1" x2="0.625" y2="1" width="0.127" layer="21"/>
@@ -770,6 +771,31 @@ chip, wave soldering</description>
 <rectangle x1="-2.2286" y1="3.556" x2="-1.7714" y2="4.5466" layer="51"/>
 <rectangle x1="-3.0286" y1="3.556" x2="-2.5714" y2="4.5466" layer="51"/>
 </package>
+<package name="PTH-6MM">
+<description>&lt;b&gt;THROUGH-HOLE PAD&lt;/b&gt;</description>
+<wire x1="3.81" y1="6.35" x2="6.35" y2="6.35" width="0.254" layer="21"/>
+<wire x1="6.35" y1="6.35" x2="6.35" y2="3.81" width="0.254" layer="21"/>
+<pad name="1" x="0" y="0" drill="6" diameter="11.43" shape="octagon"/>
+<text x="-2.54" y="6.731" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-6.35" y1="3.81" x2="-6.35" y2="6.35" width="0.254" layer="21"/>
+<wire x1="-6.35" y1="6.35" x2="-3.81" y2="6.35" width="0.254" layer="21"/>
+<wire x1="-3.81" y1="-6.35" x2="-6.35" y2="-6.35" width="0.254" layer="21"/>
+<wire x1="-6.35" y1="-6.35" x2="-6.35" y2="-3.81" width="0.254" layer="21"/>
+<wire x1="6.35" y1="-3.81" x2="6.35" y2="-6.35" width="0.254" layer="21"/>
+<wire x1="6.35" y1="-6.35" x2="3.81" y2="-6.35" width="0.254" layer="21"/>
+</package>
+<package name="PTH-3MM">
+<wire x1="1.27" y1="3.81" x2="3.81" y2="3.81" width="0.254" layer="21"/>
+<wire x1="3.81" y1="3.81" x2="3.81" y2="1.27" width="0.254" layer="21"/>
+<pad name="1" x="0" y="0" drill="3" diameter="6.35" shape="octagon"/>
+<text x="-2.54" y="4.191" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-3.81" y1="1.27" x2="-3.81" y2="3.81" width="0.254" layer="21"/>
+<wire x1="-3.81" y1="3.81" x2="-1.27" y2="3.81" width="0.254" layer="21"/>
+<wire x1="-1.27" y1="-3.81" x2="-3.81" y2="-3.81" width="0.254" layer="21"/>
+<wire x1="-3.81" y1="-3.81" x2="-3.81" y2="-1.27" width="0.254" layer="21"/>
+<wire x1="3.81" y1="-1.27" x2="3.81" y2="-3.81" width="0.254" layer="21"/>
+<wire x1="3.81" y1="-3.81" x2="1.27" y2="-3.81" width="0.254" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="ACS712">
@@ -918,43 +944,44 @@ chip, wave soldering</description>
 <pin name="5" x="7.62" y="5.08" visible="pad" length="middle" direction="pas" rot="R180"/>
 </symbol>
 <symbol name="AT86RF231(RADIO)">
-<wire x1="-24" y1="22" x2="-24" y2="-25" width="0.254" layer="94"/>
-<wire x1="-24" y1="-25" x2="24" y2="-25" width="0.254" layer="94"/>
-<wire x1="24" y1="-25" x2="24" y2="22" width="0.254" layer="94"/>
-<wire x1="24" y1="22" x2="-24" y2="22" width="0.254" layer="94"/>
-<pin name="DIG3" x="-29" y="15.254" length="middle"/>
-<pin name="DIG4" x="-29.0508" y="11.4064" length="middle"/>
-<pin name="AVSS" x="-29" y="7.6096" length="middle"/>
-<pin name="RFP" x="-29.0508" y="3.8128" length="middle"/>
-<pin name="RFN" x="-29" y="-1" length="middle"/>
-<pin name="AVSS2" x="-29" y="-5" length="middle"/>
-<pin name="DVSS" x="-29" y="-9" length="middle"/>
-<pin name="/RST" x="-29" y="-14" length="middle"/>
-<pin name="DIG1" x="-19" y="-30" length="middle" rot="R90"/>
-<pin name="DIG2" x="-15" y="-30" length="middle" rot="R90"/>
-<pin name="SLP_TR" x="-11" y="-30" length="middle" rot="R90"/>
-<pin name="DVSS2" x="-7" y="-30" length="middle" rot="R90"/>
-<pin name="DVDD" x="-2" y="-30" length="middle" rot="R90"/>
-<pin name="DVDD2" x="3" y="-30" length="middle" rot="R90"/>
-<pin name="DEVDD" x="8" y="-30" length="middle" rot="R90"/>
-<pin name="DVSS3" x="13" y="-30" length="middle" rot="R90"/>
-<pin name="CLKM" x="29" y="-19" length="middle" rot="R180"/>
-<pin name="DVSS4" x="29" y="-14" length="middle" rot="R180"/>
-<pin name="SCLK" x="29" y="-9" length="middle" rot="R180"/>
-<pin name="MISO" x="29" y="-5" length="middle" rot="R180"/>
-<pin name="DVSS5" x="29" y="-2" length="middle" rot="R180"/>
-<pin name="MOSI" x="29" y="3" length="middle" rot="R180"/>
-<pin name="/SEL" x="29" y="7" length="middle" rot="R180"/>
-<pin name="IRQ" x="29" y="12" length="middle" rot="R180"/>
-<pin name="XTAL2" x="15" y="27" length="middle" rot="R270"/>
-<pin name="XTAL1" x="11" y="27" length="middle" rot="R270"/>
-<pin name="AVSS3" x="7" y="27" length="middle" rot="R270"/>
-<pin name="EVDD" x="3" y="27" length="middle" rot="R270"/>
-<pin name="AVDD" x="-1" y="27" length="middle" rot="R270"/>
-<pin name="AVSS4" x="-5" y="27" length="middle" rot="R270"/>
-<pin name="AVSS5" x="-9" y="27" length="middle" rot="R270"/>
-<pin name="AVSS6" x="-13" y="27" length="middle" rot="R270"/>
+<wire x1="-22.86" y1="22.86" x2="-22.86" y2="-22.86" width="0.254" layer="94"/>
+<wire x1="-22.86" y1="-22.86" x2="22.86" y2="-22.86" width="0.254" layer="94"/>
+<wire x1="22.86" y1="-22.86" x2="22.86" y2="22.86" width="0.254" layer="94"/>
+<wire x1="22.86" y1="22.86" x2="-22.86" y2="22.86" width="0.254" layer="94"/>
+<pin name="DIG3" x="-27.94" y="13.97" length="middle"/>
+<pin name="DIG4" x="-27.94" y="10.16" length="middle"/>
+<pin name="AVSS" x="-27.94" y="6.35" length="middle"/>
+<pin name="RFP" x="-27.94" y="2.54" length="middle"/>
+<pin name="RFN" x="-27.94" y="-2.54" length="middle"/>
+<pin name="AVSS2" x="-27.94" y="-6.35" length="middle"/>
+<pin name="DVSS" x="-27.94" y="-10.16" length="middle"/>
+<pin name="/RST" x="-27.94" y="-13.97" length="middle"/>
+<pin name="DIG1" x="-13.97" y="-27.94" length="middle" rot="R90"/>
+<pin name="DIG2" x="-10.16" y="-27.94" length="middle" rot="R90"/>
+<pin name="SLP_TR" x="-6.35" y="-27.94" length="middle" rot="R90"/>
+<pin name="DVSS2" x="-2.54" y="-27.94" length="middle" rot="R90"/>
+<pin name="DVDD" x="2.54" y="-27.94" length="middle" rot="R90"/>
+<pin name="DVDD2" x="6.35" y="-27.94" length="middle" rot="R90"/>
+<pin name="DEVDD" x="10.16" y="-27.94" length="middle" rot="R90"/>
+<pin name="DVSS3" x="13.97" y="-27.94" length="middle" rot="R90"/>
+<pin name="CLKM" x="27.94" y="-13.97" length="middle" rot="R180"/>
+<pin name="DVSS4" x="27.94" y="-10.16" length="middle" rot="R180"/>
+<pin name="SCLK" x="27.94" y="-6.35" length="middle" rot="R180"/>
+<pin name="MISO" x="27.94" y="-2.54" length="middle" rot="R180"/>
+<pin name="DVSS5" x="27.94" y="2.54" length="middle" rot="R180"/>
+<pin name="MOSI" x="27.94" y="6.35" length="middle" rot="R180"/>
+<pin name="/SEL" x="27.94" y="10.16" length="middle" rot="R180"/>
+<pin name="IRQ" x="27.94" y="13.97" length="middle" rot="R180"/>
+<pin name="XTAL2" x="13.97" y="27.94" length="middle" rot="R270"/>
+<pin name="XTAL1" x="10.16" y="27.94" length="middle" rot="R270"/>
+<pin name="AVSS3" x="6.35" y="27.94" length="middle" rot="R270"/>
+<pin name="EVDD" x="2.54" y="27.94" length="middle" rot="R270"/>
+<pin name="AVDD" x="-2.54" y="27.94" length="middle" rot="R270"/>
+<pin name="AVSS4" x="-6.35" y="27.94" length="middle" rot="R270"/>
+<pin name="AVSS5" x="-10.16" y="27.94" length="middle" rot="R270"/>
+<pin name="AVSS6" x="-13.97" y="27.94" length="middle" rot="R270"/>
 <text x="-31.496" y="23.114" size="1.778" layer="95">AT86RF231</text>
+<pin name="GND" x="0" y="-27.94" length="middle" rot="R90"/>
 </symbol>
 <symbol name="WE-BAL">
 <wire x1="-7.62" y1="10.16" x2="-7.62" y2="-10.16" width="0.254" layer="94"/>
@@ -966,6 +993,13 @@ chip, wave soldering</description>
 <pin name="OUT2" x="-12.7" y="-7.62" visible="pin" length="middle"/>
 <pin name="IN" x="12.7" y="5.08" visible="pin" length="middle" rot="R180"/>
 <pin name="GNDDC" x="12.7" y="-5.08" visible="pin" length="middle" rot="R180"/>
+</symbol>
+<symbol name="PAD">
+<wire x1="-1.016" y1="1.016" x2="1.016" y2="-1.016" width="0.254" layer="94"/>
+<wire x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" width="0.254" layer="94"/>
+<text x="-1.143" y="1.8542" size="1.778" layer="95">&gt;NAME</text>
+<text x="-1.143" y="-3.302" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="P" x="2.54" y="0" visible="off" length="short" direction="pas" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -1175,6 +1209,7 @@ Various standard crystals. Proven footprints. Spark Fun Electronics SKU : COM-00
 <connect gate="G$1" pin="DVSS4" pad="DVSS4"/>
 <connect gate="G$1" pin="DVSS5" pad="DVSS5"/>
 <connect gate="G$1" pin="EVDD" pad="EVDD"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
 <connect gate="G$1" pin="IRQ" pad="IRQ"/>
 <connect gate="G$1" pin="MISO" pad="MISO"/>
 <connect gate="G$1" pin="MOSI" pad="MOSI"/>
@@ -1272,6 +1307,30 @@ ERA</description>
 <connect gate="G$1" pin="PD7" pad="11"/>
 <connect gate="G$1" pin="VCC" pad="6"/>
 <connect gate="G$1" pin="VCC2" pad="4"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="PTH" prefix="PAD" uservalue="yes">
+<description>&lt;b&gt;THROUGH-HOLE PAD&lt;/b&gt;</description>
+<gates>
+<gate name="1" symbol="PAD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="6MM" package="PTH-6MM">
+<connects>
+<connect gate="1" pin="P" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="3MM" package="PTH-3MM">
+<connects>
+<connect gate="1" pin="P" pad="1"/>
 </connects>
 <technologies>
 <technology name=""/>
