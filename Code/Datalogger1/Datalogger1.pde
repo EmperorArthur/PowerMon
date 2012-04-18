@@ -41,10 +41,11 @@
 #define CHIPSELECT 1  	//Use this one for the prototype board
 //#define CHIPSELECT 10  //Use this one for the arduino
 
+
 //Global Variables
 volatile uint16_t ADCResult = 0xFFFF;		//This is the result from my ADC (0xFFFF lets me know the ADC isn't done yet)
 volatile float Vref = 0;				//This is the reference voltage (see associated function for how accurate it is);
-
+File dataFile;								//This is the file on the SD card.
 //Function prototypes
 void ADC_setup();
 uint16_t ADC_read(unsigned char pin);
@@ -220,6 +221,10 @@ void BlinkLED(unsigned long milliseconds,int number){
 //This is me cheating
 #include "C:\Users\Arthur\Documents\CPE496\Code\Datalogger1\power-measurement.c"
 
+measurements Voltage;					//This is the struct that holds our voltage measurements
+measurements Amperage;					//This is the struct that holds our amperage measurements
+
+
 void setup()
 {
   //Set up out inputs and outputs
@@ -247,13 +252,10 @@ void setup()
 
 void loop()
 {
-  // open the file. note that only one file can be open at a time,
-  // so you have to close this one before opening another.
-  File dataFile;
   dataFile = SD.open("datalog.txt", FILE_WRITE);
   
   //File Size check, sanity keeper
-  SizeSafetyCheck(dataFile);
+  //SizeSafetyCheck(dataFile);
   
 
   // if the file is available, write to it:
@@ -278,50 +280,84 @@ void loop()
 	dataFile.print(temperature);
 	*/
 
-    //Measure Voltage
-    VoltageStruct measureVoltage;
-    measureVoltage.DoIt(0);
-    
-    //Measure Amperage
-    AmperageStruct measureAmperage;
-    measureAmperage.DoIt(1);
+		NewMeasurement(0,&Voltage);
+		NewMeasurement(1,&Amperage);
 
+		Measure(&Voltage);
+		Measure(&Amperage);
+
+		dataFile.print(Voltage.average);
+		dataFile.print(" V Average; ");
+		dataFile.print(Voltage.RMS);
+		dataFile.print(" V RMS; ");
+		dataFile.print(Voltage.numSamples);
+		dataFile.print(" samples for V; ");
+		dataFile.print(Voltage.time);
+		dataFile.print(" milliseconds for V; ");
+		dataFile.print(Voltage.totalAverage);
+		dataFile.print(" totalAverage for V; ");
+		dataFile.print(Voltage.totalRMS);
+		dataFile.print(" totalRMS for V; ");
+		
+		dataFile.write('\n');
+		
+		dataFile.print(Amperage.average);
+		dataFile.print(" A Average; ");
+		dataFile.print(Amperage.RMS);
+		dataFile.print(" A RMS; ");
+		dataFile.print(Amperage.numSamples);
+		dataFile.print(" samples for A; ");
+		dataFile.print(Amperage.time);
+		dataFile.print(" milliseconds for A; ");
+		dataFile.print(Amperage.totalAverage);
+		dataFile.print(" totalAverage for A; ");
+		dataFile.print(Amperage.totalRMS);
+		dataFile.print(" totalRMS for A; ");
 	
+		dataFile.write('\n');
+		
+		//Measure Voltage
+    //VoltageStruct measureVoltage;
+    //measureVoltage.DoIt(0);
+	
+    //Measure Amperage
+    //AmperageStruct measureAmperage;
+    //measureAmperage.DoIt(1);
       //Output our data/results
-      dataFile.print(measureVoltage.Voltage);
-      dataFile.print(" V RMS; ");
-      dataFile.print(measureAmperage.Amperage);
-      dataFile.print(" A RMS; ");
-      //dataFile.print(measureAmperage.Amperage*measureVoltage.Voltage);
-      //dataFile.print(" W RMS; ");
-	  dataFile.print(measureVoltage.megaVoltage);
-	  dataFile.print(" megaVolts; ");
-	  dataFile.print(measureAmperage.megaAmperage);
-	  dataFile.print(" megaAmps; ");
-     dataFile.print(measureVoltage.numSamples);
-     dataFile.print(" samples for V; ");
-     dataFile.print(measureAmperage.numSamples);
-     dataFile.print(" samples for A; ");
-     //dataFile.print(measureVoltage.time);
-     //dataFile.print(" microseconds for V; ");
-	 //dataFile.print(" milliseconds for V; ");
-     //dataFile.print(measureAmperage.time);
-     //dataFile.print(" milliseconds for A");
+      // dataFile.print(measureVoltage.Voltage);
+      // dataFile.print(" V RMS; ");
+      // dataFile.print(measureAmperage.Amperage);
+      // dataFile.print(" A RMS; ");
+      // dataFile.print(measureAmperage.Amperage*measureVoltage.Voltage);
+      // dataFile.print(" W RMS; ");
+	  // dataFile.print(measureVoltage.megaVoltage);
+	  // dataFile.print(" megaVolts; ");
+	  // dataFile.print(measureAmperage.megaAmperage);
+	  // dataFile.print(" megaAmps; ");
+     // dataFile.print(measureVoltage.numSamples);
+     // dataFile.print(" samples for V; ");
+     // dataFile.print(measureAmperage.numSamples);
+     // dataFile.print(" samples for A; ");
+     // dataFile.print(measureVoltage.time);
+     // dataFile.print(" microseconds for V; ");
+	 // dataFile.print(" milliseconds for V; ");
+     // dataFile.print(measureAmperage.time);
+     // dataFile.print(" milliseconds for A");
 
       dataFile.write('\n');
       dataFile.flush();
       dataFile.close();
       
       // print to the serial port too:
-      #ifdef TESTSERIALOUT
-        Serial.print(measureVoltage.Voltage);
-        Serial.print(" V RMS; ");
-        Serial.print(measureAmperage.Amperage);
-        Serial.print(" A RMS; ");
-        Serial.print(measureAmperage.Amperage*measureVoltage.Voltage);
-        Serial.print(" W RMS; ");
-        Serial.print("\n");
-      #endif
+      // #ifdef TESTSERIALOUT
+        // Serial.print(measureVoltage.Voltage);
+        // Serial.print(" V RMS; ");
+        // Serial.print(measureAmperage.Amperage);
+        // Serial.print(" A RMS; ");
+        // Serial.print(measureAmperage.Amperage*measureVoltage.Voltage);
+        // Serial.print(" W RMS; ");
+        // Serial.print("\n");
+      // #endif
     
     
     
