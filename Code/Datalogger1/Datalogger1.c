@@ -242,9 +242,10 @@ void loop()
   #endif
 }
 
-void main(){
+int main(){
 	setup();
 	for(;;){
 		loop();
 	}
+	return 0;
 }

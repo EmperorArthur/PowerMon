@@ -33,8 +33,8 @@ ARDUINO_SD_PATH = C:\Users\Arthur\Documents\arduino-1.0\libraries\SD
 # Build tool configuration
 
 CFLAGS=-mmcu=$(MCU) -Wall -DF_CPU=$(F_CPU) -I. -funsigned-char -funsigned-bitfields \
-	-fpack-struct -fshort-enums -fno-strict-aliasing -Os \
-    -I$(ARDUINO_LIBRARY_PATH) -I$(ARDUINO_PIN_PATH) -I$(ARDUINO_SD_PATH)
+	-fpack-struct -fshort-enums -fno-strict-aliasing -Os
+#    -I$(ARDUINO_LIBRARY_PATH) -I$(ARDUINO_PIN_PATH) -I$(ARDUINO_SD_PATH)
 LDFLAGS=-mmcu=$(MCU) 
 
 .PHONY: clean app all fuses
