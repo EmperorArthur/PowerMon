@@ -33,9 +33,6 @@ uint32_t square(uint16_t input){
 	for(uint16_t i =0; i<input;i++){
 		output+=input;
 	}
-	// dataFile.print("\noutput:  ");
-	// dataFile.print(output);
-	// dataFile.print('\n');
 }
 */
 
@@ -52,13 +49,6 @@ void takeMeasurement(struct measurements *ourMeasurement){
 	
 	//Wait untill the conversion is complete
 	ADC_wait_done();
-	
-		//IF the VALUE IS IMPOSSIBLE TELL SOMEONE
-		// if(ADCResult > 1023){
-			// dataFile.print("WARNING:  IMPOSSIBLE VALUE:  ");
-			// dataFile.print(ADCResult);
-			// dataFile.print('\n');
-		// }
 	
 	ourMeasurement->lastADCValue = ADCResult;
 }

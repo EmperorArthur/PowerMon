@@ -3,7 +3,6 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <stdio.h>
 #include "adc.h"
 
 //Set up my A/D Converter
