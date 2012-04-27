@@ -1,5 +1,6 @@
 //Power Measurement functions
 //Copyright Arthur Moore 2012
+#include 'power-measurement.h'
 /*
 struct VoltageStruct{
   double Voltage;        //This will be my final value
@@ -110,18 +111,6 @@ struct AmperageStruct{
   }
 };
 */
-struct measurements{
-	int pin;					//The pin we're measuring
-	uint32_t totalAverage;		//This is the total value used when averaging
-								//(can do this a Max of 4194304 times)
-	uint32_t totalRMS;			//This is the total value used when calculating RMS
-								//(can do this a Max of 4096 times)
-	double average;				//The final average value
-	double RMS;					//The final RMS value
-	uint16_t numSamples;		//Number of samples measured
-	unsigned long time;    		//The time it took me to do all of this
-	uint16_t lastADCValue;		//The last value from the ADC
-};
 
 void NewMeasurement(int inputPin,measurements * ourMeasurement){
 	ourMeasurement->pin = inputPin;
@@ -145,7 +134,7 @@ void NewMeasurement(measurements * ourMeasurement){
 	ourMeasurement->lastADCValue = 0;
 }
 
-//My multiplyer wasn't working, so we're going to try this
+//My multiplyer wasn't working, so we're going to use this instead
 uint32_t square(uint16_t input){
 	uint32_t output = 0;
 	for(uint16_t i =0; i<input;i++){
@@ -189,6 +178,10 @@ void Measure(measurements * ourMeasurement){
 	unsigned long endTime = millis();
     ourMeasurement->time = endTime-startTime;
 	
+	Calculate_Results(ourMeasurement)
+}
+
+void Calculate_Results(measurements * ourMeasurement){
 	//Find the average value
     ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
 	
