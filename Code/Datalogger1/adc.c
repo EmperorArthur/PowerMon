@@ -1,6 +1,10 @@
 //ADC Functions
 //Copyright Arthur Moore 2012
-#include 'adc.h'
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <stdio.h>
+#include "adc.h"
 
 //Set up my A/D Converter
 //Note:  The ADC is on port C, this code just assumes that the whole port is used exclusively by the ADC

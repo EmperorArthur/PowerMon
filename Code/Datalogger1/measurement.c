@@ -1,6 +1,8 @@
 //Power Measurement functions
 //Copyright Arthur Moore 2012
-#include 'power-measurement.h'
+#include "measurement.h"
+#include <math.h>
+#include <arduino.h>	//Needed for the millis() function.
 /*
 struct VoltageStruct{
   double Voltage;        //This will be my final value
@@ -112,18 +114,18 @@ struct AmperageStruct{
 };
 */
 
-void NewMeasurement(int inputPin,measurements * ourMeasurement){
-	ourMeasurement->pin = inputPin;
-	ourMeasurement->totalAverage = 0;
-	ourMeasurement->totalRMS = 0;
-	ourMeasurement->average = 0;
-	ourMeasurement->RMS = 0;
-	ourMeasurement->numSamples = 0;
-	ourMeasurement->time = 0;
-	ourMeasurement->lastADCValue = 0;
+void SetMeasurementPin(uint8_t inputPin, struct measurements *ourMeasurement){
+	if(inputPin <= 7){
+		ourMeasurement->pin = inputPin;
+	}
 }
 
-void NewMeasurement(measurements * ourMeasurement){
+void NewMeasurement(uint8_t inputPin, struct measurements * ourMeasurement){
+	ResetMeasurement(ourMeasurement);
+	SetMeasurementPin(inputPin,ourMeasurement);
+}
+
+void ResetMeasurement(struct measurements * ourMeasurement){
 	ourMeasurement->pin = 0;
 	ourMeasurement->totalAverage = 0;
 	ourMeasurement->totalRMS = 0;
@@ -135,6 +137,7 @@ void NewMeasurement(measurements * ourMeasurement){
 }
 
 //My multiplyer wasn't working, so we're going to use this instead
+/*
 uint32_t square(uint16_t input){
 	uint32_t output = 0;
 	for(uint16_t i =0; i<input;i++){
@@ -144,8 +147,9 @@ uint32_t square(uint16_t input){
 	// dataFile.print(output);
 	// dataFile.print('\n');
 }
+*/
 
-void takeMeasurement(measurements * ourMeasurement){
+void takeMeasurement(struct measurements *ourMeasurement){
 	ADC_start(ourMeasurement->pin);
 	
 	//Do Work While waiting for conversion to finish
@@ -169,19 +173,19 @@ void takeMeasurement(measurements * ourMeasurement){
 	ourMeasurement->lastADCValue = ADCResult;
 }
 
-void Measure(measurements * ourMeasurement){
-	unsigned long startTime = millis();
+void Measure(struct measurements *ourMeasurement){
+	uint32_t startTime = millis();
 	//Sample for 30 milliseconds
     while((millis()-startTime)<30){
 		takeMeasurement(ourMeasurement);
 	}
-	unsigned long endTime = millis();
+	uint32_t endTime = millis();
     ourMeasurement->time = endTime-startTime;
 	
-	Calculate_Results(ourMeasurement)
+	Calculate_Results(ourMeasurement);
 }
 
-void Calculate_Results(measurements * ourMeasurement){
+void Calculate_Results(struct measurements *ourMeasurement){
 	//Find the average value
     ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
 	
