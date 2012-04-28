@@ -1,23 +1,5 @@
-/*
-  SD card datalogger
- 
-  HEAVILY MODIFIED BY GROUP 10
-  WARNING: analogRead and string functions and classes DO NOT WORK.
- 	
- The circuit:
- * analog sensors on analog ins 0, 1, and 2
- * SD card attached to SPI bus as follows:
- ** MOSI - pin 11q
- ** MISO - pin 12
- ** CLK - pin 13
- ** CS - pin 10
- 
- created  24 Nov 2010
- updated 2 Dec 2010
- by Tom Igoe
- 
- 	 
- */
+//Wireless In home Power mOnitoring Datalogger
+//Copyright Arthur Moore 2012
  
  
 //Uncomment this to enable serial output
@@ -57,12 +39,53 @@
 #define SD_CS_DDR DDRD
 #define SD_CS_PORT PORTD
 
-//This is a workaround for printf's inability to print floating point numbers
-long int temp, temph, templ;
-#define ftoi(floating_point_number) temp = floating_point_number*100; temph = temp/100; templ = temp%100;
 
 void BlinkLED(unsigned long milliseconds,int number);
 
+//This is a workaround for printf's inability to print floating point numbers
+long int temp, temph, templ;
+void ftoi(float floating_point_number) {temp = floating_point_number*100; temph = temp/100; templ = temp%100;}
+
+void printU32(uint32_t number){
+	//Max theoretical value of a uint32_t is 4294967295
+	//That's 10 digits, plus a terminator
+	char buf[11];
+	int i = 0;
+	//Put the smallest digit into the buffer and then remove it.
+	while(number > 0){
+		buf[i++] = number%10;
+		number = number/10;
+	}
+	//And then work backwards
+	while(i>0){
+		uart_putchar(buf[--i]+48);
+	}
+	
+}
+
+void printLongInt(long int number){
+	//Max theoretical value of a uint32_t is 4294967295
+	//That's 10 digits, plus a terminator
+	char buf[11];
+	int i = 0;
+	//Put the smallest digit into the buffer and then remove it.
+	while(number > 0){
+		buf[i++] = number%10;
+		number = number/10;
+	}
+	//And then work backwards
+	while(i>0){
+		uart_putchar(buf[--i]+48);
+	}
+	
+}
+
+void printFloat(float number){
+	ftoi(number);
+	printLongInt(temph);
+	uart_putchar('.');
+	printLongInt(templ);
+}
 
 //This lets me store pure strings in flash instead of data.
 #define sprint(string) nprintf(PSTR(string))
@@ -143,7 +166,7 @@ void setup()
 	DDRD |= (1<<PD2);
     uart_setup();
     stdout = &uart_stream;
-  
+	
   //Enable interupts
   sei();
   
@@ -195,6 +218,7 @@ void loop()
 	dataFile.print("Temperature is:  ");
 	dataFile.print(temperature);
 	*/
+
 		NewMeasurement(0,&Voltage);
 		NewMeasurement(1,&Amperage);
 
@@ -202,6 +226,7 @@ void loop()
 		Measure(&Amperage);
 		
 		#ifdef SERIALOUT
+		
 		ftoi(Voltage.average);
 		printf("%li.%li V Average;",temph,templ);
 		ftoi(Voltage.RMS);
@@ -221,8 +246,9 @@ void loop()
 		printf("%li totalAverage for A; ",Amperage.totalAverage);
 		printf("%li totalRMS for A; ",Amperage.totalRMS);
 		sprint("\n\r");
-		#endif
 		
+		#endif
+
 		//Blink the LED to let us know that we're done with a cycle
 		BlinkLED(100,1);
 		
