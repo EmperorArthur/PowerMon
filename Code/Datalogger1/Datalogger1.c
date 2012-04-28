@@ -4,13 +4,6 @@
  
 //Uncomment this to enable serial output
 #define SERIALOUT 1
-//Uncomment this to enable the SD Card
-//#define SDENABLE 1
- 
-//My includes
-#ifdef SDENABLE
-	#include <SD.h>
-#endif
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -101,46 +94,6 @@ static FILE uart_stream = FDEV_SETUP_STREAM(
     _FDEV_SETUP_RW
 );
 
-
-#ifdef SDENABLE
-File dataFile;								//This is the file on the SD card.
-void SD_setup();
-void SizeSafetyCheck(File fileToCheck);
-
-void SD_setup(){
-  #ifdef SERIALOUT
-    sprint("Initializing SD card...\n\r");
-  #endif
-  // make sure that the default chip select pin is set to
-  // output, even if you don't use it:
-  
-  // see if the card is present and can be initialized:
-  if (!SD.begin(CHIPSELECT)) {
-    #ifdef SERIALOUT
-      sprint("Card failed, or not present\n\r");
-    #endif
-	while(1){
-		BlinkLED(50,100);
-	}
-  }else{
-	  #ifdef SERIALOUT
-		sprint("card initialized.\n\r");
-	  #endif
-  }
-}
-
-
-//If the File is near/over 3GB stop, close the file and blink the LED quickly
-void SizeSafetyCheck(File fileToCheck){
-  if(fileToCheck.size() > 24000000000.0){
-	fileToCheck.close();
-    while(1){
-		BlinkLED(50,10);
-    }
-  }
-}
-#endif
-
 //Blink the LED
 //NOTE:  total delay ~= 2 * milliseconds * number
 void BlinkLED(unsigned long milliseconds,int number){
@@ -172,11 +125,6 @@ void setup()
   
   BlinkLED(1000,1);
 
-  //Set up the SD card
-	#ifdef SDENABLE
-	pinMode(10, OUTPUT);        	//Needed for SD Library
-	SD_setup();
-	#endif
   
   //Set upt he ADC
   ADC_setup();
@@ -189,17 +137,6 @@ void setup()
 
 void loop()
 {
-	#ifdef SDENABLE
-  dataFile = SD.open("datalog.txt", FILE_WRITE);
-  
-  //File Size check, sanity keeper
-  //SizeSafetyCheck(dataFile);
-  
-
-  // if the file is available, write to it:
-  if (dataFile) {
-
-	#endif
 	//Print out the Reference voltage our ADC is using
 	//It should be 3.3V
 	#ifdef SERIALOUT
@@ -251,21 +188,6 @@ void loop()
 
 		//Blink the LED to let us know that we're done with a cycle
 		BlinkLED(100,1);
-		
-#ifdef SDENABLE
-      dataFile.flush();
-      dataFile.close();
-  }  
-  // if the file isn't open, pop up an error:
-  else {
-    #ifdef SERIALOUT
-      sprint("error opening datalog.txt\n\r");
-    #endif
-    while(1){
-      BlinkLED(50,100);
-    }
-  }
-  #endif
 }
 
 int main(){
