@@ -57,12 +57,12 @@ void printU32(uint32_t number){
 }
 
 void printLongInt(long int number){
-	//Max theoretical value of a uint32_t is 4294967295
+	//Max theoretical value of a uint32_t is 4294967295 (I'm assuming that's the same for a long int)
 	//That's 10 digits, plus a terminator
 	char buf[11];
 	int i = 0;
 	//Put the smallest digit into the buffer and then remove it.
-	while(number > 0){
+	while(number != 0){
 		buf[i++] = number%10;
 		number = number/10;
 	}
