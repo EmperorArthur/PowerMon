@@ -22,7 +22,6 @@ void ResetMeasurement(struct measurements * ourMeasurement){
 	ourMeasurement->average = 0;
 	ourMeasurement->RMS = 0;
 	ourMeasurement->numSamples = 0;
-	ourMeasurement->time = 0;
 	ourMeasurement->lastADCValue = 0;
 }
 
