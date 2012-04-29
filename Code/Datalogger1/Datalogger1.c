@@ -18,11 +18,12 @@
 #define VCC 3.3
 
 //How many measurements we want
-#define MAX_MEASUREMENTS 1600
+#define MAX_MEASUREMENTS 4086
 volatile uint8_t enable_measurement = 0;
 
 //This set's my Timer0 frequency (Timer1 counts up to 65535)
-#define Sampling_Frequency 1600
+//Empirical evidence has shown that with current code, the max sampling frequency is 4086 HZ
+#define Sampling_Frequency 4086
 #define Prescaler 1
 #define Target_Timer_Count (((F_CPU / Prescaler) / Sampling_Frequency) - 1)
 
@@ -185,7 +186,7 @@ void loop()
 		Calculate_Results(&Voltage);
 		Calculate_Results(&Amperage);
 		#ifdef SERIALOUT
-		/*
+		
 		ftoi(Voltage.average);
 		printf("%li.%.2li V Average;",temph,templ);
 		ftoi(Voltage.RMS);
@@ -205,7 +206,7 @@ void loop()
 		printf("%li totalAverage for A; ",Amperage.totalAverage);
 		printf("%li totalRMS for A; ",Amperage.totalRMS);
 		sprint("\n\r");
-		*/
+		
 		#endif
 
 		//Blink the LED to let us know that we're done with a cycle
