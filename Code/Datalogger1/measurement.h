@@ -26,6 +26,9 @@ struct measurements {
 	uint16_t lastADCValue;		//The last value from the ADC
 };
 
+//If we're measuring something already lock, and don't prevent another measurement
+static volatile uint8_t measurement_lock = 0;
+
 void NewMeasurement(uint8_t inputPin, struct measurements *ourMeasurement);
 void ResetMeasurement(struct measurements *ourMeasurement);
 void SetMeasurementPin(uint8_t inputPin, struct measurements *ourMeasurement);
@@ -39,7 +42,7 @@ void takeMeasurement(struct measurements *ourMeasurement);
 //Calculate the final values from the measurements gathered
 void Calculate_Results(struct measurements *ourMeasurement);
 
-//This measures for 30 milliseconds and calculates the results
-void Measure(struct measurements *ourMeasurement);
+//This takes <number_of_measurements> as fast as possible and calculates the results
+void Measure(uint16_t number_of_measurements,struct measurements *ourMeasurement);
 
 #endif

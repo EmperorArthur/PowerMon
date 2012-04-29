@@ -37,34 +37,34 @@ uint32_t square(uint16_t input){
 */
 
 void takeMeasurement(struct measurements *ourMeasurement){
-	ADC_start(ourMeasurement->pin);
-	
-	//Do Work While waiting for conversion to finish
-	ourMeasurement->numSamples++;			//Increment my number of samples
-	
-	uint16_t lastADCValue = ourMeasurement->lastADCValue;
-	ourMeasurement->totalAverage += lastADCValue;
-	//ourMeasurement->totalRMS += square(lastADCValue);
-	ourMeasurement->totalRMS += lastADCValue*lastADCValue;
-	
-	//Wait untill the conversion is complete
-	ADC_wait_done();
-	
-	ourMeasurement->lastADCValue = ADCResult;
+	//Lock to prevent more than one measurement messing with the ADC
+	if(!measurement_lock){
+		measurement_lock = 1;
+		
+		ADC_start(ourMeasurement->pin);
+		
+		//Do Work While waiting for conversion to finish
+		ourMeasurement->numSamples++;			//Increment my number of samples
+		
+		uint16_t lastADCValue = ourMeasurement->lastADCValue;
+		ourMeasurement->totalAverage += lastADCValue;
+		//ourMeasurement->totalRMS += square(lastADCValue);
+		ourMeasurement->totalRMS += lastADCValue*lastADCValue;
+		
+		//Wait untill the conversion is complete
+		ADC_wait_done();
+		
+		ourMeasurement->lastADCValue = ADCResult;
+		
+		measurement_lock = 0;
+	}else{
+		for(;;){;}
+	}
 }
 
-void Measure(struct measurements *ourMeasurement){
-	/*
-	uint32_t startTime = millis();
-	//Sample for 30 milliseconds
-    while((millis()-startTime)<30){
-		takeMeasurement(ourMeasurement);
-	}
-	uint32_t endTime = millis();
-    ourMeasurement->time = endTime-startTime;
-	*/
+void Measure(uint16_t number_of_measurements,struct measurements *ourMeasurement){
 	int i;
-	for(i=0;i<300;i++){
+	for(i=0;i<number_of_measurements;i++){
 		takeMeasurement(ourMeasurement);
 	}
 	Calculate_Results(ourMeasurement);
