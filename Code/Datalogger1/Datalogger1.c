@@ -192,7 +192,6 @@ void loop()
 		ftoi(Voltage.RMS);
 		printf("%li.%.2li V RMS;",temph,templ);
 		printf("%i samples for V; ",Voltage.numSamples);
-		printf("%li milliseconds for V; ",Voltage.time);
 		printf("%li totalAverage for V; ",Voltage.totalAverage);
 		printf("%li totalRMS for V; ",Voltage.totalRMS);
 		sprint("\n\r");
@@ -202,7 +201,6 @@ void loop()
 		ftoi(Amperage.RMS);
 		printf("%li.%.2li A RMS;",temph,templ);
 		printf("%i samples for A; ",Amperage.numSamples);
-		printf("%li milliseconds for A; ",Amperage.time);
 		printf("%li totalAverage for A; ",Amperage.totalAverage);
 		printf("%li totalRMS for A; ",Amperage.totalRMS);
 		sprint("\n\r");

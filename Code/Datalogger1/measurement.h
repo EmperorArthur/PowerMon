@@ -22,7 +22,6 @@ struct measurements {
 	double average;				//The final average value
 	double RMS;					//The final RMS value
 	uint16_t numSamples;		//Number of samples measured
-	uint32_t time;    			//The time it took me to do all of this
 	uint16_t lastADCValue;		//The last value from the ADC
 };
 
