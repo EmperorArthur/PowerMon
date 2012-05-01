@@ -1,12 +1,6 @@
 # Load configuration for the part, library options, etc.
 
-MCU = atmega328
-F_CPU = 16000000UL
-AVRDUDE_PART = m328p
-PROGRAMMER = arduino
-EEPROM_CONFIG_OFFSET = 0x00
-COMPORT = com8
-ISPSPEED = 57600
+include config.mk
 
 # Fuse bits
 
@@ -24,7 +18,7 @@ AVRDUDE = avrdude
 # Application configuration
 
 APP = Datalogger1
-APP_OBJECTS = Datalogger1.o adc.o measurement.o uart.o
+APP_OBJECTS = Datalogger1.o adc.o measurement.o uart.o radio/radio-uart.o radio/hal_avr.o radio/tat.o radio/errcode.o
 
 ARDUINO_LIBRARY_PATH = C:\Users\Arthur\Documents\arduino-1.0\hardware\arduino\cores\arduino
 ARDUINO_PIN_PATH = C:\Users\Arthur\Documents\arduino-1.0\hardware\arduino\variants\standard
@@ -33,7 +27,8 @@ ARDUINO_SD_PATH = C:\Users\Arthur\Documents\arduino-1.0\libraries\SD
 # Build tool configuration
 
 CFLAGS=-mmcu=$(MCU) -Wall -DF_CPU=$(F_CPU) -I. -funsigned-char -funsigned-bitfields \
-	-fpack-struct -fshort-enums -fno-strict-aliasing -Os
+	-fpack-struct -fshort-enums -fno-strict-aliasing -Os \
+	-DEEPROM_CONFIG_OFFSET=$(EEPROM_CONFIG_OFFSET)
 #    -I$(ARDUINO_LIBRARY_PATH) -I$(ARDUINO_PIN_PATH) -I$(ARDUINO_SD_PATH)
 LDFLAGS=-mmcu=$(MCU) 
 
@@ -52,7 +47,7 @@ $(APP).elf: $(APP_OBJECTS)
 	$(CC) $(LDFLAGS) -o $@ $^
 	$(AVR_SIZE) -C --mcu=$(MCU) $@
 
-%.o: %.c $(RADIO_LIBRARY)
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 install: $(APP).hex
@@ -63,7 +58,7 @@ fuses:
 		-U hfuse:w:$(HFUSE):m 
 
 clean:
-	rm -rf include/radio
-	rm -f lib/*.a
+	rm -rf radio/*.o
+	rm -f radio/*.a
 	rm -f *.o
 	rm -f $(APP).{hex,elf}
