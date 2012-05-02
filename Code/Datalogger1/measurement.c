@@ -2,6 +2,7 @@
 //Copyright Arthur Moore 2012
 #include "measurement.h"
 #include <math.h>
+#include <stdlib.h>
 //#include <arduino.h>	//Needed for the millis() function.
 
 void SetMeasurementPin(uint8_t inputPin, struct measurements *ourMeasurement){
@@ -61,6 +62,35 @@ void takeMeasurement(struct measurements *ourMeasurement){
 	}
 }
 
+void takeAMeasurement(struct measurements *ourMeasurement){
+	//Lock to prevent more than one measurement messing with the ADC
+	if(!measurement_lock){
+		measurement_lock = 1;
+		
+		ADC_start(ourMeasurement->pin);
+		
+		//Do Work While waiting for conversion to finish
+		ourMeasurement->numSamples++;			//Increment my number of samples
+		long int lastADCValue = ourMeasurement->lastADCValue;
+		
+		//Our Hall effect sensor has a 0 value of 503, so we're going off that.
+		lastADCValue = labs(lastADCValue - 504);
+		
+		ourMeasurement->totalAverage += lastADCValue;
+		//ourMeasurement->totalRMS += square(lastADCValue);
+		ourMeasurement->totalRMS += lastADCValue*lastADCValue;
+		
+		//Wait untill the conversion is complete
+		ADC_wait_done();
+		
+		ourMeasurement->lastADCValue = ADCResult;
+		
+		measurement_lock = 0;
+	}else{
+		for(;;){;}
+	}
+}
+
 void Measure(uint16_t number_of_measurements,struct measurements *ourMeasurement){
 	int i;
 	for(i=0;i<number_of_measurements;i++){
@@ -76,4 +106,28 @@ void Calculate_Results(struct measurements *ourMeasurement){
 	//Find the RMS value
 	ourMeasurement->RMS = ourMeasurement->totalRMS/ourMeasurement->numSamples;
     ourMeasurement->RMS = sqrt(ourMeasurement->RMS);
+}
+
+void Calculate_A_Result(struct measurements *ourMeasurement){
+	//Find the average value
+    ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
+	
+	//And turn it into a usable number
+	ourMeasurement->average = ourMeasurement->average * 0.068;
+	
+	//Find the RMS value
+	//ourMeasurement->RMS = ourMeasurement->totalRMS/ourMeasurement->numSamples;
+    //ourMeasurement->RMS = sqrt(ourMeasurement->RMS);
+}
+
+void Calculate_V_Result(struct measurements *ourMeasurement){
+	//Find the average value
+    ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
+	
+	//And turn it into a usable number
+	ourMeasurement->average = ((3.3*(ourMeasurement->average)/1024)*4.74+1)*23-20;
+	
+	//Find the RMS value
+	//ourMeasurement->RMS = ourMeasurement->totalRMS/ourMeasurement->numSamples;
+    //ourMeasurement->RMS = sqrt(ourMeasurement->RMS);
 }

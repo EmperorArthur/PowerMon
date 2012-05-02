@@ -37,9 +37,15 @@ void SetMeasurementPin(uint8_t inputPin, struct measurements *ourMeasurement);
 
 //Take a single measurement
 void takeMeasurement(struct measurements *ourMeasurement);
+//Take a single Amperage measurement
+void takeAMeasurement(struct measurements *ourMeasurement);
 
 //Calculate the final values from the measurements gathered
 void Calculate_Results(struct measurements *ourMeasurement);
+//Specialized for Amperage
+void Calculate_A_Result(struct measurements *ourMeasurement);
+//And for Voltage
+void Calculate_V_Result(struct measurements *ourMeasurement);
 
 //This takes <number_of_measurements> as fast as possible and calculates the results
 void Measure(uint16_t number_of_measurements,struct measurements *ourMeasurement);

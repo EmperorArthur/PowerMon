@@ -170,9 +170,9 @@ void setup()
   
   //BlinkLED(1000,1);
   #ifdef SERIALOUT
-	printf("%li\n\r",Target_Timer_Count);
-	printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,Sampling_Frequency);
-	sprint("Initalization Completed\n\r");
+	//printf("%li\n\r",Target_Timer_Count);
+	//printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,Sampling_Frequency);
+	//sprint("Initalization Completed\n\r");
   #endif
   //Enable interupts
   sei();
@@ -184,9 +184,9 @@ void loop()
 	//Print out the Reference voltage our ADC is using
 	//It should be 3.3V
 	#ifdef SERIALOUT
-	ftoi(Get_Vref());
-	printf("Reference Voltage is:  %li.%.2li\n\r",temph,templ);
-	sprint("Begining Sampling Sequence\n\r");
+	//ftoi(Get_Vref());
+	//printf("Reference Voltage is:  %li.%.2li\n\r",temph,templ);
+	//sprint("Begining Sampling Sequence\n\r");
 	//sradio_transmit();
 	#endif
 	/*
@@ -209,74 +209,36 @@ void loop()
 		//Measure(MAX_MEASUREMENTS,&Amperage);
 		enable_measurement = 1;
 		while(enable_measurement){;}
-		sprint("Sampling Completed\n\r");
-		Calculate_Results(&Voltage);
-		Calculate_Results(&Amperage);
+		//sprint("Sampling Completed\n\r");
+		Calculate_V_Result(&Voltage);
+		Calculate_A_Result(&Amperage);
 		#ifdef SERIALOUT
-		ftoi(Voltage.average);
-		printf("%li.%.2li V Average;",temph,templ);
-		ftoi(Voltage.RMS);
-		printf("%li.%.2li V RMS;",temph,templ);
-		printf("%i samples for V; ",Voltage.numSamples);
-		printf("%li totalAverage for V; ",Voltage.totalAverage);
-		printf("%li totalRMS for V; ",Voltage.totalRMS);
-		sprint("\n\r");
-		radio_transmit();
-		ftoi(Voltage.average);
-		printf("%li.%.2li V Average;",temph,templ);
-		ftoi(Voltage.RMS);
-		printf("%li.%.2li V RMS;",temph,templ);
-		printf("%i samples for V; ",Voltage.numSamples);
-		printf("%li totalAverage for V; ",Voltage.totalAverage);
-		printf("%li totalRMS for V; ",Voltage.totalRMS);
-		sprint("\n\r");
-		radio_transmit();
+		// ftoi(Voltage.average);
+		// printf("%li.%.2li V Average;",temph,templ);
+		// ftoi(Voltage.RMS);
+		// printf("%li.%.2li V RMS;",temph,templ);
+		// printf("%i samples for V; ",Voltage.numSamples);
+		// printf("%li totalAverage for V; ",Voltage.totalAverage);
+		// printf("%li totalRMS for V; ",Voltage.totalRMS);
+		// sprint("\n\r");
+		// radio_transmit();
+		// ftoi(Amperage.average);
+		// printf("%li.%.2li A Average;",temph,templ);
+		// ftoi(Amperage.RMS);
+		// printf("%li.%.2li A RMS;",temph,templ);
+		// printf("%i samples for A; ",Amperage.numSamples);
+		// printf("%li totalAverage for A; ",Amperage.totalAverage);
+		// printf("%li totalRMS for A; ",Amperage.totalRMS);
+		// sprint("\n\r");
 		
+		ftoi(Voltage.average);
+		printf("%li.%.2li V;",temph,templ);
 		ftoi(Amperage.average);
-		printf("%li.%.2li A Average;",temph,templ);
-		ftoi(Amperage.RMS);
-		printf("%li.%.2li A RMS;",temph,templ);
-		printf("%i samples for A; ",Amperage.numSamples);
-		printf("%li totalAverage for A; ",Amperage.totalAverage);
-		printf("%li totalRMS for A; ",Amperage.totalRMS);
-		sprint("\n\r");
+		printf("%li.%.2li A;",temph,templ);
+		ftoi(Voltage.average * Amperage.average);
+		printf("%li.%.2li W;",temph,templ);
 		radio_transmit();
-		ftoi(Amperage.average);
-		printf("%li.%.2li A Average;",temph,templ);
-		ftoi(Amperage.RMS);
-		printf("%li.%.2li A RMS;",temph,templ);
-		printf("%i samples for A; ",Amperage.numSamples);
-		printf("%li totalAverage for A; ",Amperage.totalAverage);
-		printf("%li totalRMS for A; ",Amperage.totalRMS);
-		sprint("\n\r");
-		radio_transmit();
-		ftoi(Amperage.average);
-		printf("%li.%.2li A Average;",temph,templ);
-		ftoi(Amperage.RMS);
-		printf("%li.%.2li A RMS;",temph,templ);
-		printf("%i samples for A; ",Amperage.numSamples);
-		printf("%li totalAverage for A; ",Amperage.totalAverage);
-		printf("%li totalRMS for A; ",Amperage.totalRMS);
-		sprint("\n\r");
-		radio_transmit();
-		ftoi(Amperage.average);
-		printf("%li.%.2li A Average;",temph,templ);
-		ftoi(Amperage.RMS);
-		printf("%li.%.2li A RMS;",temph,templ);
-		printf("%i samples for A; ",Amperage.numSamples);
-		printf("%li totalAverage for A; ",Amperage.totalAverage);
-		printf("%li totalRMS for A; ",Amperage.totalRMS);
-		sprint("\n\r");
-		radio_transmit();
-		ftoi(Amperage.average);
-		printf("%li.%.2li A Average;",temph,templ);
-		ftoi(Amperage.RMS);
-		printf("%li.%.2li A RMS;",temph,templ);
-		printf("%i samples for A; ",Amperage.numSamples);
-		printf("%li totalAverage for A; ",Amperage.totalAverage);
-		printf("%li totalRMS for A; ",Amperage.totalRMS);
-		sprint("\n\r");
-		radio_transmit();
+
 		//for(;;){;}	//BLOCK (FOR RADIO DEBUG ONLY)
 		#endif
 		//Blink the LED to let us know that we're done with a cycle
@@ -300,7 +262,7 @@ ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
 	if(enable_measurement){
 		if(Voltage.numSamples < MAX_MEASUREMENTS){
 			takeMeasurement(&Voltage);
-			takeMeasurement(&Amperage);
+			takeAMeasurement(&Amperage);
 		} else {
 			enable_measurement = 0;
 		}
@@ -319,7 +281,7 @@ ISR(BADISR_vect){
 
 int main(){
 	setup();
-	sprint("setup is now done.  Running Loop.\n\r");
+	//sprint("setup is now done.  Running Loop.\n\r");
 	for(;;){
 		loop();
 	}
