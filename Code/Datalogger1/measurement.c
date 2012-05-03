@@ -122,6 +122,6 @@ void Calculate_V_Result(struct measurements *ourMeasurement){
     ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
 	
 	//And turn it into a usable number
-	ourMeasurement->average = ((3.3*(ourMeasurement->average)/1024)*4.74+1)*23-20;
+	ourMeasurement->average = ((VCC*(ourMeasurement->average)/1024)*4.74+1)*23-20;
 	
 }

@@ -13,6 +13,9 @@
 #include <stdint.h>
 #include "adc.h"
 
+//This is the expected voltage my chip is operating at in Volts (it may be different than Vref)
+#define VCC 3.3
+
 struct measurements {
 	uint8_t pin;				//The pin we're measuring
 	uint32_t totalAverage;		//This is the total value used when averaging

@@ -9,6 +9,21 @@
 //Uncomment this to enable aditional debugging output
 //#define DEBUGOUT 1
 
+// The pin my status indicator LED is on
+#define LEDPIN PD5
+#define LEDDDR DDRD
+#define LEDPORT PORTD
+
+//How many measurements we want
+#define MAX_MEASUREMENTS 300
+
+
+//This set's my Timer0 frequency (Timer1 counts up to 65535)
+//Empirical evidence has shown that with current code, the max sampling frequency is 4086 HZ
+#define Sampling_Frequency 3000
+#define Prescaler 1
+#define Target_Timer_Count (((F_CPU / Prescaler) / Sampling_Frequency) - 1)
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -22,29 +37,8 @@
 #endif
 #endif
 
-//This si the expected voltage my chip is operating at in Volts (it may be different than Vref)
-#define VCC 3.3
 
-//How many measurements we want
-#define MAX_MEASUREMENTS 3000
 volatile uint8_t enable_measurement = 0;
-
-//This set's my Timer0 frequency (Timer1 counts up to 65535)
-//Empirical evidence has shown that with current code, the max sampling frequency is 4086 HZ
-#define Sampling_Frequency 3000
-#define Prescaler 1
-#define Target_Timer_Count (((F_CPU / Prescaler) / Sampling_Frequency) - 1)
-
-
-// The pin my status indicator LED is on
-//#define LEDPIN 5
-#define LEDPIN PD5
-#define LEDDDR DDRD
-#define LEDPORT PORTD
-
-
-
-void BlinkLED(unsigned long milliseconds,int number);
 
 void timer_setup(){
 	#if Target_Timer_Count > 65535
@@ -182,15 +176,11 @@ void loop()
 		//Measure(MAX_MEASUREMENTS,&Amperage);
 		enable_measurement = 1;
 		while(enable_measurement){;}
-		#ifdef SERIALOUT
-		#ifdef DEBUGOUT
-		sprint("Sampling Completed\n\r");
-		#endif
-		#endif
 		Calculate_V_Result(&Voltage);
 		Calculate_A_Result(&Amperage);
 		#ifdef SERIALOUT
 		#ifdef DEBUGOUT
+		sprint("Sampling Completed\n\r");
 		ftoi(Voltage.average);
 		printf("%li.%.2li V Average;",temph,templ);
 		ftoi(Voltage.RMS);
@@ -210,14 +200,17 @@ void loop()
 		sprint("\n\r");
 		#endif
 		
-		ftoi(Voltage.average);
-		printf("%li.%.2li V;",temph,templ);
 		ftoi(Amperage.average);
-		printf("%li.%.2li A;",temph,templ);
+		printf("%li.%.2liA; ",temph,templ);
+		ftoi(Voltage.average);
+		printf("%li.%.2liV; ",temph,templ);
 		ftoi(Voltage.average * Amperage.average);
-		printf("%li.%.2li W;",temph,templ);
+		printf("%li.%.2liW;;",temph,templ);
+		#ifdef RADIOOUT
 		radio_transmit();
-
+		#else
+		sprint("\n\r");
+		#endif
 		#endif
 		//Toggle the LED to let us know that we're done with a cycle
 		BlinkLED(100,1);
