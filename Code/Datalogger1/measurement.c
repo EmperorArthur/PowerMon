@@ -115,9 +115,6 @@ void Calculate_A_Result(struct measurements *ourMeasurement){
 	//And turn it into a usable number
 	ourMeasurement->average = ourMeasurement->average * 0.068;
 	
-	//Find the RMS value
-	//ourMeasurement->RMS = ourMeasurement->totalRMS/ourMeasurement->numSamples;
-    //ourMeasurement->RMS = sqrt(ourMeasurement->RMS);
 }
 
 void Calculate_V_Result(struct measurements *ourMeasurement){
@@ -127,7 +124,4 @@ void Calculate_V_Result(struct measurements *ourMeasurement){
 	//And turn it into a usable number
 	ourMeasurement->average = ((3.3*(ourMeasurement->average)/1024)*4.74+1)*23-20;
 	
-	//Find the RMS value
-	//ourMeasurement->RMS = ourMeasurement->totalRMS/ourMeasurement->numSamples;
-    //ourMeasurement->RMS = sqrt(ourMeasurement->RMS);
 }

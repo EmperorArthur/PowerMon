@@ -2,8 +2,12 @@
 //Copyright Arthur Moore 2012
  
  
-//Uncomment this to enable serial output
+//Uncomment this to enable serial/radio output
 #define SERIALOUT 1
+//Uncomment this to send to the radio as well as/instead of the serial interface
+#define RADIOOUT 1
+//Uncomment this to enable aditional debugging output
+//#define DEBUGOUT 1
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -11,9 +15,12 @@
 #include <avr/pgmspace.h>
 #include "adc.h"
 #include "measurement.h"
+#ifdef SERIALOUT
 #include "uart.h"
+#ifdef RADIOOUT
 #include "radio/radio-uart.h"
-
+#endif
+#endif
 
 //This si the expected voltage my chip is operating at in Volts (it may be different than Vref)
 #define VCC 3.3
@@ -44,11 +51,15 @@ void timer_setup(){
 		#error Target_Timer_Count is too large
 	#endif
 	#if Prescaler == 1
-		TCCR1B = _BV(CS10);			//Set our Prescaler to 1
+		TCCR1B = _BV(CS10);						//Set our Prescaler to 1
 	#elif Prescaler == 8
-		TCCR1B = _BV(CS11);			//Set our Prescaler to 8
+		TCCR1B = _BV(CS11);						//Set our Prescaler to 8
 	#elif Prescaler == 64
 		TCCR1B = _BV(CS10) | _BV(CS11);			//Set our Prescaler to 64
+	#elif Prescaler == 256
+		TCCR1B = _BV(CS12)						//Set our Prescaler to 256
+	#elif Prescaler == 1024
+		TCCR1B = _BV(CS10) | _BV(CS12);			//Set our Prescaler to 1024
 	#else
 		#error Prescaler value is incorrect
 	#endif
@@ -64,69 +75,34 @@ void timer_setup(){
 long int temp, temph, templ;
 void ftoi(float floating_point_number) {temp = floating_point_number*100; temph = temp/100; templ = temp%100;}
 
-void printU32(uint32_t number){
-	//Max theoretical value of a uint32_t is 4294967295
-	//That's 10 digits, plus a terminator
-	char buf[11];
-	int i = 0;
-	//Put the smallest digit into the buffer and then remove it.
-	while(number > 0){
-		buf[i++] = number%10;
-		number = number/10;
-	}
-	//And then work backwards
-	while(i>0){
-//		uart_putchar(buf[--i]+48);
-		radio_putchar(buf[--i]+48);
-	}
-	
-}
-
-void printLongInt(long int number){
-	//Max theoretical value of a uint32_t is 4294967295
-	//That's 10 digits, plus a terminator
-	char buf[11];
-	int i = 0;
-	//Put the smallest digit into the buffer and then remove it.
-	while(number != 0){
-		buf[i++] = number%10;
-		number = number/10;
-	}
-	//And then work backwards
-	while(i>0){
-//		uart_putchar(buf[--i]+48);
-		radio_putchar(buf[--i]+48);
-	}
-	
-}
-
-//This doesn't work right.  It prints both 2.60 and 2.06 as 2.6!!!!!!
-void printFloat(float number){
-	ftoi(number);
-	printLongInt(temph);
-//	uart_putchar('.');
-//	radio_putchar('.');
-	printLongInt(templ);
-}
-
 //This lets me store pure strings in flash instead of data.
 #define sprint(string) nprintf(PSTR(string))
 void nprintf (PGM_P s) {
         char c;
         while ((c = pgm_read_byte(s++)) != 0){
+			#ifdef SERIALOUT
 			uart_putchar(c);
+			#endif
+			#ifdef RADIOOUT
 			radio_putchar(c);
+			#endif
 		}
+		#ifdef RADIOOUT
 		radio_transmit();
+		#endif
 }
 
+#ifdef SERIALOUT
 static FILE uart_stream = FDEV_SETUP_STREAM(
-//    uart_putchar_f,
+	#ifdef RADIOOUT
 	radio_putchar_f,
+	#else
+    uart_putchar_f,
+	#endif
     uart_getchar_f,
     _FDEV_SETUP_RW
 );
-
+#endif
 //Blink the LED
 //NOTE:  total delay ~= milliseconds * number
 //			if <number> is odd, then the LED ends up toggled
@@ -153,30 +129,37 @@ void setup()
 	LEDDDR |= _BV(LEDPIN);\
 	
 	// UART
+	#ifdef SERIALOUT
 	DDRD |= (1<<PD1);
 	DDRD |= (1<<PD2);
 	uart_setup();
+	#ifdef RADIOOUT
 	radio_setup();
+	#endif
 	stdout = &uart_stream;
+	#endif
 	
-	
+
+	//Set upt he ADC
+	ADC_setup();
+	//Start timer1
 	timer_setup();
   
 	BlinkLED(1000,1);
 
   
-  //Set upt he ADC
-	ADC_setup();
   
   //BlinkLED(1000,1);
-  #ifdef SERIALOUT
-	//printf("%li\n\r",Target_Timer_Count);
-	//printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,Sampling_Frequency);
-	//sprint("Initalization Completed\n\r");
-  #endif
-  //Enable interupts
+	#ifdef SERIALOUT
+	#ifdef DEBUGOUT
+	printf("%li\n\r",Target_Timer_Count);
+	printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,Sampling_Frequency);
+	sprint("Initalization Completed\n\r");
+	radio_transmit();
+	#endif
+	#endif
+  //Enable interupts (mainly the timer, and ADC interupts)
   sei();
-  //radio_transmit();
 }
 
 void loop()
@@ -184,23 +167,13 @@ void loop()
 	//Print out the Reference voltage our ADC is using
 	//It should be 3.3V
 	#ifdef SERIALOUT
-	//ftoi(Get_Vref());
-	//printf("Reference Voltage is:  %li.%.2li\n\r",temph,templ);
-	//sprint("Begining Sampling Sequence\n\r");
-	//sradio_transmit();
+	#ifdef DEBUGOUT
+	ftoi(Get_Vref());
+	printf("Reference Voltage is:  %li.%.2li\n\r",temph,templ);
+	sprint("Begining Sampling Sequence\n\r");
+	radio_transmit();
 	#endif
-	/*
-	//read from the temperature sensor (This is a good way to check if our ADC is working)
-	ADMUX  = _BV(REFS0) | _BV(REFS1);		//Set our reference Voltage to internal 1.1V for the temperature sensor to work right
-	//int temperature = ADC_read(8);
-	//This is the version using interupts
-	ADC_start(8);
-	ADC_wait_done();
-	int temperature = ADCResult;
-
-	dataFile.print("Temperature is:  ");
-	dataFile.print(temperature);
-	*/
+	#endif
 
 		NewMeasurement(0,&Voltage);
 		NewMeasurement(1,&Amperage);
@@ -209,27 +182,33 @@ void loop()
 		//Measure(MAX_MEASUREMENTS,&Amperage);
 		enable_measurement = 1;
 		while(enable_measurement){;}
-		//sprint("Sampling Completed\n\r");
+		#ifdef SERIALOUT
+		#ifdef DEBUGOUT
+		sprint("Sampling Completed\n\r");
+		#endif
+		#endif
 		Calculate_V_Result(&Voltage);
 		Calculate_A_Result(&Amperage);
 		#ifdef SERIALOUT
-		// ftoi(Voltage.average);
-		// printf("%li.%.2li V Average;",temph,templ);
-		// ftoi(Voltage.RMS);
-		// printf("%li.%.2li V RMS;",temph,templ);
-		// printf("%i samples for V; ",Voltage.numSamples);
-		// printf("%li totalAverage for V; ",Voltage.totalAverage);
-		// printf("%li totalRMS for V; ",Voltage.totalRMS);
-		// sprint("\n\r");
-		// radio_transmit();
-		// ftoi(Amperage.average);
-		// printf("%li.%.2li A Average;",temph,templ);
-		// ftoi(Amperage.RMS);
-		// printf("%li.%.2li A RMS;",temph,templ);
-		// printf("%i samples for A; ",Amperage.numSamples);
-		// printf("%li totalAverage for A; ",Amperage.totalAverage);
-		// printf("%li totalRMS for A; ",Amperage.totalRMS);
-		// sprint("\n\r");
+		#ifdef DEBUGOUT
+		ftoi(Voltage.average);
+		printf("%li.%.2li V Average;",temph,templ);
+		ftoi(Voltage.RMS);
+		printf("%li.%.2li V RMS;",temph,templ);
+		printf("%i samples for V; ",Voltage.numSamples);
+		printf("%li totalAverage for V; ",Voltage.totalAverage);
+		printf("%li totalRMS for V; ",Voltage.totalRMS);
+		sprint("\n\r");
+		radio_transmit();
+		ftoi(Amperage.average);
+		printf("%li.%.2li A Average;",temph,templ);
+		ftoi(Amperage.RMS);
+		printf("%li.%.2li A RMS;",temph,templ);
+		printf("%i samples for A; ",Amperage.numSamples);
+		printf("%li totalAverage for A; ",Amperage.totalAverage);
+		printf("%li totalRMS for A; ",Amperage.totalRMS);
+		sprint("\n\r");
+		#endif
 		
 		ftoi(Voltage.average);
 		printf("%li.%.2li V;",temph,templ);
@@ -239,9 +218,8 @@ void loop()
 		printf("%li.%.2li W;",temph,templ);
 		radio_transmit();
 
-		//for(;;){;}	//BLOCK (FOR RADIO DEBUG ONLY)
 		#endif
-		//Blink the LED to let us know that we're done with a cycle
+		//Toggle the LED to let us know that we're done with a cycle
 		BlinkLED(100,1);
 }
 //This is triggered by my timer
@@ -249,7 +227,7 @@ void loop()
 ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
 	//sprint(".");
 	//If we're sampling too fast, stop and tell the user.
-	//Warning:  Sometimes this still doesn't catch it, and the takeMeasurement functions themselves do and block.
+	//Warning:  Sometimes this still doesn't catch it, and the takeMeasurement functions themselves do and block/hang forever
 	if(measurement_lock){
 		TCCR1B = 0;
 		for(;;){
@@ -273,7 +251,7 @@ ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
 ISR(BADISR_vect){
 	cli();
 	for(;;){
-		//sprint("Warning:  Uncaught Interupt Detected!!!");
+		sprint("Warning:  Uncaught Interupt Detected!!!");
 		BlinkLED(100,20);
 		_delay_ms(1000);
 	}
@@ -281,7 +259,6 @@ ISR(BADISR_vect){
 
 int main(){
 	setup();
-	//sprint("setup is now done.  Running Loop.\n\r");
 	for(;;){
 		loop();
 	}
