@@ -20,9 +20,9 @@
 
 //This set's my Timer0 frequency (Timer1 counts up to 65535)
 //Empirical evidence has shown that with current code, the max sampling frequency is 4086 HZ
-#define Sampling_Frequency 1500
-#define Prescaler 1
-#define Target_Timer_Count (((F_CPU / Prescaler) / Sampling_Frequency) - 1)
+#define SAMPLING_FREQUENCY 1500
+#define PRESCALER 1
+#define TARGET_TIMER_COUNT (((F_CPU / PRESCALER) / SAMPLING_FREQUENCY) - 1)
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -41,25 +41,25 @@
 volatile uint8_t enable_measurement = 0;
 
 void timer_setup(){
-	#if Target_Timer_Count > 65535
-		#error Target_Timer_Count is too large
+	#if TARGET_TIMER_COUNT > 65535
+		#error TARGET_TIMER_COUNT is too large
 	#endif
-	#if Prescaler == 1
+	#if PRESCALER == 1
 		TCCR1B = _BV(CS10);						//Set our Prescaler to 1
-	#elif Prescaler == 8
+	#elif PRESCALER == 8
 		TCCR1B = _BV(CS11);						//Set our Prescaler to 8
-	#elif Prescaler == 64
+	#elif PRESCALER == 64
 		TCCR1B = _BV(CS10) | _BV(CS11);			//Set our Prescaler to 64
-	#elif Prescaler == 256
+	#elif PRESCALER == 256
 		TCCR1B = _BV(CS12)						//Set our Prescaler to 256
-	#elif Prescaler == 1024
+	#elif PRESCALER == 1024
 		TCCR1B = _BV(CS10) | _BV(CS12);			//Set our Prescaler to 1024
 	#else
 		#error Prescaler value is incorrect
 	#endif
 	
 		
-	OCR1A = Target_Timer_Count;	//Timer counts up to this value
+	OCR1A = TARGET_TIMER_COUNT;	//Timer counts up to this value
 	TCCR1B |= _BV(WGM12);		//Count up to the value in OCR1A
 	TIMSK1 = _BV(OCIE1A);		//Enable timer interrupt A
 
@@ -196,7 +196,7 @@ void setup()
 	#endif
 	
 
-	//Set upt he ADC
+	//Set up the ADC
 	ADC_setup();
 	//Start timer1
 	timer_setup();
@@ -207,8 +207,8 @@ void setup()
   //BlinkLED(1000,1);
 	#ifdef SERIALOUT
 	#ifdef DEBUGOUT
-	printf("%li\n\r",Target_Timer_Count);
-	printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,Sampling_Frequency);
+	printf("%li\n\r",TARGET_TIMER_COUNT);
+	printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,SAMPLING_FREQUENCY);
 	sprint("Initalization Completed\n\r");
 	#ifdef RADIOOUT
 	radio_transmit();
@@ -299,7 +299,7 @@ ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
 	if(measurement_lock){
 		TCCR1B = 0;
 		for(;;){
-			printf("Warning:  Sampling frequency <%i> too fast",Sampling_Frequency);
+			printf("Warning:  Sampling frequency <%i> too fast",SAMPLING_FREQUENCY);
 			sprint("!!!");
 			BlinkLED(100,20);
 			_delay_ms(1000);
