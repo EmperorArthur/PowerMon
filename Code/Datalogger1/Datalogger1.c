@@ -80,6 +80,19 @@ void SpaceToZero(char* str,int length){
 	}
 }
 
+//This prints out a c string
+void cprint(char * str){
+	int i;
+	for(i=0;str[i] != '\0';i++){
+		#ifdef SERIALOUT
+		uart_putchar(str[i]);
+		#endif
+		#ifdef RADIOOUT
+		radio_putchar(str[i]);
+		#endif
+	}
+}
+
 //This lets me store pure strings in flash instead of data.
 #define sprint(string) nprintf(PSTR(string))
 void nprintf (PGM_P s) {
@@ -229,14 +242,17 @@ void loop()
 		#endif
 		dtostrf(Amperage.average,5,2,buffer);
 		SpaceToZero(buffer,8);
-		printf("A=%s&",buffer);
+		sprint("A=");
+		cprint(buffer);
 		dtostrf(Voltage.average,6,2,buffer);
 		SpaceToZero(buffer,8);
-		printf("V=%s&",buffer);
+		sprint("&V=");
+		cprint(buffer);
 		dtostrf(Voltage.average * Amperage.average,7,2,buffer);
 		SpaceToZero(buffer,8);
-		printf("W=%s;",buffer);
-		sprint("\n\r");
+		sprint("&W=");
+		cprint(buffer);
+		sprint(";\n\r");
 		#ifdef RADIOOUT
 		radio_transmit();
 		#endif
