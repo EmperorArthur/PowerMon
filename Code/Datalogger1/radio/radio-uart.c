@@ -90,7 +90,7 @@ uint8_t radio_recieve(){
 	return 0;
 }
 
-void radio_setup() {
+int radio_setup() {
     uint8_t ret;
 
     //Configure PinB1 as an input.
@@ -100,9 +100,9 @@ void radio_setup() {
     ret = local_radio_init();
     if(ret != SUCCESS) {
         err_blinkout(ret);
-        for(;;);
+		return ret;
     }
-
+	
 	//Enable the LED Outs on the Radio
 	uint8_t temp = hal_register_read(TRX_CTRL_1) | PA_EXT_EN;
 	hal_register_write(TRX_CTRL_1,temp);
@@ -110,6 +110,7 @@ void radio_setup() {
 	radio_position = 0;
 	
     radio_led_off();
+	return ret;
 }
 
 //These are stripped down/stolen functions from the radio library

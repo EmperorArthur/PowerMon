@@ -14,7 +14,7 @@ void radio_putchar(char c);
 uint8_t radio_recieve();
 void radio_transmit();
 uint8_t send(uint8_t buf[],uint8_t length);
-void radio_setup();
+int radio_setup();
 void send_data( uint8_t frame_length, uint8_t *frame);
 tat_status_t local_tat_set_trx_state( uint8_t new_state );
 int local_radio_init();

@@ -168,16 +168,30 @@ struct measurements Amperage;					//This is the struct that holds our amperage m
 void setup()
 {
   //Set up out inputs and outputs
-	LEDDDR |= _BV(LEDPIN);\
+	LEDDDR |= _BV(LEDPIN);
 	
 	// UART
 	#ifdef SERIALOUT
 	DDRD |= (1<<PD1);
 	DDRD |= (1<<PD2);
 	uart_setup();
-	#ifdef RADIOOUT
-	radio_setup();
+	#ifdef DEBUGOUT
+	sprint("UART initalized.  Initalizing Radio.\n\r");
 	#endif
+	#endif
+	#ifdef RADIOOUT
+	int radio_failed = radio_setup();
+	if(radio_failed){
+		sprint("ERROR:  Radio initalization FAILED!!!!\n\r");
+        for(;;);
+	} else {
+		#ifdef DEBUGOUT
+		sprint("Radio initalized.  Begining final setup.\n\r");
+		radio_transmit();
+		#endif
+	}
+	#endif
+	#if defined(SERIALOUT) || defined(RADIOOUT)
 	stdout = &uart_stream;
 	#endif
 	
@@ -190,14 +204,15 @@ void setup()
 	BlinkLED(1000,1);
 
   
-  
   //BlinkLED(1000,1);
 	#ifdef SERIALOUT
 	#ifdef DEBUGOUT
 	printf("%li\n\r",Target_Timer_Count);
 	printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,Sampling_Frequency);
 	sprint("Initalization Completed\n\r");
+	#ifdef RADIOOUT
 	radio_transmit();
+	#endif
 	#endif
 	#endif
   //Enable interupts (mainly the timer, and ADC interupts)
@@ -213,7 +228,9 @@ void loop()
 	ftoi(Get_Vref());
 	printf("Reference Voltage is:  %li.%.2li\n\r",temph,templ);
 	sprint("Begining Sampling Sequence\n\r");
+	#ifdef RADIOOUT
 	radio_transmit();
+	#endif
 	#endif
 	#endif
 
@@ -237,7 +254,9 @@ void loop()
 		printf("%li totalAverage for V; ",Voltage.totalAverage);
 		printf("%li totalRMS for V; ",Voltage.totalRMS);
 		sprint("\n\r");
+		#ifdef RADIOOUT
 		radio_transmit();
+		#endif
 		ftoi(Amperage.average);
 		printf("%li.%.2li A Average;",temph,templ);
 		ftoi(Amperage.RMS);
