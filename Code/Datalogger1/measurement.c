@@ -49,7 +49,7 @@ void takeMeasurement(struct measurements *ourMeasurement){
 		uint16_t lastADCValue = ourMeasurement->lastADCValue;
 		ourMeasurement->totalAverage += lastADCValue;
 		//ourMeasurement->totalRMS += square(lastADCValue);
-		ourMeasurement->totalRMS += lastADCValue*lastADCValue;
+		//ourMeasurement->totalRMS += lastADCValue*lastADCValue;
 		
 		//Wait untill the conversion is complete
 		ADC_wait_done();
@@ -74,11 +74,11 @@ void takeAMeasurement(struct measurements *ourMeasurement){
 		long int lastADCValue = ourMeasurement->lastADCValue;
 		
 		//Our Hall effect sensor has a 0 value of 503, so we're going off that.
-		lastADCValue = labs(lastADCValue - 504);
+		lastADCValue = labs(lastADCValue - 507);
 		
 		ourMeasurement->totalAverage += lastADCValue;
 		//ourMeasurement->totalRMS += square(lastADCValue);
-		ourMeasurement->totalRMS += lastADCValue*lastADCValue;
+		//ourMeasurement->totalRMS += lastADCValue*lastADCValue;
 		
 		//Wait untill the conversion is complete
 		ADC_wait_done();
@@ -113,7 +113,10 @@ void Calculate_A_Result(struct measurements *ourMeasurement){
     ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
 	
 	//And turn it into a usable number
-	ourMeasurement->average = ourMeasurement->average * 0.068;
+	//0.068 came from real world testing
+	//ourMeasurement->average = ourMeasurement->average * 0.068;
+	//512 divisions for 20A
+	ourMeasurement->average = 20*(ourMeasurement->average)/512;
 	
 }
 
@@ -122,6 +125,10 @@ void Calculate_V_Result(struct measurements *ourMeasurement){
     ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
 	
 	//And turn it into a usable number
-	ourMeasurement->average = ((VCC*(ourMeasurement->average)/1024)*4.74+1)*23-20;
+	//4.74 is the resistor divider
+	//+1 is the diode bridge
+	//23 is the transformer
+	//20 is a constant to make real world values match theoretical ones
+	ourMeasurement->average = ((4.74*VCC*(ourMeasurement->average)/1024)+1)*23-20;
 	
 }
