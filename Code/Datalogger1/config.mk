@@ -15,7 +15,14 @@ LFUSE=0xFF
 
 # Location of the radio library source tree
 
-RADIO_LIBRARY_SRC = ../../
+RADIO_LIBRARY_SRC = ../AVR-Lib-AT86RF230/avrradio
+
+# Default radio options (if 'make setaddr' is invoked with no options)
+
+CHANNEL ?= 21
+PAN ?= 0x8842
+ADDR ?= 0x0001
+
 
 # LED configuration
 

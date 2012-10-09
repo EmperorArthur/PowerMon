@@ -57,6 +57,11 @@ fuses:
 	$(AVRDUDE) -p $(AVRDUDE_PART) -c $(PROGRAMMER) -P $(COMPORT) -b $(ISPSPEED) -e -U lfuse:w:$(LFUSE):m \
 		-U hfuse:w:$(HFUSE):m 
 
+setaddr:
+	$(RADIO_LIBRARY_SRC)/tools/gen_eeprom.py eeprom.bin $(CHANNEL) $(PAN) $(ADDR)
+	hexdump eeprom.bin
+	$(AVRDUDE) -p $(AVRDUDE_PART) -c $(PROGRAMMER) -P $(COMPORT) -b $(ISPSPEED) -e -U eeprom:w:eeprom.bin:r
+
 clean:
 	rm -rf radio/*.o
 	rm -f radio/*.a
