@@ -32,6 +32,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <avr/pgmspace.h>
+#include <stdlib.h>
 #include "adc.h"
 #include "measurement.h"
 #ifdef SERIALOUT
@@ -69,60 +70,15 @@ void timer_setup(){
 
 }
 
-//This is a workaround for printf's inability to print floating point numbers
-long int temp, temph, templ;
-void ftoi(float floating_point_number) {temp = floating_point_number*100; temph = temp/100; templ = temp%100;}
-
-
-void printLongInt(long int number,uint8_t min_digits){
-	//Max theoretical value of a uint32_t is 4294967295
-	//That's 10 digits, plus a terminator
-	char buf[11];
-	int i = 0;
-	int j = 0;
-	for(i=0;i<11;i++){
-		buf[i] = 0;
+//This converts all spaces in a function to zeros
+void SpaceToZero(char* str,int length){
+	int i;
+	for(i=0;i<length;i++){
+		if (str[i]==' '){
+			str[i]='0';
+		}
 	}
-	i = 0;
-	//Put the smallest digit into the buffer and then remove it.
-	while(number != 0){
-		buf[i++] = number%10;
-		number = number/10;
-	}
-	for(j = min_digits - i;j<min_digits;j++){
-		#ifdef SERIALOUT
-		uart_putchar('0');
-		#endif
-		#ifdef RADIOOUT
-		radio_putchar('0');
-		#endif
-	}
-	//And then work backwards
-	while(i>0){
-		#ifdef SERIALOUT
-		uart_putchar(buf[--i]+48);
-		#endif
-		#ifdef RADIOOUT
-		radio_putchar(buf[--i]+48);
-		#endif
-	}	
 }
-
-//This doesn't work right.  It prints both 2.60 and 2.06 as 2.6!!!!!!
-void printFloat(float number){
-	ftoi(number);
-	printLongInt(temph,4);
-//	uart_putchar('.');
-//	radio_putchar('.');
-	#ifdef SERIALOUT
-	uart_putchar('.');
-	#endif
-	#ifdef RADIOOUT
-	radio_putchar('.');
-	#endif
-	printLongInt(templ,2);
-}
-
 
 //This lets me store pure strings in flash instead of data.
 #define sprint(string) nprintf(PSTR(string))
@@ -270,23 +226,17 @@ void loop()
 		printf("%li totalRMS for A; ",Amperage.totalRMS);
 		sprint("\n\r");
 		#endif
-		ftoi(Amperage.average);
-		printf("A=%.2li.%.2li&",temph,templ);
-		ftoi(Voltage.average);
-		printf("V=%.3li.%.2li&",temph,templ);
-		ftoi(Voltage.average * Amperage.average);
-		printf("W=%.4li.%.2li;",temph,templ);
+		char buffer[8];
+		dtostrf(Amperage.average,5,2,buffer);
+		SpaceToZero(buffer,8);
+		printf("A=%s&",buffer);
+		dtostrf(Voltage.average,6,2,buffer);
+		SpaceToZero(buffer,8);
+		printf("V=%s&",buffer);
+		dtostrf(Voltage.average * Amperage.average,7,2,buffer);
+		SpaceToZero(buffer,8);
+		printf("W=%s;",buffer);
 		sprint("\n\r");
-		/*
-		sprint("A=");
-		printFloat(Amperage.average);
-		sprint("&V=");
-		printFloat(Voltage.average);
-		sprint("&W=");
-		printFloat(Voltage.average * Amperage.average);
-		sprint(";");
-		sprint("\n\r");
-		*/
 		#ifdef RADIOOUT
 		radio_transmit();
 		#endif
