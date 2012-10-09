@@ -29,10 +29,13 @@ void ADC_setup(){
 
 //Read from the specified ADC pin
 //This spinlocks untill the conversion is complete
+//It has the advantage of working even with interupts disabled
 uint16_t ADC_read(unsigned char pin){
-  //Select which pin I'm going to be reading
+  //Select which pin I'm going to be reading (if it isn't already selected)
   //See table 24-4 on P.265 for the extra things the ADC can read.
-  ADMUX = (ADMUX & 0xf0) | (pin & 0x0f);
+  if( (ADMUX & 0x0f) != pin ){
+	ADMUX = (ADMUX & 0xf0) | (pin & 0x0f);
+  }
   
   //Disable the ADC Interupt vector
   ADCSRA &= ~_BV(ADIE);
@@ -51,9 +54,11 @@ uint16_t ADC_read(unsigned char pin){
 //Start an ADC Read from the specified ADC pin (Interupt is triggered when read is done)
 //NOTE:  Global interupts must be enabled for this to work
 void ADC_start(unsigned char pin){
-  //Select which pin I'm going to be reading
+  //Select which pin I'm going to be reading (if it isn't already selected)
   //See table 24-4 on P.265 for the extra things the ADC can read.
-  ADMUX = (ADMUX & 0xf0) | (pin & 0x0f);
+  if( (ADMUX & 0x0f) != pin ){
+	ADMUX = (ADMUX & 0xf0) | (pin & 0x0f);
+  }
   
   ADCSRA |= _BV(ADIE);			//Enable the ADC Interupt vector
   ADCSRA |= _BV(ADSC);			//Start the ADC
@@ -64,16 +69,8 @@ void ADC_start(unsigned char pin){
 
 //This is the ADC interupt vector
 //This is executed after the ADC is done
-//NOTE:  To get the LED to blink I have to allow interupts inside this interupt
 ISR(ADC_vect) {
-//ISR(ADC_vect, ISR_NOBLOCK){
-
-	
-	//I need to do it this way because the ATMega does register locking.
-	//This means that these two instructions are atomic if done in this order
-	//Also, ADCL is undefined if ADCH is read first.
 	ADCResult = ADCL | (ADCH << 8);
-
 }
 
 //This waits until ADCResult is set.
