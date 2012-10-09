@@ -24,6 +24,10 @@
 #define PRESCALER 1
 #define TARGET_TIMER_COUNT (((F_CPU / PRESCALER) / SAMPLING_FREQUENCY) - 1)
 
+//macros to turn these #defines into strings when needed (the precompiler is weird)
+#define STRINGIFY(str) TOSTR(str)
+#define TOSTR(str) #str
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -207,8 +211,8 @@ void setup()
   //BlinkLED(1000,1);
 	#ifdef SERIALOUT
 	#ifdef DEBUGOUT
-	printf("%li\n\r",TARGET_TIMER_COUNT);
-	printf("Sampling %i Measurements at %i HZ\n\r",MAX_MEASUREMENTS,SAMPLING_FREQUENCY);
+	printf("TARGET_TIMER_COUNT: %li\n\r",TARGET_TIMER_COUNT); //Can't stringify this without figuring out how to get the preprocessor to evaluate it
+	sprint("Sampling "STRINGIFY(MAX_MEASUREMENTS)" Measurements at "STRINGIFY(SAMPLING_FREQUENCY)" HZ\n\r");
 	sprint("Initalization Completed\n\r");
 	#ifdef RADIOOUT
 	radio_transmit();
@@ -299,8 +303,7 @@ ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
 	if(measurement_lock){
 		TCCR1B = 0;
 		for(;;){
-			printf("Warning:  Sampling frequency <%i> too fast",SAMPLING_FREQUENCY);
-			sprint("!!!");
+			sprint("Warning:  Sampling frequency <"STRINGIFY(SAMPLING_FREQUENCY)"> too fast!!!\n\r");
 			BlinkLED(100,20);
 			_delay_ms(1000);
 		}
