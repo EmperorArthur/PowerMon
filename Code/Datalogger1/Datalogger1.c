@@ -181,12 +181,13 @@ void setup()
 
 void loop()
 {
+	char buffer[8];
 	//Print out the Reference voltage our ADC is using
 	//It should be 3.3V
 	#ifdef SERIALOUT
 	#ifdef DEBUGOUT
-	ftoi(Get_Vref());
-	printf("Reference Voltage is:  %li.%.2li\n\r",temph,templ);
+	dtostrf(Get_Vref(),4,2,buffer);
+	printf("Reference Voltage is:  %s\n\r",buffer);
 	sprint("Begining Sampling Sequence\n\r");
 	#ifdef RADIOOUT
 	radio_transmit();
@@ -206,27 +207,26 @@ void loop()
 		#ifdef SERIALOUT
 		#ifdef DEBUGOUT
 		sprint("Sampling Completed\n\r");
-		ftoi(Voltage.average);
-		printf("%li.%.2li V Average;",temph,templ);
-		ftoi(Voltage.RMS);
-		printf("%li.%.2li V RMS;",temph,templ);
+		dtostrf(Voltage.average,6,2,buffer);
+		printf("%s V Average;",buffer);
+		dtostrf(Voltage.RMS,6,2,buffer);
+		printf("%s V RMS;",buffer);
 		printf("%i samples for V; ",Voltage.numSamples);
 		printf("%li totalAverage for V; ",Voltage.totalAverage);
 		printf("%li totalRMS for V; ",Voltage.totalRMS);
 		sprint("\n\r");
-		#ifdef RADIOOUT
-		radio_transmit();
-		#endif
-		ftoi(Amperage.average);
-		printf("%li.%.2li A Average;",temph,templ);
-		ftoi(Amperage.RMS);
-		printf("%li.%.2li A RMS;",temph,templ);
+		dtostrf(Amperage.average,5,2,buffer);
+		printf("%s A Average;",buffer);
+		dtostrf(Amperage.RMS,5,2,buffer);
+		printf("%s A RMS;",buffer);
 		printf("%i samples for A; ",Amperage.numSamples);
 		printf("%li totalAverage for A; ",Amperage.totalAverage);
 		printf("%li totalRMS for A; ",Amperage.totalRMS);
 		sprint("\n\r");
+		#ifdef RADIOOUT
+		radio_transmit();
 		#endif
-		char buffer[8];
+		#endif
 		dtostrf(Amperage.average,5,2,buffer);
 		SpaceToZero(buffer,8);
 		printf("A=%s&",buffer);
