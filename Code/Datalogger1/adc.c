@@ -6,6 +6,11 @@
 #include <util/atomic.h>
 #include "adc.h"
 
+//The result from my ADC (0xFFFF lets me know the ADC isn't done yet)
+volatile uint16_t ADCResult;
+//The reference voltage the ADC is using (see associated function for how accurate it is)
+volatile float Vref;
+
 //Get the value from the ADC
 //This funciton is used everywhere.
 //While it's normally a single line, that one line takes some explaining.

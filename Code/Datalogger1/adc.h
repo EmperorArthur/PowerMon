@@ -17,11 +17,6 @@
 #define ADC_H 1
 #include <stdint.h>
 
-//The result from my ADC (0xFFFF lets me know the ADC isn't done yet)
-volatile uint16_t ADCResult;
-//The reference voltage the ADC is using (see associated function for how accurate it is)
-volatile float Vref;
-
 //Set up my A/D Converter, setting the entirety of Port C to inputs
 void ADC_setup();
 
