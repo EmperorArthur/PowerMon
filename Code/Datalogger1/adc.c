@@ -3,7 +3,21 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/atomic.h>
 #include "adc.h"
+
+//Get the value from the ADC
+//This funciton is used everywhere.
+//While it's normally a single line, that one line takes some explaining.
+uint16_t get_ADCResult(){
+	//I need to do it this way because the ATMega does register locking.
+	//This means that these two instructions are atomic if done in this order
+	//Also, ADCL is undefined if ADCH is read first.
+	ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
+		ADCResult = ADCL|(ADCH << 8);
+	}
+	return ADCResult;
+}
 
 //Set up my A/D Converter
 //Note:  The ADC is on port C, this code just assumes that the whole port is used exclusively by the ADC
@@ -45,10 +59,8 @@ uint16_t ADC_read(unsigned char pin){
   //Keep checking and waiting until the conversion is complete
   while(!(ADCSRA & _BV(ADIF))){;}
   
-  //I need to do it this way because the ATMega does register locking.
-  //This means that these two instructions are atomic if done in this order
-  //Also, ADCL is undefined if ADCH is read first.
-  return ADCL|(ADCH << 8);
+  //Return the result
+  return get_ADCResult();
 }
 
 //Start an ADC Read from the specified ADC pin (Interupt is triggered when read is done)
@@ -70,7 +82,9 @@ void ADC_start(unsigned char pin){
 //This is the ADC interupt vector
 //This is executed after the ADC is done
 ISR(ADC_vect) {
-	ADCResult = ADCL | (ADCH << 8);
+	//Don't do anything if something else is faster.
+	if(ADCResult == 0xFFFF)
+		get_ADCResult();
 }
 
 //This waits until ADCResult is set.

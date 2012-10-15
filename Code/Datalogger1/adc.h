@@ -25,6 +25,9 @@ volatile float Vref;
 //Set up my A/D Converter, setting the entirety of Port C to inputs
 void ADC_setup();
 
+//Get the ADC result from the appropriate registers
+uint16_t get_ADCResult();
+
 //Read from the specified ADC pin
 uint16_t ADC_read(unsigned char pin);
 
