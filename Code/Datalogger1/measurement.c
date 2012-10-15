@@ -57,17 +57,19 @@ void Measure(uint16_t number_of_measurements,struct measurements *ourMeasurement
 }
 
 void Calculate_Results(struct measurements *ourMeasurement){
+	//numSamples is always one too high
+	//This is because DoCalculations is run the first time with 0 as an input.
+	ourMeasurement->numSamples--;
 	//Find the average value
     ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
 	
 	//Find the RMS value
-	ourMeasurement->RMS = ourMeasurement->totalRMS/ourMeasurement->numSamples;
-    ourMeasurement->RMS = sqrt(ourMeasurement->RMS);
+	//ourMeasurement->RMS = ourMeasurement->totalRMS/ourMeasurement->numSamples;
+    //ourMeasurement->RMS = sqrt(ourMeasurement->RMS);
 }
 
 void Calculate_A_Result(struct measurements *ourMeasurement){
-	//Find the average value
-    ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
+	Calculate_Results(ourMeasurement);
 	
 	//And turn it into a usable number
 	//0.068 came from real world testing
@@ -78,8 +80,7 @@ void Calculate_A_Result(struct measurements *ourMeasurement){
 }
 
 void Calculate_V_Result(struct measurements *ourMeasurement){
-	//Find the average value
-    ourMeasurement->average = ourMeasurement->totalAverage/ourMeasurement->numSamples;
+	Calculate_Results(ourMeasurement);
 	
 	//And turn it into a usable number
 	//4.74 is the resistor divider
