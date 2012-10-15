@@ -3,6 +3,10 @@
 //GPL V3
 #ifndef COMMUNICATION_H
 #define COMMUNICATION_H
+
+//Uncomment this to send to the radio as well as/instead of the serial interface
+#define RADIOOUT 1
+
 #include <avr/pgmspace.h>
 #ifdef RADIOOUT
 #include "radio/radio-uart.h"

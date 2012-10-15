@@ -1,12 +1,8 @@
 #include "communication.h"
 #include <avr/io.h>
 #include <avr/pgmspace.h>
-#ifdef SERIALOUT
 #include "uart.h"
-#ifdef RADIOOUT
 #include "radio/radio-uart.h"
-#endif
-#endif
 
 
 //This converts all spaces in a string to zeros
@@ -23,12 +19,8 @@ void SpaceToZero(char* str,int length){
 void cprint(char * str){
 	int i;
 	for(i=0;str[i] != '\0';i++){
-		#ifdef SERIALOUT
 		uart_putchar(str[i]);
-		#endif
-		#ifdef RADIOOUT
 		radio_putchar(str[i]);
-		#endif
 	}
 }
 
@@ -36,16 +28,11 @@ void cprint(char * str){
 void nprintf (PGM_P s) {
         char c;
         while ((c = pgm_read_byte(s++)) != 0){
-		#ifdef SERIALOUT
 		uart_putchar(c);
-		#endif
-		#ifdef RADIOOUT
 		radio_putchar(c);
-		#endif
 	}
 }
 
-#ifdef SERIALOUT
 #ifdef __cplusplus
 extern "C"{
 	FILE * uart_stream;
@@ -55,18 +42,18 @@ static FILE uart_stream = FDEV_SETUP_STREAM(
 	#ifdef RADIOOUT
 	radio_putchar_f,
 	#else
-    uart_putchar_f,
+	uart_putchar_f,
 	#endif
-    uart_getchar_f,
-    _FDEV_SETUP_RW
+	uart_getchar_f,
+	_FDEV_SETUP_RW
 );
 #endif
-#endif
+
+
 
 //Set up both the UART and the Radio
 int communication_setup(){
 	// UART
-	#ifdef SERIALOUT
 	DDRD |= (1<<PD1);
 	DDRD |= (1<<PD2);
 	uart_setup();
@@ -83,21 +70,10 @@ int communication_setup(){
 	#else
 	stdout = &uart_stream;
 	#endif
-	#ifdef DEBUGOUT
-	sprint("UART initalized.  Initalizing Radio.\n\r");
-	#endif
-	#endif
-	#ifdef RADIOOUT
 	int radio_failed = radio_setup();
 	if(radio_failed){
 		sprint("ERROR:  Radio initalization FAILED!!!!\n\r");
         for(;;);
-	} else {
-		#ifdef DEBUGOUT
-		sprint("Radio initalized.  Begining final setup.\n\r");
-		radio_transmit();
-		#endif
 	}
-	#endif
 	return 0;
 }

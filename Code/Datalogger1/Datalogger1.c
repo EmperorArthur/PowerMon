@@ -1,11 +1,7 @@
 //Wireless In home Power mOnitoring Datalogger
 //Copyright Arthur Moore 2012
  
- 
-//Uncomment this to enable serial/radio output
-#define SERIALOUT 1
-//Uncomment this to send to the radio as well as/instead of the serial interface
-#define RADIOOUT 1
+
 //Uncomment this to enable aditional debugging output
 //#define DEBUGOUT 1
 
@@ -100,14 +96,12 @@ void setup()
 
   
   //BlinkLED(1000,1);
-	#ifdef SERIALOUT
 	#ifdef DEBUGOUT
 	printf("TARGET_TIMER_COUNT: %li\n\r",TARGET_TIMER_COUNT); //Can't stringify this without figuring out how to get the preprocessor to evaluate it
 	sprint("Sampling "STRINGIFY(MAX_MEASUREMENTS)" Measurements at "STRINGIFY(SAMPLING_FREQUENCY)" HZ\n\r");
 	sprint("Initalization Completed\n\r");
 	#ifdef RADIOOUT
 	radio_transmit();
-	#endif
 	#endif
 	#endif
   //Enable interupts (mainly the timer, and ADC interupts)
@@ -119,7 +113,6 @@ void loop()
 	char buffer[8];
 	//Print out the Reference voltage our ADC is using
 	//It should be 3.3V
-	#ifdef SERIALOUT
 	#ifdef DEBUGOUT
 	dtostrf(Get_Vref(),4,2,buffer);
 	printf("Reference Voltage is:  %s\n\r",buffer);
@@ -128,65 +121,62 @@ void loop()
 	radio_transmit();
 	#endif
 	#endif
+
+	NewMeasurement(0,&Voltage);
+	NewMeasurement(1,&Amperage);
+
+	//Measure(MAX_MEASUREMENTS,&Voltage);
+	//Measure(MAX_MEASUREMENTS,&Amperage);
+	enable_measurement = 1;
+	while(enable_measurement){;}
+	Calculate_V_Result(&Voltage);
+	Calculate_A_Result(&Amperage);
+	#ifdef DEBUGOUT
+	sprint("Sampling Completed\n\r");
+	#ifdef RADIOOUT
+	radio_transmit();
 	#endif
-
-		NewMeasurement(0,&Voltage);
-		NewMeasurement(1,&Amperage);
-
-		//Measure(MAX_MEASUREMENTS,&Voltage);
-		//Measure(MAX_MEASUREMENTS,&Amperage);
-		enable_measurement = 1;
-		while(enable_measurement){;}
-		Calculate_V_Result(&Voltage);
-		Calculate_A_Result(&Amperage);
-		#ifdef SERIALOUT
-		#ifdef DEBUGOUT
-		sprint("Sampling Completed\n\r");
-		#ifdef RADIOOUT
-		radio_transmit();
-		#endif
-		dtostrf(Voltage.average,6,2,buffer);
-		printf("%s V Average;",buffer);
-		dtostrf(Voltage.RMS,6,2,buffer);
-		printf("%s V RMS;",buffer);
-		printf("%i samples for V; ",Voltage.numSamples);
-		printf("%li totalAverage for V; ",Voltage.totalAverage);
-		printf("%li totalRMS for V; ",Voltage.totalRMS);
-		sprint("\n\r");
-		#ifdef RADIOOUT
-		radio_transmit();
-		#endif
-		dtostrf(Amperage.average,5,2,buffer);
-		printf("%s A Average;",buffer);
-		dtostrf(Amperage.RMS,5,2,buffer);
-		printf("%s A RMS;",buffer);
-		printf("%i samples for A; ",Amperage.numSamples);
-		printf("%li totalAverage for A; ",Amperage.totalAverage);
-		printf("%li totalRMS for A; ",Amperage.totalRMS);
-		sprint("\n\r");
-		#ifdef RADIOOUT
-		radio_transmit();
-		#endif
-		#endif
-		dtostrf(Amperage.average,5,2,buffer);
-		SpaceToZero(buffer,8);
-		sprint("A=");
-		cprint(buffer);
-		dtostrf(Voltage.average,6,2,buffer);
-		SpaceToZero(buffer,8);
-		sprint("&V=");
-		cprint(buffer);
-		dtostrf(Voltage.average * Amperage.average,7,2,buffer);
-		SpaceToZero(buffer,8);
-		sprint("&W=");
-		cprint(buffer);
-		sprint(";\n\r");
-		#ifdef RADIOOUT
-		radio_transmit();
-		#endif
-		#endif
-		//Toggle the LED to let us know that we're done with a cycle
-		BlinkLED(100,1);
+	dtostrf(Voltage.average,6,2,buffer);
+	printf("%s V Average;",buffer);
+	dtostrf(Voltage.RMS,6,2,buffer);
+	printf("%s V RMS;",buffer);
+	printf("%i samples for V; ",Voltage.numSamples);
+	printf("%li totalAverage for V; ",Voltage.totalAverage);
+	printf("%li totalRMS for V; ",Voltage.totalRMS);
+	sprint("\n\r");
+	#ifdef RADIOOUT
+	radio_transmit();
+	#endif
+	dtostrf(Amperage.average,5,2,buffer);
+	printf("%s A Average;",buffer);
+	dtostrf(Amperage.RMS,5,2,buffer);
+	printf("%s A RMS;",buffer);
+	printf("%i samples for A; ",Amperage.numSamples);
+	printf("%li totalAverage for A; ",Amperage.totalAverage);
+	printf("%li totalRMS for A; ",Amperage.totalRMS);
+	sprint("\n\r");
+	#ifdef RADIOOUT
+	radio_transmit();
+	#endif
+	#endif
+	dtostrf(Amperage.average,5,2,buffer);
+	SpaceToZero(buffer,8);
+	sprint("A=");
+	cprint(buffer);
+	dtostrf(Voltage.average,6,2,buffer);
+	SpaceToZero(buffer,8);
+	sprint("&V=");
+	cprint(buffer);
+	dtostrf(Voltage.average * Amperage.average,7,2,buffer);
+	SpaceToZero(buffer,8);
+	sprint("&W=");
+	cprint(buffer);
+	sprint(";\n\r");
+	#ifdef RADIOOUT
+	radio_transmit();
+	#endif
+	//Toggle the LED to let us know that we're done with a cycle
+	BlinkLED(100,1);
 }
 //This is triggered by my timer
 //takeMeasurement uses the ADC interupt so this has to be nonblocking
