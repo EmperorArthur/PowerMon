@@ -4,7 +4,7 @@
 #include "radio.h"
 #include <stdio.h>
 
-void radio_putchar_f(char c, FILE *stream);
+int radio_putchar_f(char c, FILE *stream);
 void radio_putchar(char c);
 uint8_t radio_recieve();
 void radio_transmit();

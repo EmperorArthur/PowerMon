@@ -48,7 +48,7 @@ uint8_t send(uint8_t buf[],uint8_t length){
 
 //This puts a charachter in the buffer
 //When the buffer is full it sends the data
-void radio_putchar_f(char c, FILE *stream){
+int radio_putchar_f(char c, FILE *stream){
 	radio_buffer[radio_position++] = c;
 	if(radio_position > 120){
 		send(radio_buffer,radio_position-1);
@@ -56,6 +56,7 @@ void radio_putchar_f(char c, FILE *stream){
 		local_radio_init();
 		radio_position = 0;
 	}
+	return 0;
 }
 
 void radio_putchar(char c){
