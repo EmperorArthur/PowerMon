@@ -28,9 +28,6 @@ struct measurements {
 	uint16_t lastADCValue;		//The last value from the ADC
 };
 
-//If we're measuring something already lock, and don't prevent another measurement
-static volatile uint8_t measurement_lock = 0;
-
 void NewMeasurement(uint8_t inputPin, struct measurements *ourMeasurement);
 void ResetMeasurement(struct measurements *ourMeasurement);
 void SetMeasurementPin(uint8_t inputPin, struct measurements *ourMeasurement);

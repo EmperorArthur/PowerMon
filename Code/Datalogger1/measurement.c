@@ -38,32 +38,14 @@ void DoCalculations(void* ourMeasurement){
 }
 
 void takeMeasurement(struct measurements *ourMeasurement){
-	//Lock to prevent more than one measurement messing with the ADC
-	if(!measurement_lock){
-		measurement_lock = 1;
-		
-		//Do Work While waiting for conversion to finish, and store the result as the last value seen
-		ourMeasurement->lastADCValue = ADC_execute_read(ourMeasurement->pin,DoCalculations,(void*)(ourMeasurement));
-		
-		measurement_lock = 0;
-	}else{
-		for(;;){;}
-	}
+	//Do Work While waiting for conversion to finish, and store the result as the last value seen
+	ourMeasurement->lastADCValue = ADC_execute_read(ourMeasurement->pin,DoCalculations,(void*)(ourMeasurement));
 }
 
 void takeAMeasurement(struct measurements *ourMeasurement){
-	//Lock to prevent more than one measurement messing with the ADC
-	if(!measurement_lock){
-		measurement_lock = 1;
-		
-		//Do Work While waiting for conversion to finish, and store the result as the last value seen
-		//Our Hall effect sensor has a 0 value of 503, so we're going off that.
-		ourMeasurement->lastADCValue = labs((int)ADC_execute_read(ourMeasurement->pin,DoCalculations,(void*)(ourMeasurement)) - 507);
-		
-		measurement_lock = 0;
-	}else{
-		for(;;){;}
-	}
+	//Do Work While waiting for conversion to finish, and store the result as the last value seen
+	//Our Hall effect sensor has a 0 value of 503, so we're going off that.
+	ourMeasurement->lastADCValue = labs((int)ADC_execute_read(ourMeasurement->pin,DoCalculations,(void*)(ourMeasurement)) - 507);
 }
 
 void Measure(uint16_t number_of_measurements,struct measurements *ourMeasurement){

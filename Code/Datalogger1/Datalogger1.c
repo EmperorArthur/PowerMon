@@ -11,7 +11,7 @@
 #define LEDPORT PORTD
 
 //How many measurements we want
-#define MAX_MEASUREMENTS 3000
+#define MAX_MEASUREMENTS 1000
 
 
 //This set's my Timer0 frequency (Timer1 counts up to 65535)
@@ -27,6 +27,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <util/atomic.h>
 #include <stdlib.h>
 #include "adc.h"
 #include "measurement.h"
@@ -172,25 +173,30 @@ void debugInfo(){
 }
 #endif
 
+//A quick mutex so I can track whether I'm going to fast or not.
+volatile int measurement_lock = 0;
+
 //This is triggered by my timer
 ISR(TIMER1_COMPA_vect){
+//ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
 	//sprint(".");
-	//If we're sampling too fast, stop and tell the user.
-	//Warning:  Sometimes this still doesn't catch it, and the takeMeasurement functions themselves do and block/hang forever
-	if(measurement_lock){
-		TCCR1B = 0;
-		for(;;){
-			sprint("Warning:  Sampling frequency <"STRINGIFY(SAMPLING_FREQUENCY)"> too fast!!!\n\r");
-			BlinkLED(100,20);
-			_delay_ms(1000);
-		}
-	}else{
-		if(cyclesCompleted < MAX_MEASUREMENTS){
+	measurement_lock++;
+	if(cyclesCompleted < MAX_MEASUREMENTS){
+		//If we're sampling too fast, stop and tell the user.
+		//Warning:  Sometimes this still doesn't catch it, and the takeMeasurement functions themselves do and block/hang forever
+		if(measurement_lock > 1){
+			ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
+				sprint("Warning:  Sampling frequency <"STRINGIFY(SAMPLING_FREQUENCY)"> too fast!!!\n\r");
+				BlinkLED(100,20);
+				_delay_ms(1000);
+			}
+		}else{
 			takeMeasurement(&Voltage);
 			takeAMeasurement(&Amperage);
 			cyclesCompleted++;
-		} else {
-			
+		}
+	} else {
+		if(measurement_lock == 1){
 			//Calculate the results
 			Calculate_V_Result(&Voltage);
 			Calculate_A_Result(&Amperage);
@@ -212,6 +218,7 @@ ISR(TIMER1_COMPA_vect){
 			cyclesCompleted = 0;
 		}
 	}
+	measurement_lock--;
 }
 
 //This is in case something went wrong
