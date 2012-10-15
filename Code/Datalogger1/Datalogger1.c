@@ -84,7 +84,7 @@ void setup()
 {
 	//Disable interupts during setup
 	cli();
-  //Set up out inputs and outputs
+	//Set up out inputs and outputs
 	LEDDDR |= _BV(LEDPIN);
 	//Set up communication
 	communication_setup();
@@ -225,9 +225,11 @@ ISR(TIMER1_COMPA_vect){
 ISR(BADISR_vect){
 	cli();
 	for(;;){
-		sprint("Warning:  Uncaught Interupt Detected!!!");
-		BlinkLED(100,20);
-		_delay_ms(1000);
+		ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
+			sprint("Warning:  Uncaught Interupt Detected!!!");
+			BlinkLED(100,20);
+			_delay_ms(1000);
+		}
 	}
 }
 
