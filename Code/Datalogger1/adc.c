@@ -100,6 +100,29 @@ uint16_t ADC_wait_done(){
 	return ADCResult;
 }
 
+//Read from the specified ADC pin, and execute a function while waiting for the result.
+//WARNING:  This will not return with a result untill the function is done executing.
+uint16_t ADC_execute_read (unsigned char pin, void (*function)(void*),void* function_paramaters){
+  //Select which pin I'm going to be reading (if it isn't already selected)
+  //See table 24-4 on P.265 for the extra things the ADC can read.
+  if( (ADMUX & 0x0f) != pin ){
+	ADMUX = (ADMUX & 0xf0) | (pin & 0x0f);
+  }
+  
+  //Disable the ADC Interupt vector
+  ADCSRA &= ~_BV(ADIE);
+  //Start the conversion
+  ADCSRA |= _BV(ADSC);
+  
+  //Execute the function
+  (*function)(function_paramaters);
+  //Keep checking and waiting until the conversion is complete
+  while(!(ADCSRA & _BV(ADIF))){;}
+	
+  //Return the result
+  return get_ADCResult();
+}
+
 //This function uses the internal 1.1V reference to determine what the Reference Voltage is
 //We can use this to correct for any errors and dynamically use a reference voltage.
 //NOTE:  It doesn't work if the reference voltage is set to the internal 1.1V :(

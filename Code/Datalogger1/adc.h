@@ -31,6 +31,11 @@ void ADC_start(unsigned char pin);
 //Spinlock untill the ADC Read is done.
 uint16_t ADC_wait_done();
 
+//Read from the specified ADC pin, and execute a function while waiting for the result.
+//WARNING:  This will not return with a result untill the function is done executing.
+//Doesn't rely on interupts.
+uint16_t ADC_execute_read (unsigned char pin, void (*function)(void*),void* function_paramaters);
+
 //Use the internal 1.1V reference to determine what the Reference Voltage is
 float Get_Vref();
 

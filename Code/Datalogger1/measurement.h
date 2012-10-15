@@ -35,8 +35,10 @@ void NewMeasurement(uint8_t inputPin, struct measurements *ourMeasurement);
 void ResetMeasurement(struct measurements *ourMeasurement);
 void SetMeasurementPin(uint8_t inputPin, struct measurements *ourMeasurement);
 
-//My multiplyer wasn't working, so we're going to use this instead
-//uint32_t square(uint16_t input);
+//Do Work While waiting for conversion to finish
+void DoCalculations(struct measurements * ourMeasurement);
+//This is needed for the ADC
+void DoCalculations(void* ourMeasurement);
 
 //Take a single measurement
 void takeMeasurement(struct measurements *ourMeasurement);
