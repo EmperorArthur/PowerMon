@@ -26,15 +26,12 @@ void ResetMeasurement(struct measurements * ourMeasurement){
 	ourMeasurement->lastADCValue = 0;
 }
 
-//My multiplyer wasn't working, so we're going to use this instead
-/*
-uint32_t square(uint16_t input){
-	uint32_t output = 0;
-	for(uint16_t i =0; i<input;i++){
-		output+=input;
-	}
+//Do Work While waiting for conversion to finish
+void DoCalculations(struct measurements * ourMeasurement){
+		ourMeasurement->numSamples++;
+		ourMeasurement->totalAverage += ourMeasurement->lastADCValue;
+		//ourMeasurement->totalRMS += ourMeasurement->lastADCValue * ourMeasurement->lastADCValue;
 }
-*/
 
 void takeMeasurement(struct measurements *ourMeasurement){
 	//Lock to prevent more than one measurement messing with the ADC
@@ -44,12 +41,7 @@ void takeMeasurement(struct measurements *ourMeasurement){
 		ADC_start(ourMeasurement->pin);
 		
 		//Do Work While waiting for conversion to finish
-		ourMeasurement->numSamples++;			//Increment my number of samples
-		
-		uint16_t lastADCValue = ourMeasurement->lastADCValue;
-		ourMeasurement->totalAverage += lastADCValue;
-		//ourMeasurement->totalRMS += square(lastADCValue);
-		//ourMeasurement->totalRMS += lastADCValue*lastADCValue;
+		DoCalculations(ourMeasurement);
 		
 		//Wait untill the conversion is complete
 		ADC_wait_done();
@@ -70,20 +62,13 @@ void takeAMeasurement(struct measurements *ourMeasurement){
 		ADC_start(ourMeasurement->pin);
 		
 		//Do Work While waiting for conversion to finish
-		ourMeasurement->numSamples++;			//Increment my number of samples
-		long int lastADCValue = ourMeasurement->lastADCValue;
-		
-		//Our Hall effect sensor has a 0 value of 503, so we're going off that.
-		lastADCValue = labs(lastADCValue - 507);
-		
-		ourMeasurement->totalAverage += lastADCValue;
-		//ourMeasurement->totalRMS += square(lastADCValue);
-		//ourMeasurement->totalRMS += lastADCValue*lastADCValue;
+		DoCalculations(ourMeasurement);
 		
 		//Wait untill the conversion is complete
 		ADC_wait_done();
 		
-		ourMeasurement->lastADCValue = ADCResult;
+		//Our Hall effect sensor has a 0 value of 503, so we're going off that.
+		ourMeasurement->lastADCValue = labs((int)ADCResult - 507);
 		
 		measurement_lock = 0;
 	}else{
