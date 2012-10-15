@@ -12,6 +12,10 @@
 #define PA_EXT_EN				0b10000000
 #define TRX_CTRL_1				(0x04)
 
+static uint8_t radio_buffer[129];
+static uint8_t radio_position;
+hal_rx_frame_t frame;
+
 typedef enum{
     
     TIME_TO_ENTER_P_ON               = 510, //!< Transition time from VCC is applied to P_ON.

@@ -4,11 +4,6 @@
 #include "radio.h"
 #include <stdio.h>
 
-
-
-static uint8_t radio_buffer[129];
-static uint8_t radio_position;
-hal_rx_frame_t frame;
 void radio_putchar_f(char c, FILE *stream);
 void radio_putchar(char c);
 uint8_t radio_recieve();
