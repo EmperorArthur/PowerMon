@@ -108,30 +108,38 @@ void setup()
   sei();
 }
 
-void loop()
-{
+void sendInfo(){	
+	char buffer[8];
+	dtostrf(Amperage.average,5,2,buffer);
+	SpaceToZero(buffer,8);
+	sprint("A=");
+	cprint(buffer);
+	dtostrf(Voltage.average,6,2,buffer);
+	SpaceToZero(buffer,8);
+	sprint("&V=");
+	cprint(buffer);
+	dtostrf(Voltage.average * Amperage.average,7,2,buffer);
+	SpaceToZero(buffer,8);
+	sprint("&W=");
+	cprint(buffer);
+	sprint(";\n\r");
+	#ifdef RADIOOUT
+	radio_transmit();
+	#endif
+}
+
+#ifdef DEBUGOUT
+void debugInfo(){
 	char buffer[8];
 	//Print out the Reference voltage our ADC is using
 	//It should be 3.3V
-	#ifdef DEBUGOUT
 	dtostrf(Get_Vref(),4,2,buffer);
 	printf("Reference Voltage is:  %s\n\r",buffer);
 	sprint("\n\rBegining Sampling Sequence\n\r");
 	#ifdef RADIOOUT
 	radio_transmit();
 	#endif
-	#endif
-
-	NewMeasurement(0,&Voltage);
-	NewMeasurement(1,&Amperage);
-
-	//Measure(MAX_MEASUREMENTS,&Voltage);
-	//Measure(MAX_MEASUREMENTS,&Amperage);
-	enable_measurement = 1;
-	while(enable_measurement){;}
-	Calculate_V_Result(&Voltage);
-	Calculate_A_Result(&Amperage);
-	#ifdef DEBUGOUT
+	
 	sprint("Sampling Completed\n\r");
 	#ifdef RADIOOUT
 	radio_transmit();
@@ -158,26 +166,27 @@ void loop()
 	#ifdef RADIOOUT
 	radio_transmit();
 	#endif
+}
+#endif
+
+void loop()
+{
+	
+	NewMeasurement(0,&Voltage);
+	NewMeasurement(1,&Amperage);
+
+	enable_measurement = 1;
+	while(enable_measurement){;}
+	Calculate_V_Result(&Voltage);
+	Calculate_A_Result(&Amperage);
+	#ifdef DEBUGOUT
+	debugInfo();
 	#endif
-	dtostrf(Amperage.average,5,2,buffer);
-	SpaceToZero(buffer,8);
-	sprint("A=");
-	cprint(buffer);
-	dtostrf(Voltage.average,6,2,buffer);
-	SpaceToZero(buffer,8);
-	sprint("&V=");
-	cprint(buffer);
-	dtostrf(Voltage.average * Amperage.average,7,2,buffer);
-	SpaceToZero(buffer,8);
-	sprint("&W=");
-	cprint(buffer);
-	sprint(";\n\r");
-	#ifdef RADIOOUT
-	radio_transmit();
-	#endif
+	sendInfo();
 	//Toggle the LED to let us know that we're done with a cycle
 	BlinkLED(100,1);
 }
+
 //This is triggered by my timer
 ISR(TIMER1_COMPA_vect){
 	//sprint(".");
