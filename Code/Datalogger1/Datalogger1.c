@@ -32,9 +32,7 @@
 #include "measurement.h"
 #include "communication.h"
 
-
-
-volatile uint8_t enable_measurement = 0;
+volatile uint16_t cyclesCompleted;
 
 void timer_setup(){
 	#if TARGET_TIMER_COUNT > 65535
@@ -83,19 +81,24 @@ struct measurements Amperage;					//This is the struct that holds our amperage m
 
 void setup()
 {
+	//Disable interupts during setup
+	cli();
   //Set up out inputs and outputs
 	LEDDDR |= _BV(LEDPIN);
 	//Set up communication
 	communication_setup();
 	//Set up the ADC
 	ADC_setup();
+	
+	//Clear the structs in preparation of the first cycle
+	NewMeasurement(0,&Voltage);
+	NewMeasurement(1,&Amperage);
 	//Start timer1
+	cyclesCompleted = 0;
 	timer_setup();
   
 	BlinkLED(1000,1);
 
-  
-  //BlinkLED(1000,1);
 	#ifdef DEBUGOUT
 	printf("TARGET_TIMER_COUNT: %li\n\r",TARGET_TIMER_COUNT); //Can't stringify this without figuring out how to get the preprocessor to evaluate it
 	sprint("Sampling "STRINGIFY(MAX_MEASUREMENTS)" Measurements at "STRINGIFY(SAMPLING_FREQUENCY)" HZ\n\r");
@@ -104,8 +107,8 @@ void setup()
 	radio_transmit();
 	#endif
 	#endif
-  //Enable interupts (mainly the timer, and ADC interupts)
-  sei();
+	//Enable interupts (mainly the timer, and ADC interupts)
+	sei();
 }
 
 void sendInfo(){	
@@ -169,24 +172,6 @@ void debugInfo(){
 }
 #endif
 
-void loop()
-{
-	
-	NewMeasurement(0,&Voltage);
-	NewMeasurement(1,&Amperage);
-
-	enable_measurement = 1;
-	while(enable_measurement){;}
-	Calculate_V_Result(&Voltage);
-	Calculate_A_Result(&Amperage);
-	#ifdef DEBUGOUT
-	debugInfo();
-	#endif
-	sendInfo();
-	//Toggle the LED to let us know that we're done with a cycle
-	BlinkLED(100,1);
-}
-
 //This is triggered by my timer
 ISR(TIMER1_COMPA_vect){
 	//sprint(".");
@@ -199,13 +184,32 @@ ISR(TIMER1_COMPA_vect){
 			BlinkLED(100,20);
 			_delay_ms(1000);
 		}
-	}
-	if(enable_measurement){
-		if(Voltage.numSamples < MAX_MEASUREMENTS){
+	}else{
+		if(cyclesCompleted < MAX_MEASUREMENTS){
 			takeMeasurement(&Voltage);
 			takeAMeasurement(&Amperage);
+			cyclesCompleted++;
 		} else {
-			enable_measurement = 0;
+			
+			//Calculate the results
+			Calculate_V_Result(&Voltage);
+			Calculate_A_Result(&Amperage);
+			
+			//Send the results
+			#ifdef DEBUGOUT
+			debugInfo();
+			#endif
+			sendInfo();
+			
+			//Clear the structs in preparation for a new cycle
+			NewMeasurement(0,&Voltage);
+			NewMeasurement(1,&Amperage);
+			
+			//Toggle the LED to let us know that we're done with a cycle
+			BlinkLED(100,1);
+			
+			//Reset the number of cycles completed
+			cyclesCompleted = 0;
 		}
 	}
 }
@@ -222,8 +226,6 @@ ISR(BADISR_vect){
 
 int main(){
 	setup();
-	for(;;){
-		loop();
-	}
+	for(;;){}
 	return 0;
 }
