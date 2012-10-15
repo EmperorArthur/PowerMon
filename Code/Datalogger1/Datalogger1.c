@@ -107,7 +107,13 @@ void nprintf (PGM_P s) {
 	}
 }
 
+
 #ifdef SERIALOUT
+#ifdef __cplusplus
+extern "C"{
+	FILE * uart_stream;
+}
+#else
 static FILE uart_stream = FDEV_SETUP_STREAM(
 	#ifdef RADIOOUT
 	radio_putchar_f,
@@ -117,6 +123,7 @@ static FILE uart_stream = FDEV_SETUP_STREAM(
     uart_getchar_f,
     _FDEV_SETUP_RW
 );
+#endif
 #endif
 //Blink the LED
 //NOTE:  total delay ~= milliseconds * number
@@ -148,6 +155,20 @@ void setup()
 	DDRD |= (1<<PD1);
 	DDRD |= (1<<PD2);
 	uart_setup();
+	
+	#ifdef __cplusplus
+	uart_stream = fdevopen(
+		#ifdef RADIOOUT
+		radio_putchar_f,
+		#else
+		uart_putchar_f,
+		#endif
+		uart_getchar_f);
+	stdout = stdin = uart_stream;
+	#else
+	stdout = &uart_stream;
+	#endif
+
 	#ifdef DEBUGOUT
 	sprint("UART initalized.  Initalizing Radio.\n\r");
 	#endif
@@ -163,9 +184,6 @@ void setup()
 		radio_transmit();
 		#endif
 	}
-	#endif
-	#if defined(SERIALOUT) || defined(RADIOOUT)
-	stdout = &uart_stream;
 	#endif
 	
 
@@ -201,7 +219,7 @@ void loop()
 	#ifdef DEBUGOUT
 	dtostrf(Get_Vref(),4,2,buffer);
 	printf("Reference Voltage is:  %s\n\r",buffer);
-	sprint("Begining Sampling Sequence\n\r");
+	sprint("\n\rBegining Sampling Sequence\n\r");
 	#ifdef RADIOOUT
 	radio_transmit();
 	#endif
@@ -220,6 +238,9 @@ void loop()
 		#ifdef SERIALOUT
 		#ifdef DEBUGOUT
 		sprint("Sampling Completed\n\r");
+		#ifdef RADIOOUT
+		radio_transmit();
+		#endif
 		dtostrf(Voltage.average,6,2,buffer);
 		printf("%s V Average;",buffer);
 		dtostrf(Voltage.RMS,6,2,buffer);
@@ -228,6 +249,9 @@ void loop()
 		printf("%li totalAverage for V; ",Voltage.totalAverage);
 		printf("%li totalRMS for V; ",Voltage.totalRMS);
 		sprint("\n\r");
+		#ifdef RADIOOUT
+		radio_transmit();
+		#endif
 		dtostrf(Amperage.average,5,2,buffer);
 		printf("%s A Average;",buffer);
 		dtostrf(Amperage.RMS,5,2,buffer);
