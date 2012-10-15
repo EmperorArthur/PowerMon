@@ -43,10 +43,8 @@ void takeMeasurement(struct measurements *ourMeasurement){
 		//Do Work While waiting for conversion to finish
 		DoCalculations(ourMeasurement);
 		
-		//Wait untill the conversion is complete
-		ADC_wait_done();
-		
-		ourMeasurement->lastADCValue = ADCResult;
+		//Wait untill the conversion is complete, and store the result as the last value seen
+		ourMeasurement->lastADCValue = ADC_wait_done();
 		
 		measurement_lock = 0;
 	}else{
@@ -64,11 +62,9 @@ void takeAMeasurement(struct measurements *ourMeasurement){
 		//Do Work While waiting for conversion to finish
 		DoCalculations(ourMeasurement);
 		
-		//Wait untill the conversion is complete
-		ADC_wait_done();
-		
+		//Wait untill the conversion is complete, and store the result as the last value seen
 		//Our Hall effect sensor has a 0 value of 503, so we're going off that.
-		ourMeasurement->lastADCValue = labs((int)ADCResult - 507);
+		ourMeasurement->lastADCValue = labs((int)ADC_wait_done() - 507);
 		
 		measurement_lock = 0;
 	}else{
