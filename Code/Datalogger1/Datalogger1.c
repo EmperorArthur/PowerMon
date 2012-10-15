@@ -179,8 +179,7 @@ void loop()
 	BlinkLED(100,1);
 }
 //This is triggered by my timer
-//takeMeasurement uses the ADC interupt so this has to be nonblocking
-ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
+ISR(TIMER1_COMPA_vect){
 	//sprint(".");
 	//If we're sampling too fast, stop and tell the user.
 	//Warning:  Sometimes this still doesn't catch it, and the takeMeasurement functions themselves do and block/hang forever
