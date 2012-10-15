@@ -15,12 +15,12 @@
 #define LEDPORT PORTD
 
 //How many measurements we want
-#define MAX_MEASUREMENTS 1500
+#define MAX_MEASUREMENTS 3000
 
 
 //This set's my Timer0 frequency (Timer1 counts up to 65535)
 //Empirical evidence has shown that with current code, the max sampling frequency is 4086 HZ
-#define SAMPLING_FREQUENCY 1500
+#define SAMPLING_FREQUENCY 3000
 #define PRESCALER 1
 #define TARGET_TIMER_COUNT (((F_CPU / PRESCALER) / SAMPLING_FREQUENCY) - 1)
 
