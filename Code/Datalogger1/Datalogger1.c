@@ -5,11 +5,6 @@
 //Uncomment this to enable aditional debugging output
 //#define DEBUGOUT 1
 
-// The pin my status indicator LED is on
-#define LEDPIN PD5
-#define LEDDDR DDRD
-#define LEDPORT PORTD
-
 //How many measurements we want
 #define MAX_MEASUREMENTS 1000
 
@@ -32,6 +27,7 @@
 #include "adc.h"
 #include "measurement.h"
 #include "communication.h"
+#include "LED.h"
 
 volatile uint16_t cyclesCompleted;
 
@@ -60,22 +56,6 @@ void timer_setup(){
 
 }
 
-//Blink the LED
-//NOTE:  total delay ~= milliseconds * number
-//			if <number> is odd, then the LED ends up toggled
-//			if <milliseconds> is 0 then this just toggles the LED, no matter what number is
-void BlinkLED(unsigned long milliseconds,int number){
-	int i;
-	if(milliseconds){
-		LEDPORT ^= _BV(LEDPIN);
-	}else{
-		for(i=0;i<number;i++){
-			LEDPORT ^= _BV(LEDPIN);
-			_delay_ms(milliseconds);
-		}
-	}
-}
-
 struct measurements Voltage;					//This is the struct that holds our voltage measurements
 struct measurements Amperage;					//This is the struct that holds our amperage measurements
 
@@ -84,8 +64,6 @@ void setup()
 {
 	//Disable interupts during setup
 	cli();
-	//Set up out inputs and outputs
-	LEDDDR |= _BV(LEDPIN);
 	//Set up communication
 	communication_setup();
 	//Set up the ADC

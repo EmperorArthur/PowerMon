@@ -18,7 +18,7 @@ AVRDUDE = avrdude
 # Application configuration
 
 APP = Datalogger1
-APP_OBJECTS = Datalogger1.o adc.o measurement.o uart.o radio/radio-uart.o radio/hal_avr.o radio/tat.o radio/errcode.o communication.o
+APP_OBJECTS = Datalogger1.o adc.o measurement.o uart.o radio/radio-uart.o radio/hal_avr.o radio/tat.o radio/errcode.o communication.o LED.o
 
 ARDUINO_LIBRARY_PATH = C:\Users\Arthur\Documents\arduino-1.0\hardware\arduino\cores\arduino
 ARDUINO_PIN_PATH = C:\Users\Arthur\Documents\arduino-1.0\hardware\arduino\variants\standard
