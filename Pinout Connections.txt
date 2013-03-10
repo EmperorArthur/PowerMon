@@ -1,0 +1,5 @@
+LED_Out 	PD5
+IRQ			PB1
+SLP_TR		PB0
+/Radio_RST	PD6
+CS-SD_Card	PD3
