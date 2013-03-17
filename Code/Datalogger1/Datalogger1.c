@@ -5,6 +5,8 @@
 //Uncomment this to enable aditional debugging output
 //#define DEBUGOUT 1
 
+#define RADIOOUT 1
+
 //How many measurements we want
 #define MAX_MEASUREMENTS 1000
 
@@ -32,6 +34,11 @@
 #include "radio/radio.h"
 
 volatile uint16_t cyclesCompleted;
+
+#ifdef RADIOOUT
+unsigned int counter = 0;
+radioFrame aFrame;
+#endif
 
 //This converts all spaces in a string to zeros
 void SpaceToZero(char* str,int length){
@@ -78,10 +85,19 @@ void setup()
 	cli();
 	//Set up communication
 	communication_setup();
-	//Set up the radio
-	radio_setup();
 	//Set up the ADC
 	ADC_setup();
+	//Set up the radio
+	#ifdef RADIOOUT
+	radio_setup();
+	//Set up the radio frame to be sent
+	aFrame.fcf.dstAddrMode = SIXTEEN;
+	aFrame.fcf.srcAddrMode = SIXTEEN;
+	aFrame.dstAddr.pan_id = 0x1234;
+	aFrame.dstAddr.address = 0x5678;
+	aFrame.srcAddr.pan_id = 0x9ABC;
+	aFrame.srcAddr.address = 0xDEF0;
+	#endif
 	
 	//Clear the structs in preparation of the first cycle
 	NewMeasurement(0,&Voltage);
@@ -107,6 +123,7 @@ void sendInfo(){
 	const int outputSize = 28;
 	char buffer[8];					//This is the buffer used by dtostrf
 	char output[outputSize] = "";		//This string holds the final output
+	
 	dtostrf(Amperage.average,5,2,buffer);
 	SpaceToZero(buffer,8);
 	strcat(output,"A=");
@@ -123,7 +140,9 @@ void sendInfo(){
 	
 	printf("%s",output);
 	#ifdef RADIOOUT
-	//radio_transmit();
+	aFrame.sequenceNumber = counter++;
+	aFrame.data = output;
+	radio_Frame_write(aFrame);
 	#endif
 }
 
@@ -135,14 +154,8 @@ void debugInfo(){
 	dtostrf(Get_Vref(),4,2,buffer);
 	printf("Reference Voltage is:  %s\n\r",buffer);
 	printf("\n\rBegining Sampling Sequence\n\r");
-	#ifdef RADIOOUT
-	//radio_transmit();
-	#endif
 	
 	printf("Sampling Completed\n\r");
-	#ifdef RADIOOUT
-	//radio_transmit();
-	#endif
 	dtostrf(Voltage.average,6,2,buffer);
 	printf("%s V Average;",buffer);
 	dtostrf(Voltage.RMS,6,2,buffer);
@@ -151,9 +164,6 @@ void debugInfo(){
 	printf("%li totalAverage for V; ",Voltage.totalAverage);
 	printf("%li totalRMS for V; ",Voltage.totalRMS);
 	printf("\n\r");
-	#ifdef RADIOOUT
-	//radio_transmit();
-	#endif
 	dtostrf(Amperage.average,5,2,buffer);
 	printf("%s A Average;",buffer);
 	dtostrf(Amperage.RMS,5,2,buffer);
@@ -162,9 +172,6 @@ void debugInfo(){
 	printf("%li totalAverage for A; ",Amperage.totalAverage);
 	printf("%li totalRMS for A; ",Amperage.totalRMS);
 	printf("\n\r");
-	#ifdef RADIOOUT
-	//radio_transmit();
-	#endif
 }
 #endif
 
