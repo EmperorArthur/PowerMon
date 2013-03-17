@@ -1,4 +1,4 @@
-//Wireless In home Power mOnitoring Datalogger
+//Wireless in Home Power Monitoring Datalogger
 //Copyright Arthur Moore 2012
  
 
@@ -28,6 +28,7 @@
 #include "measurement.h"
 #include "radio/communication.h"
 #include "radio/LED.h"
+#include "radio/radio.h"
 
 volatile uint16_t cyclesCompleted;
 
@@ -66,6 +67,8 @@ void setup()
 	cli();
 	//Set up communication
 	communication_setup();
+	//Set up the radio
+	radio_setup();
 	//Set up the ADC
 	ADC_setup();
 	
@@ -80,11 +83,8 @@ void setup()
 
 	#ifdef DEBUGOUT
 	printf("TARGET_TIMER_COUNT: %li\n\r",TARGET_TIMER_COUNT); //Can't stringify this without figuring out how to get the preprocessor to evaluate it
-	sprint("Sampling "STRINGIFY(MAX_MEASUREMENTS)" Measurements at "STRINGIFY(SAMPLING_FREQUENCY)" HZ\n\r");
-	sprint("Initalization Completed\n\r");
-	#ifdef RADIOOUT
-	radio_transmit();
-	#endif
+	printf("Sampling "STRINGIFY(MAX_MEASUREMENTS)" Measurements at "STRINGIFY(SAMPLING_FREQUENCY)" HZ\n\r");
+	printf("Initalization Completed\n\r");
 	#endif
 	//Enable interupts (mainly the timer, and ADC interupts)
 	sei();
@@ -93,20 +93,20 @@ void setup()
 void sendInfo(){	
 	char buffer[8];
 	dtostrf(Amperage.average,5,2,buffer);
-	SpaceToZero(buffer,8);
-	sprint("A=");
-	cprint(buffer);
+	//SpaceToZero(buffer,8);
+	printf("A=");
+	printf(buffer);
 	dtostrf(Voltage.average,6,2,buffer);
-	SpaceToZero(buffer,8);
-	sprint("&V=");
-	cprint(buffer);
+	//SpaceToZero(buffer,8);
+	printf("&V=");
+	printf(buffer);
 	dtostrf(Voltage.average * Amperage.average,7,2,buffer);
-	SpaceToZero(buffer,8);
-	sprint("&W=");
-	cprint(buffer);
-	sprint(";\n\r");
+	//SpaceToZero(buffer,8);
+	printf("&W=");
+	printf(buffer);
+	printf(";\n\r");
 	#ifdef RADIOOUT
-	radio_transmit();
+	//radio_transmit();
 	#endif
 }
 
@@ -117,14 +117,14 @@ void debugInfo(){
 	//It should be 3.3V
 	dtostrf(Get_Vref(),4,2,buffer);
 	printf("Reference Voltage is:  %s\n\r",buffer);
-	sprint("\n\rBegining Sampling Sequence\n\r");
+	printf("\n\rBegining Sampling Sequence\n\r");
 	#ifdef RADIOOUT
-	radio_transmit();
+	//radio_transmit();
 	#endif
 	
-	sprint("Sampling Completed\n\r");
+	printf("Sampling Completed\n\r");
 	#ifdef RADIOOUT
-	radio_transmit();
+	//radio_transmit();
 	#endif
 	dtostrf(Voltage.average,6,2,buffer);
 	printf("%s V Average;",buffer);
@@ -133,9 +133,9 @@ void debugInfo(){
 	printf("%i samples for V; ",Voltage.numSamples);
 	printf("%li totalAverage for V; ",Voltage.totalAverage);
 	printf("%li totalRMS for V; ",Voltage.totalRMS);
-	sprint("\n\r");
+	printf("\n\r");
 	#ifdef RADIOOUT
-	radio_transmit();
+	//radio_transmit();
 	#endif
 	dtostrf(Amperage.average,5,2,buffer);
 	printf("%s A Average;",buffer);
@@ -144,9 +144,9 @@ void debugInfo(){
 	printf("%i samples for A; ",Amperage.numSamples);
 	printf("%li totalAverage for A; ",Amperage.totalAverage);
 	printf("%li totalRMS for A; ",Amperage.totalRMS);
-	sprint("\n\r");
+	printf("\n\r");
 	#ifdef RADIOOUT
-	radio_transmit();
+	//radio_transmit();
 	#endif
 }
 #endif
@@ -157,14 +157,14 @@ volatile int measurement_lock = 0;
 //This is triggered by my timer
 ISR(TIMER1_COMPA_vect){
 //ISR(TIMER1_COMPA_vect,ISR_NOBLOCK){
-	//sprint(".");
+	//printf(".");
 	measurement_lock++;
 	if(cyclesCompleted < MAX_MEASUREMENTS){
 		//If we're sampling too fast, stop and tell the user.
 		//Warning:  Sometimes this still doesn't catch it, and the takeMeasurement functions themselves do and block/hang forever
 		if(measurement_lock > 1){
 			ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
-				sprint("Warning:  Sampling frequency <"STRINGIFY(SAMPLING_FREQUENCY)"> too fast!!!\n\r");
+				printf("Warning:  Sampling frequency <"STRINGIFY(SAMPLING_FREQUENCY)"> too fast!!!\n\r");
 				BlinkLED(100,20);
 				_delay_ms(1000);
 			}
@@ -204,7 +204,7 @@ ISR(BADISR_vect){
 	cli();
 	for(;;){
 		ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
-			sprint("Warning:  Uncaught Interupt Detected!!!");
+			printf("Warning:  Uncaught Interupt Detected!!!");
 			BlinkLED(100,20);
 			_delay_ms(1000);
 		}
