@@ -24,6 +24,7 @@
 #include <util/delay.h>
 #include <util/atomic.h>
 #include <stdlib.h>
+#include <string.h>
 #include "adc.h"
 #include "measurement.h"
 #include "radio/communication.h"
@@ -100,21 +101,27 @@ void setup()
 	sei();
 }
 
+//This is what prints the output
+//Sample output:		A=00.04&V=003.00&W=0000.12
 void sendInfo(){	
-	char buffer[8];
+	const int outputSize = 28;
+	char buffer[8];					//This is the buffer used by dtostrf
+	char output[outputSize] = "";		//This string holds the final output
 	dtostrf(Amperage.average,5,2,buffer);
 	SpaceToZero(buffer,8);
-	printf("A=");
-	printf(buffer);
+	strcat(output,"A=");
+	strcat(output,buffer);
 	dtostrf(Voltage.average,6,2,buffer);
 	SpaceToZero(buffer,8);
-	printf("&V=");
-	printf(buffer);
+	strcat(output,"&V=");
+	strcat(output,buffer);
 	dtostrf(Voltage.average * Amperage.average,7,2,buffer);
 	SpaceToZero(buffer,8);
-	printf("&W=");
-	printf(buffer);
-	printf(";\n\r");
+	strcat(output,"&W=");
+	strcat(output,buffer);
+	strcat(output,"\n\r");
+	
+	printf("%s",output);
 	#ifdef RADIOOUT
 	//radio_transmit();
 	#endif
