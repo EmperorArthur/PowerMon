@@ -1,0 +1,3 @@
+[submodule "Code/Datalogger1/radio"]
+	path = Code/Datalogger1/radio
+	url = git@github.com:EmperorArthur/AT86RF231_Radio.git
