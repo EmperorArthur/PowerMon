@@ -26,8 +26,8 @@
 #include <stdlib.h>
 #include "adc.h"
 #include "measurement.h"
-#include "communication.h"
-#include "LED.h"
+#include "radio/communication.h"
+#include "radio/LED.h"
 
 volatile uint16_t cyclesCompleted;
 
