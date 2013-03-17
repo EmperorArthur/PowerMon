@@ -32,6 +32,16 @@
 
 volatile uint16_t cyclesCompleted;
 
+//This converts all spaces in a string to zeros
+void SpaceToZero(char* str,int length){
+	int i;
+	for(i=0;i<length;i++){
+		if (str[i]==' '){
+			str[i]='0';
+		}
+	}
+}
+
 void timer_setup(){
 	#if TARGET_TIMER_COUNT > 65535
 		#error TARGET_TIMER_COUNT is too large
@@ -93,15 +103,15 @@ void setup()
 void sendInfo(){	
 	char buffer[8];
 	dtostrf(Amperage.average,5,2,buffer);
-	//SpaceToZero(buffer,8);
+	SpaceToZero(buffer,8);
 	printf("A=");
 	printf(buffer);
 	dtostrf(Voltage.average,6,2,buffer);
-	//SpaceToZero(buffer,8);
+	SpaceToZero(buffer,8);
 	printf("&V=");
 	printf(buffer);
 	dtostrf(Voltage.average * Amperage.average,7,2,buffer);
-	//SpaceToZero(buffer,8);
+	SpaceToZero(buffer,8);
 	printf("&W=");
 	printf(buffer);
 	printf(";\n\r");
